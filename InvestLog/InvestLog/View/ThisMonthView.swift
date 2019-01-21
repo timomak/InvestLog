@@ -9,6 +9,9 @@
 import UIKit
 
 class ThisMonthView: UIView {
+    // Array to supply table view
+    var categories: [Category] = [Category]()
+    
     // Backgrvard for everything
     var background: UIView = {
         var backgroundView = UIView()
@@ -32,6 +35,7 @@ class ThisMonthView: UIView {
         title.backgroundColor = nil
         title.textAlignment = .center
         title.isEditable = false
+        title.isSelectable = false
         title.isScrollEnabled = false
         return title
     }()
@@ -42,7 +46,8 @@ class ThisMonthView: UIView {
         button.setTitle("+", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 40)
-//        button.addTarget(self, action: #selector(newPropertyButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(newCategoryButtonPressed), for: .touchUpInside)
+        button.backgroundColor = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
         return button
     }()
     
@@ -55,6 +60,7 @@ class ThisMonthView: UIView {
         title.backgroundColor = nil
         title.textAlignment = .center
         title.isEditable = false
+        title.isSelectable = false
         title.isScrollEnabled = false
         return title
     }()
@@ -68,6 +74,7 @@ class ThisMonthView: UIView {
         title.backgroundColor = nil
         title.textAlignment = .center
         title.isEditable = false
+        title.isSelectable = false
         title.isScrollEnabled = false
         return title
     }()
@@ -80,17 +87,14 @@ class ThisMonthView: UIView {
         button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 40)
         button.backgroundColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)
         button.layer.cornerRadius = 15
-        
-        //        button.addTarget(self, action: #selector(newPropertyButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(newCategoryButtonPressed), for: .touchUpInside)
         return button
     }()
     
     // Cell ID
     private let cellId = "cellId"
     
-    // Array of Properties used to create Cells
-//    var category = [Categories]()
-    
+
     // Creating table view
     var tableView = UITableView()
     
@@ -98,26 +102,30 @@ class ThisMonthView: UIView {
         superView.addSubview(background)
         background.anchor(top: superView.topAnchor, leading: superView.leadingAnchor, bottom: pc.topAnchor, trailing: superView.trailingAnchor)
         
+        superView.addSubview(self)
+        
         addCustomNavbar()
         addLabelAboveTableView()
         addExpencesButton()
         addTableView()
+        
+        newCategoryButtonPressed()
     }
     
     func addCustomNavbar() {
         // Adding Navbar View
-        background.addSubview(navbar)
+        addSubview(navbar)
         
         // Navbar Size
         navbar.anchor(top: background.topAnchor, leading: background.leadingAnchor, bottom: nil, trailing: background.trailingAnchor, size: .init(width: background.bounds.width, height: 100))
         
         // Adding Title to Navbar
-        background.addSubview(viewNavbarTitle)
+        addSubview(viewNavbarTitle)
         
         // Title Size
         viewNavbarTitle.anchor(top: navbar.topAnchor, leading: navbar.leadingAnchor, bottom: navbar.bottomAnchor, trailing: nil, padding: .init(top: 45, left: 20, bottom: 5, right: 0))
         
-        background.addSubview(addNewCategoryButton)
+        addSubview(addNewCategoryButton)
         
         // Button Size
         addNewCategoryButton.anchor(top: navbar.topAnchor, leading: nil, bottom: nil, trailing: navbar.trailingAnchor, padding: .init(top: 45, left: 0, bottom: 0, right: 20), size: .init(width: 48, height: 48))
@@ -135,7 +143,7 @@ class ThisMonthView: UIView {
     
     
     func addExpencesButton() {
-        background.addSubview(newExpenseButton)
+        addSubview(newExpenseButton)
         newExpenseButton.anchor(top: nil, leading: background.leadingAnchor, bottom: background.bottomAnchor, trailing: background.trailingAnchor, padding: .init(top: 0, left: 15, bottom: 20, right: 15))
         
     }
@@ -155,10 +163,19 @@ class ThisMonthView: UIView {
         // Table View
         tableView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        tableView.allowsSelection = true
+        tableView.allowsSelection = false
 //        var refreshControl = UIRefreshControl()
 //        tableView.refreshControl = refreshControl
 //        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+    }
+    
+    
+    
+    @objc func newCategoryButtonPressed() {
+        print("Button Pressed")
+        var newCategorySpending = CategorySpending(amount: 2000, creationDate: Date())
+        var newCategory = Category(name: "Job", creationDate: Date(), modificationDate: Date(), spendingArray: [newCategorySpending])
+        categories.append(newCategory)
     }
 }
 
@@ -167,7 +184,7 @@ class ThisMonthView: UIView {
 extension ThisMonthView: UITableViewDataSource {
     // Table View Rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return categories.count
     }
     
     // Table View Cells
@@ -176,7 +193,7 @@ extension ThisMonthView: UITableViewDataSource {
         var cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! TableViewCell
 
         // Set the cell label text
-        cell.name.text = "Job"
+        cell.name.text = categories[indexPath.row].name
         cell.colorIndicator.backgroundColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)
         cell.amount.text = "$" + "4,500"
         

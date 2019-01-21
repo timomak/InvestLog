@@ -22,6 +22,7 @@ class MainViewController: UIViewController {
         pc.numberOfPages = 2
         pc.currentPageIndicatorTintColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)
         pc.pageIndicatorTintColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        pc.isEnabled = false
         return pc
     }()
     
