@@ -16,3 +16,9 @@
 2. Working Database
 3. Track of monthly spending
 4. Sign out
+
+## Current Situation
+* Have 5 testers for TestFlight
+* Have 4 Working views
+* Haven't yet implemented Firebase or Logins
+* Code functional but not yet polished for TestFlight

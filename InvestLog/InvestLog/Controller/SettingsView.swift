@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsView: UIView {
+class SettingsView: UIViewController {
     
     var background: UIView = {
         var backgroundView = UIView()
@@ -45,11 +45,28 @@ class SettingsView: UIView {
         //        button.addTarget(self, action: #selector(newPropertyButtonPressed), for: .touchUpInside)
         return button
     }()
-    
-    func loadSelf(superView: UIView, pc: UIPageControl) {
-        superView.addSubview(background)
-        background.anchor(top: superView.topAnchor, leading: superView.leadingAnchor, bottom: pc.topAnchor, trailing: superView.trailingAnchor)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.addSubview(background)
+        background.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
         addCustomNavbar()
+        var swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeDown.direction = UISwipeGestureRecognizer.Direction.down
+        self.view.addGestureRecognizer(swipeDown)
+    }
+    
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        // Swipe gesture recognizer action
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizer.Direction.down:
+                print("Going back")
+                // Update page control
+                self.dismiss(animated: true, completion: nil)
+            default:
+                break
+            }
+        }
     }
     
     func addCustomNavbar() {

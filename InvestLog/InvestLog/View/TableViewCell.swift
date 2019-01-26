@@ -48,6 +48,8 @@ class TableViewCell: UITableViewCell {
         return view
     }()
     
+    var transparentView = UIView()
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -65,6 +67,10 @@ class TableViewCell: UITableViewCell {
         
         addSubview(line)
         line.anchor(top: name.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 5, left: 10, bottom: 0, right: 10), size: .init(width: 0, height: 2))
+        
+        addSubview(transparentView)
+        transparentView.anchorSize(to: self)
+        transparentView.centerOfView(to: self)
     }
     
     // Required with initilizer
