@@ -22,20 +22,22 @@ class Category {
         self.allSpending = spendingArray
     }
     
+    // Function to determine the color [Red or Green]
     // Function to find the accumulated spending
     
     
-    // Function to determine the color [Red or Green]
+    // Function to return property in JSON format to be able to store it with Firebase
+    func getDictionary() -> [String: [String: Any]] {
+        return [name: ["CreationDate": creationDate, "LastModified": modificationDate, "SpendingArray": getSpendingDictionary()]]
+    }
     
-//    // Function to return property in JSON format to be able to store it with Firebase
-//    func getDictionary() -> [String: [String: Double]] {
-//        return [name: ["price": buyingPrice, "rent": rent, "buildingTax": buildingTax, "propertyTax": propertyTax, "fees":yearlyFees, "growth": valueGrowth, "squaredFeet":squaredFeet]]
-//    }
-//
-//    // Function to return property in JSON format to be able to store it with Firebase
-//    func getDictionaryWithId() -> [String: [String: [String: Double]]] {
-//        return [id: [name: ["price": buyingPrice, "rent": rent, "buildingTax": buildingTax, "propertyTax": propertyTax, "fees":yearlyFees, "growth": valueGrowth, "squaredFeet":squaredFeet]]]
-//    }
+    func getSpendingDictionary() -> [[Date: Double]] {
+        var tempArray = [[Date: Double]]()
+        for category in allSpending{
+            tempArray.append(category.getDictionary())
+        }
+        return tempArray
+    }
 }
 
 class CategorySpending {
@@ -45,6 +47,9 @@ class CategorySpending {
     init(amount: Double, creationDate: Date) {
         self.amount = amount
         self.creationDate = creationDate
+    }
+    func getDictionary() -> [Date: Double] {
+        return [creationDate: amount]
     }
     
 }

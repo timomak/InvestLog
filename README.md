@@ -22,3 +22,4 @@
 * Have 4 Working views
 * Haven't yet implemented Firebase or Logins
 * Code functional but not yet polished for TestFlight
+* Working Data Unwrap and handling
