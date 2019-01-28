@@ -1,0 +1,6 @@
+framework module Pods_InvestLog {
+  umbrella header "Pods-InvestLog-umbrella.h"
+
+  export *
+  module * { export * }
+}
