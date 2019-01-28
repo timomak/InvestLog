@@ -59,8 +59,8 @@ class HandleData {
     }
 
     func pullCategoriesFromUserDefaults() -> [Category] {
-        let categories = UserDefaults.standard.array(forKey: "CategorySpendingArray") as! [[String: [String: Any]]]
-        return UnwrapCategoryDictionary(categories)
+        let categories = UserDefaults.standard.array(forKey: "CategorySpendingArray") as? [[String: [String: Any]]] ?? []
+        return UnwrapCategoryDictionary(categories) ?? []
     }
     
     // Unwrap a category from [[String: [String: Any]]] to [Category] object array

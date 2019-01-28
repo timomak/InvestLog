@@ -124,7 +124,7 @@ class ThisMonthView: UIViewController {
 //        } else {
 //            print("User has no categories yet.")
 //        }
-        categories = HandleData().pullCategoriesFromUserDefaults()
+        categories = HandleData().pullCategoriesFromUserDefaults() ?? []
         tableView.reloadData()
 //        print(categories)
     }
