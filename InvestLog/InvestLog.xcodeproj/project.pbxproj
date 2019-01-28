@@ -21,8 +21,9 @@
 		F3E8D83A21FC0AD7000A5440 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83921FC0AD7000A5440 /* Views.swift */; };
 		F3E8D83C21FC4E2A000A5440 /* NewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83B21FC4E2A000A5440 /* NewCategoryViewController.swift */; };
 		F3E8D83F21FE4BDE000A5440 /* CategorySpendingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83E21FE4BDE000A5440 /* CategorySpendingController.swift */; };
+		F3E8D84121FE7E16000A5440 /* InputSpendingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D84021FE7E16000A5440 /* InputSpendingController.swift */; };
+		F3E8D84321FE8A5E000A5440 /* HandleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D84221FE8A5E000A5440 /* HandleData.swift */; };
 		F3F6660721FA7A13007DC903 /* MainCollectionviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6660621FA7A13007DC903 /* MainCollectionviewController.swift */; };
-		F3F6660921FA7D81007DC903 /* delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6660821FA7D81007DC903 /* delete.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,8 +43,9 @@
 		F3E8D83921FC0AD7000A5440 /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		F3E8D83B21FC4E2A000A5440 /* NewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewController.swift; sourceTree = "<group>"; };
 		F3E8D83E21FE4BDE000A5440 /* CategorySpendingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySpendingController.swift; sourceTree = "<group>"; };
+		F3E8D84021FE7E16000A5440 /* InputSpendingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSpendingController.swift; sourceTree = "<group>"; };
+		F3E8D84221FE8A5E000A5440 /* HandleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandleData.swift; sourceTree = "<group>"; };
 		F3F6660621FA7A13007DC903 /* MainCollectionviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionviewController.swift; sourceTree = "<group>"; };
-		F3F6660821FA7D81007DC903 /* delete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = delete.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +98,6 @@
 				F3E8D83D21FE4BAA000A5440 /* This Month */,
 				F3347E5A21F3DDBF004E83EE /* MainViewController.swift */,
 				F3F6660621FA7A13007DC903 /* MainCollectionviewController.swift */,
-				F3F6660821FA7D81007DC903 /* delete.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -123,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				F3347E6E21F3DF48004E83EE /* Constraints-Extention.swift */,
+				F3E8D84221FE8A5E000A5440 /* HandleData.swift */,
 			);
 			path = Extentions;
 			sourceTree = "<group>";
@@ -141,6 +143,7 @@
 				F3347E7021F3E302004E83EE /* ThisMonthView.swift */,
 				F3E8D83B21FC4E2A000A5440 /* NewCategoryViewController.swift */,
 				F3E8D83E21FE4BDE000A5440 /* CategorySpendingController.swift */,
+				F3E8D84021FE7E16000A5440 /* InputSpendingController.swift */,
 			);
 			path = "This Month";
 			sourceTree = "<group>";
@@ -217,14 +220,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3347E5B21F3DDBF004E83EE /* MainViewController.swift in Sources */,
+				F3E8D84321FE8A5E000A5440 /* HandleData.swift in Sources */,
 				F3E8D83C21FC4E2A000A5440 /* NewCategoryViewController.swift in Sources */,
 				F3F6660721FA7A13007DC903 /* MainCollectionviewController.swift in Sources */,
 				F3347E6F21F3DF48004E83EE /* Constraints-Extention.swift in Sources */,
 				F3347E5921F3DDBF004E83EE /* AppDelegate.swift in Sources */,
 				F3347E7821F404CA004E83EE /* TableViewCell.swift in Sources */,
+				F3E8D84121FE7E16000A5440 /* InputSpendingController.swift in Sources */,
 				F3347E7121F3E302004E83EE /* ThisMonthView.swift in Sources */,
 				F398016621F55ABD00F228E8 /* Categories.swift in Sources */,
-				F3F6660921FA7D81007DC903 /* delete.swift in Sources */,
 				F3E8D83F21FE4BDE000A5440 /* CategorySpendingController.swift in Sources */,
 				F3E8D83A21FC0AD7000A5440 /* Views.swift in Sources */,
 				F3E8D83821FBF98B000A5440 /* MainViewCollectionViewCell.swift in Sources */,

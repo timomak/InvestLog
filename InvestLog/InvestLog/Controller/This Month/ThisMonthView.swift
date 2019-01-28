@@ -114,46 +114,19 @@ class ThisMonthView: UIViewController {
         self.view.addGestureRecognizer(swipeDown)
     }
     override func viewDidAppear(_ animated: Bool) {
-        if UserDefaults.standard.bool(forKey: "hasCategorySpending") == true {
-            print("hasCategorySpending == ", UserDefaults.standard.bool(forKey: "hasCategorySpending"))
-//            categories = UserDefaults.standard.array(forKey: "CategorySpendingArray") as! [Category]
-            let newCategories = UserDefaults.standard.array(forKey: "CategorySpendingArray") as! [[String: [String: Any]]]
-            // TODO: Unwrap dictionary
-            categories = UnwrapCategoryDictionary(newCategories)
-            print("New categories: ", categories)
-        } else {
-            print("User has no categories yet.")
-        }
+//        if UserDefaults.standard.bool(forKey: "hasCategorySpending") == true {
+//            print("hasCategorySpending == ", UserDefaults.standard.bool(forKey: "hasCategorySpending"))
+////            categories = UserDefaults.standard.array(forKey: "CategorySpendingArray") as! [Category]
+//            let newCategories = UserDefaults.standard.array(forKey: "CategorySpendingArray") as! [[String: [String: Any]]]
+//            // TODO: Unwrap dictionary
+//            categories = HandleData().UnwrapCategoryDictionary(newCategories)
+//            print("New categories: ", categories)
+//        } else {
+//            print("User has no categories yet.")
+//        }
+        categories = HandleData().pullCategoriesFromUserDefaults()
         tableView.reloadData()
 //        print(categories)
-    }
-    
-    func UnwrapCategoryDictionary(_ array: [[String: [String: Any]]]) -> [Category] {
-        var tempCategory = [Category]()
-        var tempName = ""
-        var tempCreationDate = Date()
-        var tempModificationDate = Date()
-        var tempSpendingArray = [CategorySpending]()
-        for dict in array {
-            for (name, values) in dict {
-                tempName = name
-                var tempCounter = 0
-                for (valueName, value) in values {
-                    tempCounter += 1
-                    if valueName == "CreationDate" {
-                        tempCreationDate = value as! Date
-                    } else if valueName == "LastModified" {
-                        tempModificationDate = value as! Date
-                    } else if valueName == "SpendingArray" {
-                        tempSpendingArray = value as! [CategorySpending]
-                        print("Spending array: ",tempSpendingArray)
-                    }
-                }
-            }
-            tempCategory.append(Category(name: tempName, creationDate: tempCreationDate, modificationDate: tempModificationDate, spendingArray: tempSpendingArray))
-        }
-        print("Unwrapped Category:\n\n", tempCategory[0].name, "\n\n")
-        return tempCategory
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -271,7 +244,9 @@ extension ThisMonthView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // TODO: Handle Deletion of UserDefaults array.
-            print("Deleted")
+            categories.remove(at: indexPath.row)
+            HandleData().saveTheEntireCategoryArrayToUserDefaults(categories)
+            tableView.reloadData()
         }
     }
 }

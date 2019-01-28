@@ -123,22 +123,24 @@ class NewCategoryViewController: UIViewController, UITextFieldDelegate {
         if text == "" {
             self.dismiss(animated: true)
         } else {
-            if UserDefaults.standard.bool(forKey: "hasCategorySpending") == true {
-                print("hasCategorySpending == ", UserDefaults.standard.bool(forKey: "hasCategorySpending"))
-                let newCategory = Category(name: text, creationDate: Date(), modificationDate: Date())
-                var categories = UserDefaults.standard.array(forKey: "CategorySpendingArray") as! [[String: [String: Any]]]
-                categories.append(newCategory.getDictionary())
-                UserDefaults.standard.set(categories, forKey: "CategorySpendingArray")
-                UserDefaults.standard.synchronize()
-            } else {
-                print("hasCategorySpending == ", UserDefaults.standard.bool(forKey: "hasCategorySpending"))
-                UserDefaults.standard.set(true, forKey: "hasCategorySpending")
-                let newCategory = Category(name: text, creationDate: Date(), modificationDate: Date())
-                let categories = [newCategory.getDictionary()]
-                UserDefaults.standard.set(categories, forKey: "CategorySpendingArray")
-                UserDefaults.standard.synchronize()
-            }
-            self.present(ThisMonthView(), animated: true)
+//            if UserDefaults.standard.bool(forKey: "hasCategorySpending") == true {
+//                print("hasCategorySpending == ", UserDefaults.standard.bool(forKey: "hasCategorySpending"))
+//                let newCategory = Category(name: text, creationDate: Date(), modificationDate: Date())
+//                var categories = UserDefaults.standard.array(forKey: "CategorySpendingArray") as! [[String: [String: Any]]]
+//                categories.append(newCategory.getDictionary())
+//                UserDefaults.standard.set(categories, forKey: "CategorySpendingArray")
+//                UserDefaults.standard.synchronize()
+//            } else {
+//                print("hasCategorySpending == ", UserDefaults.standard.bool(forKey: "hasCategorySpending"))
+//                UserDefaults.standard.set(true, forKey: "hasCategorySpending")
+//                let newCategory = Category(name: text, creationDate: Date(), modificationDate: Date())
+//                let categories = [newCategory.getDictionary()]
+//                UserDefaults.standard.set(categories, forKey: "CategorySpendingArray")
+//                UserDefaults.standard.synchronize()
+//            }
+            let newCategory = Category(name: text, creationDate: Date(), modificationDate: Date())
+            HandleData().saveDataCategoryToUserDefaults(newCategory)
+            self.dismiss(animated: true)
         }
     }
     

@@ -127,8 +127,13 @@ extension MainCollectionViewController: UICollectionViewDataSource {
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Cell Pressed")
-        self.present(allViews[indexPath.row].controller, animated: true)
-        
+        if allViews[indexPath.row].controller == ThisMonthView() {
+            let thisMonth = ThisMonthView()
+            thisMonth.tableView.reloadData()
+            self.present(thisMonth, animated: true)
+        } else {
+            self.present(allViews[indexPath.row].controller, animated: true)
+        }
     }
 }
 

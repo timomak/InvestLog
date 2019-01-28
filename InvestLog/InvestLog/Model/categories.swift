@@ -36,6 +36,7 @@ class Category {
         for category in allSpending{
             tempArray.append(category.getDictionary())
         }
+        print(tempArray)
         return tempArray
     }
 }

@@ -66,6 +66,10 @@ class CategorySpendingController: UIViewController {
         setupTableView()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
+    
     func setupView() {
         view.backgroundColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
         view.addSubview(navbar)
@@ -103,9 +107,12 @@ class CategorySpendingController: UIViewController {
     
     @objc func addNewCategorySpending() {
         print("Creating new category")
-        currentCategory.allSpending.append(CategorySpending(amount: 4000, creationDate: Date()))
-        tableView.reloadData()
-        print(currentCategory.allSpending)
+//        currentCategory.allSpending.append(CategorySpending(amount: 4000, creationDate: Date()))
+//        tableView.reloadData()
+//        print(currentCategory.allSpending)
+        let inputSpendingController = InputSpendingController()
+        inputSpendingController.currentCategory = currentCategory
+        self.present(inputSpendingController, animated: true)
     }
 }
 
