@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import Firebase
+import GoogleSignIn
 
-class MainCollectionViewController: UIViewController {
+
+class MainCollectionViewController: UIViewController  {
+    
     var allViews = [Views]()
     // Creating Navbar
     private let navbar: UIView = {
@@ -37,7 +41,7 @@ class MainCollectionViewController: UIViewController {
         button.setTitle("Sign Out", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        //        button.addTarget(self, action: #selector(newPropertyButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(signOutPressed), for: .touchUpInside)
         return button
     }()
     
@@ -91,6 +95,7 @@ class MainCollectionViewController: UIViewController {
         
         // Title Size
         viewNavbarTitle.anchor(top: navbar.topAnchor, leading: navbar.leadingAnchor, bottom: navbar.bottomAnchor, trailing: nil, padding: .init(top: 45, left: 20, bottom: 5, right: 0))
+        viewNavbarTitle.text = (Auth.auth().currentUser?.displayName)!
         
         view.addSubview(signOut)
         
@@ -103,6 +108,13 @@ class MainCollectionViewController: UIViewController {
     }
     func addCollectionView() {
         collectionView.anchor(top: navbar.bottomAnchor, leading: view.leadingAnchor, bottom: addNewButton.topAnchor, trailing: view.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 10, right: 0))
+    }
+    
+    @objc func signOutPressed() {
+        print("Sign out pressed")
+        GIDSignIn.sharedInstance().signOut()
+        GIDSignIn.sharedInstance().disconnect()
+        self.dismiss(animated: true)
     }
     
 }

@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseDatabase
+import GoogleSignIn
 
 class HandleData {
     
@@ -94,5 +97,31 @@ class HandleData {
             tempCategory.append(Category(name: tempName, creationDate: tempCreationDate, modificationDate: tempModificationDate, spendingArray: tempSpendingArray))
         }
         return tempCategory
+    }
+    
+    func readPropertiesFromDatabase() {
+        let userUID = Auth.auth().currentUser?.uid
+        print("Setting query Path and saving firebase data Locally. User Id : ", userUID!)
+        
+        // Path to user's properties
+        let query = Database.database().reference().child("users").child(userUID!).child("InvestLog").child("ThisMonth").child("Categories")
+        // Using the path find the properties.
+        query.observe(.value, with: { snapshot in
+            print("SnapSHot as any: ", snapshot.value! as! Any)
+            // If there is data already, make the data into an array and save it as userdefaults.
+            if let snapshotValue = snapshot.value as? [[String: [String: Any]]] {
+                print("Snapshot value as super array: ", snapshotValue)
+                var dataProperties = snapshotValue as! [[String: [String: Any]]]
+                
+                print("dataProperties value as super array: ", dataProperties)
+                UserDefaults.standard.set(dataProperties, forKey: "properties")
+                // Making sure that the rest of the app knows that there are properties already in the app.
+                UserDefaults.standard.set(true, forKey: "hasProperty")
+                UserDefaults.standard.synchronize()
+            } else {
+                UserDefaults.standard.set(false, forKey: "hasProperty")
+                UserDefaults.standard.synchronize()
+            }
+        })
     }
 }
