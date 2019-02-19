@@ -77,10 +77,10 @@ class MainCollectionViewController: UIViewController  {
     
     
     func createAllViewsStructs() {
-        var thisMonth = Views(name: "This Month", totalAmount: 4500.00, controller: ThisMonthView())
+        let thisMonth = Views(name: "This Month", totalAmount: 4500.00, controller: ThisMonthView())
         allViews.append(thisMonth)
         
-        var settings = Views(name: "Settings", totalAmount: 0.00, controller: SettingsView())
+        let settings = Views(name: "Settings", totalAmount: 0.00, controller: SettingsView())
         allViews.append(settings)
         print(allViews)
     }
@@ -128,7 +128,7 @@ extension MainCollectionViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
-        var cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! MaiCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! MaiCollectionViewCell
         if allViews[indexPath.row].name == "Settings" {
             cell.colorIndicator.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         }

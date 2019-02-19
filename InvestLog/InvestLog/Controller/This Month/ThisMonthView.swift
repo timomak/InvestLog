@@ -109,7 +109,7 @@ class ThisMonthView: UIViewController {
         addExpencesButton()
         addTableView()
         
-        var swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeDown.direction = UISwipeGestureRecognizer.Direction.down
         self.view.addGestureRecognizer(swipeDown)
     }
@@ -124,7 +124,7 @@ class ThisMonthView: UIViewController {
 //        } else {
 //            print("User has no categories yet.")
 //        }
-        categories = HandleData().pullCategoriesFromUserDefaults() ?? []
+        categories = HandleData().pullCategoriesFromUserDefaults() 
         tableView.reloadData()
 //        print(categories)
     }
@@ -224,7 +224,7 @@ extension ThisMonthView: UITableViewDataSource {
     // Table View Cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Create Cells one by one using this as a blueprint.
-        var cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! TableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! TableViewCell
 
         // Set the cell label text
         cell.name.text = categories[indexPath.row].name

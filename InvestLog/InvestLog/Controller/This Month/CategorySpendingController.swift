@@ -125,7 +125,7 @@ extension CategorySpendingController: UITableViewDataSource {
     // Table View Cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Create Cells one by one using this as a blueprint.
-        var cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! TableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! TableViewCell
         
         // Format Date to String
         let df = DateFormatter()

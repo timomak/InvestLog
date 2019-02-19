@@ -162,7 +162,7 @@ class InputSpendingController: UIViewController, UITextFieldDelegate {
     }
     
     func setUpButtons() {
-        var buttonStack = UIStackView(arrangedSubviews: [inButton,outButton])
+        let buttonStack = UIStackView(arrangedSubviews: [inButton,outButton])
         buttonStack.distribution = .fillEqually
         buttonStack.alignment = .center
         buttonStack.axis = .horizontal
@@ -182,7 +182,7 @@ class InputSpendingController: UIViewController, UITextFieldDelegate {
         if moneyFlow == "out" {
             amount *= -1
         }
-        var spending = CategorySpending(amount: amount, creationDate: Date())
+        let spending = CategorySpending(amount: amount, creationDate: Date())
         currentCategory.allSpending.append(spending)
         
         var allCategories = HandleData().pullCategoriesFromUserDefaults()

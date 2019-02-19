@@ -63,7 +63,7 @@ class HandleData {
 
     func pullCategoriesFromUserDefaults() -> [Category] {
         let categories = UserDefaults.standard.array(forKey: "CategorySpendingArray") as? [[String: [String: Any]]] ?? []
-        return UnwrapCategoryDictionary(categories) ?? []
+        return UnwrapCategoryDictionary(categories)
     }
     
     // Unwrap a category from [[String: [String: Any]]] to [Category] object array
@@ -107,14 +107,13 @@ class HandleData {
         let query = Database.database().reference().child("users").child(userUID!).child("InvestLog").child("ThisMonth").child("Categories")
         // Using the path find the properties.
         query.observe(.value, with: { snapshot in
-            print("SnapSHot as any: ", snapshot.value! as! Any)
+            print("SnapSHot as any: ", snapshot.value!)
             // If there is data already, make the data into an array and save it as userdefaults.
             if let snapshotValue = snapshot.value as? [[String: [String: Any]]] {
                 print("Snapshot value as super array: ", snapshotValue)
-                var dataProperties = snapshotValue as! [[String: [String: Any]]]
                 
-                print("dataProperties value as super array: ", dataProperties)
-                UserDefaults.standard.set(dataProperties, forKey: "properties")
+                print("dataProperties value as super array: ", snapshotValue)
+                UserDefaults.standard.set(snapshotValue, forKey: "properties")
                 // Making sure that the rest of the app knows that there are properties already in the app.
                 UserDefaults.standard.set(true, forKey: "hasProperty")
                 UserDefaults.standard.synchronize()
