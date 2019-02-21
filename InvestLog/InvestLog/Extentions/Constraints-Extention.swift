@@ -83,8 +83,7 @@ extension UIView {
     }
 }
 
-extension UIViewController {
-    // Hide the keyboard when tapped away from it.
+extension UIViewController{
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false

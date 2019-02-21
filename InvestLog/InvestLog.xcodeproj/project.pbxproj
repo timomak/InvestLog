@@ -17,6 +17,8 @@
 		F3347E7321F3EE57004E83EE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3347E7221F3EE57004E83EE /* SettingsView.swift */; };
 		F3347E7621F3F04E004E83EE /* Avenir Next.ttc in Resources */ = {isa = PBXBuildFile; fileRef = F3347E7521F3F04E004E83EE /* Avenir Next.ttc */; };
 		F3347E7821F404CA004E83EE /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3347E7721F404CA004E83EE /* TableViewCell.swift */; };
+		F33DE079221E4B7F00DB50D0 /* ButtonExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33DE078221E4B7F00DB50D0 /* ButtonExtentions.swift */; };
+		F33DE07C221E4F7000DB50D0 /* background.json in Resources */ = {isa = PBXBuildFile; fileRef = F33DE07B221E4F7000DB50D0 /* background.json */; };
 		F398016621F55ABD00F228E8 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = F398016521F55ABD00F228E8 /* Categories.swift */; };
 		F39E0466221E264D00141D8F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39E0465221E264D00141D8F /* LoginViewController.swift */; };
 		F3E8D83821FBF98B000A5440 /* MainViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83721FBF98B000A5440 /* MainViewCollectionViewCell.swift */; };
@@ -45,6 +47,8 @@
 		F3347E7221F3EE57004E83EE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F3347E7521F3F04E004E83EE /* Avenir Next.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Avenir Next.ttc"; sourceTree = "<group>"; };
 		F3347E7721F404CA004E83EE /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		F33DE078221E4B7F00DB50D0 /* ButtonExtentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonExtentions.swift; sourceTree = "<group>"; };
+		F33DE07B221E4F7000DB50D0 /* background.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = background.json; sourceTree = "<group>"; };
 		F398016521F55ABD00F228E8 /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
 		F39E0465221E264D00141D8F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F3E8D83721FBF98B000A5440 /* MainViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -108,6 +112,7 @@
 		F3347E5721F3DDBF004E83EE /* InvestLog */ = {
 			isa = PBXGroup;
 			children = (
+				F33DE07A221E4F5800DB50D0 /* Animations */,
 				F3347E7421F3F02C004E83EE /* Resources */,
 				F3347E6D21F3DF3A004E83EE /* Extentions */,
 				F3347E6C21F3DF32004E83EE /* Model */,
@@ -154,6 +159,7 @@
 			children = (
 				F3347E6E21F3DF48004E83EE /* Constraints-Extention.swift */,
 				F3E8D84221FE8A5E000A5440 /* HandleData.swift */,
+				F33DE078221E4B7F00DB50D0 /* ButtonExtentions.swift */,
 			);
 			path = Extentions;
 			sourceTree = "<group>";
@@ -164,6 +170,14 @@
 				F3347E7521F3F04E004E83EE /* Avenir Next.ttc */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		F33DE07A221E4F5800DB50D0 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				F33DE07B221E4F7000DB50D0 /* background.json */,
+			);
+			path = Animations;
 			sourceTree = "<group>";
 		};
 		F39E0464221E260100141D8F /* Old View Controllers */ = {
@@ -250,6 +264,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F33DE07C221E4F7000DB50D0 /* background.json in Resources */,
 				F3347E7621F3F04E004E83EE /* Avenir Next.ttc in Resources */,
 				F3E8D84521FEAC61000A5440 /* GoogleService-Info.plist in Resources */,
 				F3347E6321F3DDC1004E83EE /* LaunchScreen.storyboard in Resources */,
@@ -347,6 +362,7 @@
 			files = (
 				F3347E5B21F3DDBF004E83EE /* MainViewController.swift in Sources */,
 				F3E8D84321FE8A5E000A5440 /* HandleData.swift in Sources */,
+				F33DE079221E4B7F00DB50D0 /* ButtonExtentions.swift in Sources */,
 				F3E8D83C21FC4E2A000A5440 /* NewCategoryViewController.swift in Sources */,
 				F3F6660721FA7A13007DC903 /* MainCollectionviewController.swift in Sources */,
 				F3E8D84721FEADFC000A5440 /* OldLoginController.swift in Sources */,
