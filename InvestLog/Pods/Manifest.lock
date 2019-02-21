@@ -79,6 +79,7 @@ PODS:
   - GTMSessionFetcher/Full (1.2.0):
     - GTMSessionFetcher/Core (= 1.2.0)
   - leveldb-library (1.20)
+  - lottie-ios (2.5.2)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
@@ -90,6 +91,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - GoogleSignIn
+  - lottie-ios
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -107,6 +109,7 @@ SPEC REPOS:
     - GTMOAuth2
     - GTMSessionFetcher
     - leveldb-library
+    - lottie-ios
     - nanopb
 
 SPEC CHECKSUMS:
@@ -121,11 +124,12 @@ SPEC CHECKSUMS:
   GoogleSignIn: 11183592dc63e105475c7305a325045ff95e02b7
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GoogleUtilities: 8208aee3e97a1ae93d44c57e96c476a5a3b03f0a
-  GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
+  GTMOAuth2: e8b6512c896235149df975c41d9a36c868ab7fba
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
+  lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
 
-PODFILE CHECKSUM: f41d2f82bb8f121f4ca59271eacd9dd56af00498
+PODFILE CHECKSUM: 1139c214782657844de1477d2fbbb8f3fd7a038c
 
 COCOAPODS: 1.5.3
