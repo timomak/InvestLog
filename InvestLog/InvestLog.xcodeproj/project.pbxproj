@@ -18,6 +18,7 @@
 		F3347E7621F3F04E004E83EE /* Avenir Next.ttc in Resources */ = {isa = PBXBuildFile; fileRef = F3347E7521F3F04E004E83EE /* Avenir Next.ttc */; };
 		F3347E7821F404CA004E83EE /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3347E7721F404CA004E83EE /* TableViewCell.swift */; };
 		F398016621F55ABD00F228E8 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = F398016521F55ABD00F228E8 /* Categories.swift */; };
+		F39E0466221E264D00141D8F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39E0465221E264D00141D8F /* LoginViewController.swift */; };
 		F3E8D83821FBF98B000A5440 /* MainViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83721FBF98B000A5440 /* MainViewCollectionViewCell.swift */; };
 		F3E8D83A21FC0AD7000A5440 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83921FC0AD7000A5440 /* Views.swift */; };
 		F3E8D83C21FC4E2A000A5440 /* NewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83B21FC4E2A000A5440 /* NewCategoryViewController.swift */; };
@@ -25,7 +26,7 @@
 		F3E8D84121FE7E16000A5440 /* InputSpendingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D84021FE7E16000A5440 /* InputSpendingController.swift */; };
 		F3E8D84321FE8A5E000A5440 /* HandleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D84221FE8A5E000A5440 /* HandleData.swift */; };
 		F3E8D84521FEAC61000A5440 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F3E8D84421FEAC61000A5440 /* GoogleService-Info.plist */; };
-		F3E8D84721FEADFC000A5440 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D84621FEADFC000A5440 /* LoginController.swift */; };
+		F3E8D84721FEADFC000A5440 /* OldLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D84621FEADFC000A5440 /* OldLoginController.swift */; };
 		F3F6660721FA7A13007DC903 /* MainCollectionviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6660621FA7A13007DC903 /* MainCollectionviewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		F3347E7521F3F04E004E83EE /* Avenir Next.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Avenir Next.ttc"; sourceTree = "<group>"; };
 		F3347E7721F404CA004E83EE /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		F398016521F55ABD00F228E8 /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
+		F39E0465221E264D00141D8F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F3E8D83721FBF98B000A5440 /* MainViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3E8D83921FC0AD7000A5440 /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		F3E8D83B21FC4E2A000A5440 /* NewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewController.swift; sourceTree = "<group>"; };
@@ -52,7 +54,7 @@
 		F3E8D84021FE7E16000A5440 /* InputSpendingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSpendingController.swift; sourceTree = "<group>"; };
 		F3E8D84221FE8A5E000A5440 /* HandleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandleData.swift; sourceTree = "<group>"; };
 		F3E8D84421FEAC61000A5440 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		F3E8D84621FEADFC000A5440 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
+		F3E8D84621FEADFC000A5440 /* OldLoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldLoginController.swift; sourceTree = "<group>"; };
 		F3F6660621FA7A13007DC903 /* MainCollectionviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionviewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,6 +113,7 @@
 				F3347E6C21F3DF32004E83EE /* Model */,
 				F3347E6B21F3DF2E004E83EE /* View */,
 				F3347E6A21F3DF26004E83EE /* Controller */,
+				F39E0464221E260100141D8F /* Old View Controllers */,
 				F3347E5821F3DDBF004E83EE /* AppDelegate.swift */,
 				F3347E5F21F3DDC1004E83EE /* Assets.xcassets */,
 				F3347E6121F3DDC1004E83EE /* LaunchScreen.storyboard */,
@@ -123,11 +126,7 @@
 		F3347E6A21F3DF26004E83EE /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				F3347E7221F3EE57004E83EE /* SettingsView.swift */,
-				F3E8D83D21FE4BAA000A5440 /* This Month */,
-				F3347E5A21F3DDBF004E83EE /* MainViewController.swift */,
-				F3F6660621FA7A13007DC903 /* MainCollectionviewController.swift */,
-				F3E8D84621FEADFC000A5440 /* LoginController.swift */,
+				F39E0465221E264D00141D8F /* LoginViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -165,6 +164,18 @@
 				F3347E7521F3F04E004E83EE /* Avenir Next.ttc */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		F39E0464221E260100141D8F /* Old View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F3347E7221F3EE57004E83EE /* SettingsView.swift */,
+				F3E8D83D21FE4BAA000A5440 /* This Month */,
+				F3347E5A21F3DDBF004E83EE /* MainViewController.swift */,
+				F3F6660621FA7A13007DC903 /* MainCollectionviewController.swift */,
+				F3E8D84621FEADFC000A5440 /* OldLoginController.swift */,
+			);
+			path = "Old View Controllers";
 			sourceTree = "<group>";
 		};
 		F3E8D83D21FE4BAA000A5440 /* This Month */ = {
@@ -336,7 +347,7 @@
 				F3E8D84321FE8A5E000A5440 /* HandleData.swift in Sources */,
 				F3E8D83C21FC4E2A000A5440 /* NewCategoryViewController.swift in Sources */,
 				F3F6660721FA7A13007DC903 /* MainCollectionviewController.swift in Sources */,
-				F3E8D84721FEADFC000A5440 /* LoginController.swift in Sources */,
+				F3E8D84721FEADFC000A5440 /* OldLoginController.swift in Sources */,
 				F3347E6F21F3DF48004E83EE /* Constraints-Extention.swift in Sources */,
 				F3347E5921F3DDBF004E83EE /* AppDelegate.swift in Sources */,
 				F3347E7821F404CA004E83EE /* TableViewCell.swift in Sources */,
@@ -344,6 +355,7 @@
 				F3347E7121F3E302004E83EE /* ThisMonthView.swift in Sources */,
 				F398016621F55ABD00F228E8 /* Categories.swift in Sources */,
 				F3E8D83F21FE4BDE000A5440 /* CategorySpendingController.swift in Sources */,
+				F39E0466221E264D00141D8F /* LoginViewController.swift in Sources */,
 				F3E8D83A21FC0AD7000A5440 /* Views.swift in Sources */,
 				F3E8D83821FBF98B000A5440 /* MainViewCollectionViewCell.swift in Sources */,
 				F3347E7321F3EE57004E83EE /* SettingsView.swift in Sources */,
