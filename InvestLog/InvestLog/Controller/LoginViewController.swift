@@ -12,6 +12,7 @@ import GoogleSignIn
 import Lottie
 
 // TODO: Auth at https://firebase.google.com/docs/auth/ios/password-auth
+// TODO: Add image at top.
 
 class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextFieldDelegate {
     
@@ -112,6 +113,40 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         return view
     }()
     
+    // logo Container
+    let logoContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.layer.cornerRadius = 63
+        view.layer.shadowOpacity = 0.7
+        view.layer.shadowRadius = 5
+        view.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
+        return view
+    }()
+    
+    // Logo Image
+    let logoImage: UIImageView = {
+        var newImage = UIImageView()
+        newImage.image = #imageLiteral(resourceName: "InvestLog-icon-withoutBackground")
+        return newImage
+    }()
+    
+    // Error label
+    let errorLabel: UITextView = {
+        var title = UITextView()
+        title.text = "Error"
+        title.font = UIFont(name: "AvenirNext-Bold", size: 15)
+        title.textColor = #colorLiteral(red: 1, green: 0.08736196905, blue: 0.08457560092, alpha: 1)
+        title.backgroundColor = nil
+        title.textAlignment = .center
+        title.isEditable = false
+        title.isSelectable = false
+        title.isScrollEnabled = false
+        title.isHidden = true
+        return title
+    }()
+    
+    
     // Lottie animation
     let backgroundAnimation =  LOTAnimationView(name: "background")
     
@@ -139,6 +174,9 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
         view.addSubview(confirmPasswordTextField)
+        view.addSubview(logoContainer)
+        view.addSubview(logoImage)
+        view.addSubview(errorLabel)
         
         // Animation settings
         backgroundAnimation.fillSuperview()
@@ -157,12 +195,18 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         logInButton.centerHorizontalOfView(to: view)
         
         // Input container
+        inputContainer.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: logInButton.topAnchor, trailing: view.trailingAnchor, padding: .init(top: 200, left: 30, bottom: 30, right: 30))
         
-        inputContainer.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: logInButton.topAnchor, trailing: view.trailingAnchor, padding: .init(top: 120, left: 30, bottom: 30, right: 30))
+        // Logo
+        logoContainer.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: inputContainer.topAnchor, trailing: nil, padding: .init(top: 15, left: 0, bottom: 15, right: 0))
+        logoContainer.viewConstantRatio(widthToHeightRatio: 1, width: .init(width: 126, height: 126))
+        logoContainer.centerHorizontalOfView(to: view)
+        
+        logoImage.anchor(top: logoContainer.topAnchor, leading: logoContainer.leadingAnchor, bottom: logoContainer.bottomAnchor, trailing: logoContainer.trailingAnchor, padding: .init(top: 3, left: 3, bottom: 3, right: 3))
         
         // Inputs
         let inputStack = UIStackView(arrangedSubviews: [emailTextField,passwordTextField,confirmPasswordTextField])
-        inputStack.spacing = 10
+        inputStack.spacing = 40
         inputStack.distribution = .fillEqually
         inputStack.axis = .vertical
         view.addSubview(inputStack)
@@ -180,19 +224,103 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
             underline.backgroundColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
             view.addSubview(underline)
             if i == 0 {
-                underline.anchor(top: emailTextField.bottomAnchor, leading: inputStack.leadingAnchor, bottom: nil, trailing: inputStack.trailingAnchor,padding: .init(top: -30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 3))
+                underline.anchor(top: emailTextField.bottomAnchor, leading: inputStack.leadingAnchor, bottom: nil, trailing: inputStack.trailingAnchor,padding: .init(top: -10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 3))
             }
             else if i == 1 {
-                underline.anchor(top: passwordTextField.bottomAnchor, leading: inputStack.leadingAnchor, bottom: nil, trailing: inputStack.trailingAnchor,padding: .init(top: -30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 3))
+                underline.anchor(top: passwordTextField.bottomAnchor, leading: inputStack.leadingAnchor, bottom: nil, trailing: inputStack.trailingAnchor,padding: .init(top: -10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 3))
             }
             else if i == 2 {
-                underline.anchor(top: confirmPasswordTextField.bottomAnchor, leading: inputStack.leadingAnchor, bottom: nil, trailing: inputStack.trailingAnchor,padding: .init(top: -30, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 3))
+                underline.anchor(top: confirmPasswordTextField.bottomAnchor, leading: inputStack.leadingAnchor, bottom: nil, trailing: inputStack.trailingAnchor,padding: .init(top: -10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 3))
+            }
+        }
+        
+        // Error label
+        errorLabel.anchor(top: inputContainer.topAnchor, leading: inputContainer.leadingAnchor, bottom: emailTextField.topAnchor, trailing: inputContainer.trailingAnchor, padding: .init(top: 3, left: 0, bottom: 0, right: 0))
+    }
+    var errorText: String = "" {
+        didSet {
+            errorLabel.isHidden = false
+            errorLabel.text = errorText
+        }
+    }
+    
+    func arePasswordsMatching() -> Bool {
+        if passwordTextField.text == "" || emailTextField.text == "" || confirmPasswordTextField.text == "" {
+            errorText = "One of the required fields is incomplete."
+            logInButton.shake()
+            return false
+        }
+        if passwordTextField.text != confirmPasswordTextField.text {
+            errorText = "The passwords don't match."
+            logInButton.shake()
+            return false
+        }
+        return true
+    }
+    
+    func firebaseSignUp() {
+        // Firebase sign in with email and password
+        if arePasswordsMatching() == true {
+            Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { authResult, error in
+                if let error = error {
+                    print("Error: ", error.localizedDescription)
+                    if error.localizedDescription == "The email address is already in use by another account." {
+                        // Log in with the data.
+                        self.firebaseLogIn()
+                    } else {
+                        self.errorText = error.localizedDescription
+                        self.logInButton.shake()
+                    }
+                } else {
+                    // User is signed in
+                    self.isSignedIn = true
+                    
+                    print("New account made!")
+                    self.username = Auth.auth().currentUser?.displayName
+                    self.email = Auth.auth().currentUser?.email
+                    self.uid = Auth.auth().currentUser?.uid
+                    self.loadNextView()
+                }
+                
             }
         }
     }
     
+    func firebaseLogIn() {
+        Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { [weak self] user, error in
+            guard let strongSelf = self else {
+                self?.errorText = "Some Error Occurred."
+                self?.logInButton.shake()
+                return
+            }
+            if let error = error {
+                print("Error: ", error.localizedDescription)
+                
+                strongSelf.errorText = error.localizedDescription
+                strongSelf.logInButton.shake()
+            } else {
+                // User is signed in
+                strongSelf.isSignedIn = true
+                
+                print("User Logged in.")
+                strongSelf.username = Auth.auth().currentUser?.displayName
+                strongSelf.email = Auth.auth().currentUser?.email
+                strongSelf.uid = Auth.auth().currentUser?.uid
+                strongSelf.loadNextView()
+            }
+        }
+    }
+    
+    func loadNextView() {
+        print(uid)
+        
+        // TODO: Handle next view.
+        
+    }
+    
     @objc func loginButtonEnded() {
         logInButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        firebaseSignUp()
     }
     @objc func loginButtonBegan() {
         logInButton.backgroundColor = #colorLiteral(red: 0.9433736205, green: 0.9435314536, blue: 0.9433527589, alpha: 1)
@@ -251,7 +379,9 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
     
     // Action when begins to edit any textfield
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.textColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
+        textField.textColor = #colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1)
+        textField.font = UIFont(name: "AvenirNext-Bold", size: 25)
+        errorLabel.isHidden = true
     }
     
     // Hide keyboard when return is pressed on any keyboard
