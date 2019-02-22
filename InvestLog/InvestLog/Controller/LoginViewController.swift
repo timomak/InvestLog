@@ -125,11 +125,14 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
     }()
     
     // Logo Image
-    let logoImage: UIImageView = {
-        var newImage = UIImageView()
-        newImage.image = #imageLiteral(resourceName: "InvestLog-icon-withoutBackground")
-        return newImage
-    }()
+//    let logoImage: UIImageView = {
+//        var newImage = UIImageView()
+//        newImage.image = #imageLiteral(resourceName: "InvestLog-icon-withoutBackground")
+//        return newImage
+//    }()
+    let logoImage = LOTAnimationView(name: "loading")
+    var canLoadNextView = false
+    
     
     // Error label
     let errorLabel: UITextView = {
@@ -156,6 +159,8 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
     var username: String?
     var email: String?
     var uid: String?
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -184,6 +189,8 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         backgroundAnimation.contentMode = .scaleAspectFit
         backgroundAnimation.play()
         
+        logoImage.contentMode = .scaleAspectFit
+        
         // All constraints:
         
         // Google button
@@ -198,8 +205,8 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         inputContainer.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: logInButton.topAnchor, trailing: view.trailingAnchor, padding: .init(top: 200, left: 30, bottom: 30, right: 30))
         
         // Logo
-        logoContainer.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: inputContainer.topAnchor, trailing: nil, padding: .init(top: 15, left: 0, bottom: 15, right: 0))
-        logoContainer.viewConstantRatio(widthToHeightRatio: 1, width: .init(width: 126, height: 126))
+        logoContainer.anchor(top: nil, leading: nil, bottom: inputContainer.topAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 15, right: 0))
+        logoContainer.viewConstantRatio(widthToHeightRatio: 1, width: .init(width: 126, height: 0))
         logoContainer.centerHorizontalOfView(to: view)
         
         logoImage.anchor(top: logoContainer.topAnchor, leading: logoContainer.leadingAnchor, bottom: logoContainer.bottomAnchor, trailing: logoContainer.trailingAnchor, padding: .init(top: 3, left: 3, bottom: 3, right: 3))
@@ -241,6 +248,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         didSet {
             errorLabel.isHidden = false
             errorLabel.text = errorText
+            logoImage.loopAnimation = false
         }
     }
     
@@ -248,11 +256,13 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         if passwordTextField.text == "" || emailTextField.text == "" || confirmPasswordTextField.text == "" {
             errorText = "One of the required fields is incomplete."
             logInButton.shake()
+            logoImage.loopAnimation = false
             return false
         }
         if passwordTextField.text != confirmPasswordTextField.text {
             errorText = "The passwords don't match."
             logInButton.shake()
+            logoImage.loopAnimation = false
             return false
         }
         return true
@@ -281,7 +291,6 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
                     self.uid = Auth.auth().currentUser?.uid
                     self.loadNextView()
                 }
-                
             }
         }
     }
@@ -312,14 +321,39 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
     }
     
     func loadNextView() {
-        print(uid)
-        
-        // TODO: Handle next view.
-        
+        logoImage.loopAnimation = false
+        canLoadNextView = true
     }
     
     @objc func loginButtonEnded() {
         logInButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        logoImage.loopAnimation = true
+        
+        // After the animation finshed last loop.
+        logoImage.play { (finished) in
+            if self.canLoadNextView == true {
+                print("Animation Finished")
+                // Next view. Choose between onboarding or continue
+                let mainViewController = MainCollectionViewController()
+                
+                // TODO: Get data from Firebase for user!
+                
+                if self.isSignedIn == true {
+                    if UserDefaults.standard.integer(forKey: "numberOfUses") == 1 {
+                        // Handle not the first sign in.
+                        self.present(mainViewController, animated: true)
+                    }
+                    else {
+                        // Handle First time Sign in.
+                        self.present(mainViewController, animated: true)
+                        // TODO: Add onboarding.
+                        UserDefaults.standard.set(1, forKey: "numberOfUses")
+                        UserDefaults.standard.synchronize()
+                    }
+                }
+            }
+        }
+        
         firebaseSignUp()
     }
     @objc func loginButtonBegan() {

@@ -95,7 +95,7 @@ class MainCollectionViewController: UIViewController  {
         
         // Title Size
         viewNavbarTitle.anchor(top: navbar.topAnchor, leading: navbar.leadingAnchor, bottom: navbar.bottomAnchor, trailing: nil, padding: .init(top: 45, left: 20, bottom: 5, right: 0))
-        viewNavbarTitle.text = (Auth.auth().currentUser?.displayName)!
+        viewNavbarTitle.text = (Auth.auth().currentUser?.displayName) ?? "Categories"
         
         view.addSubview(signOut)
         

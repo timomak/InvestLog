@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1683E65E2158B4A1E82E72C9 /* Pods_InvestLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7413AF8196EFC5F901CA677E /* Pods_InvestLog.framework */; };
+		F305E15E221F8F8900FA45F0 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = F305E15D221F8F8900FA45F0 /* loading.json */; };
+		F305E160221F908500FA45F0 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F305E15F221F908500FA45F0 /* FirstViewController.swift */; };
 		F3347E5921F3DDBF004E83EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3347E5821F3DDBF004E83EE /* AppDelegate.swift */; };
 		F3347E5B21F3DDBF004E83EE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3347E5A21F3DDBF004E83EE /* MainViewController.swift */; };
 		F3347E6021F3DDC1004E83EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3347E5F21F3DDC1004E83EE /* Assets.xcassets */; };
@@ -36,6 +38,8 @@
 		17D4313D09B1F3DB42EBD1FC /* Pods-InvestLog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InvestLog.release.xcconfig"; path = "Pods/Target Support Files/Pods-InvestLog/Pods-InvestLog.release.xcconfig"; sourceTree = "<group>"; };
 		3D52EC9907B2B5163DB25626 /* Pods-InvestLog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InvestLog.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InvestLog/Pods-InvestLog.debug.xcconfig"; sourceTree = "<group>"; };
 		7413AF8196EFC5F901CA677E /* Pods_InvestLog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InvestLog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F305E15D221F8F8900FA45F0 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
+		F305E15F221F908500FA45F0 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		F3347E5521F3DDBF004E83EE /* InvestLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InvestLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3347E5821F3DDBF004E83EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F3347E5A21F3DDBF004E83EE /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -132,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				F39E0465221E264D00141D8F /* LoginViewController.swift */,
+				F305E15F221F908500FA45F0 /* FirstViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -176,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				F33DE07B221E4F7000DB50D0 /* background.json */,
+				F305E15D221F8F8900FA45F0 /* loading.json */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -267,6 +273,7 @@
 				F33DE07C221E4F7000DB50D0 /* background.json in Resources */,
 				F3347E7621F3F04E004E83EE /* Avenir Next.ttc in Resources */,
 				F3E8D84521FEAC61000A5440 /* GoogleService-Info.plist in Resources */,
+				F305E15E221F8F8900FA45F0 /* loading.json in Resources */,
 				F3347E6321F3DDC1004E83EE /* LaunchScreen.storyboard in Resources */,
 				F3347E6021F3DDC1004E83EE /* Assets.xcassets in Resources */,
 			);
@@ -369,6 +376,7 @@
 				F3347E6F21F3DF48004E83EE /* Constraints-Extention.swift in Sources */,
 				F3347E5921F3DDBF004E83EE /* AppDelegate.swift in Sources */,
 				F3347E7821F404CA004E83EE /* TableViewCell.swift in Sources */,
+				F305E160221F908500FA45F0 /* FirstViewController.swift in Sources */,
 				F3E8D84121FE7E16000A5440 /* InputSpendingController.swift in Sources */,
 				F3347E7121F3E302004E83EE /* ThisMonthView.swift in Sources */,
 				F398016621F55ABD00F228E8 /* Categories.swift in Sources */,
