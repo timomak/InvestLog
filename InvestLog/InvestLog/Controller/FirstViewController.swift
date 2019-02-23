@@ -11,7 +11,9 @@ import Firebase
 import GoogleSignIn
 import Lottie
 
-""" This controller handles displaying all the categories. And also shows default options such as settings or adding new categories. """
+/*
+This controller handles displaying all the categories. And also shows default options such as settings or adding new categories.
+*/
 
 class FirstViewController: UIViewController {
     
@@ -55,7 +57,7 @@ class FirstViewController: UIViewController {
         button.setTitle("+", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 60)
-        //        button.addTarget(self, action: #selector(newCategoryButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(newCategoryButtonPressed), for: .touchUpInside)
         //        button.backgroundColor = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
         return button
     }()
@@ -132,6 +134,10 @@ class FirstViewController: UIViewController {
         self.present(SettingsView(), animated: true)
     }
     
+    @objc func newCategoryButtonPressed() {
+        self.present(NewCategoryViewController(), animated: true)
+    }
+    
 }
 
 
@@ -144,9 +150,7 @@ extension FirstViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! MaiCollectionViewCell
-//        if allViews[indexPath.row].name == "Settings" {
-//            cell.colorIndicator.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//        }
+
         cell.label.text =  allViews[indexPath.row].name
         var amountValue = allViews[indexPath.row].totalAmount
         if amountValue > 0 {

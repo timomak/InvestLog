@@ -27,7 +27,7 @@
 		F3A7CC742221F04C00B7F867 /* NewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7CC732221F04C00B7F867 /* NewCategoryViewController.swift */; };
 		F3E8D83821FBF98B000A5440 /* MainViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83721FBF98B000A5440 /* MainViewCollectionViewCell.swift */; };
 		F3E8D83A21FC0AD7000A5440 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83921FC0AD7000A5440 /* Views.swift */; };
-		F3E8D83C21FC4E2A000A5440 /* NewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83B21FC4E2A000A5440 /* NewCategoryViewController.swift */; };
+		F3E8D83C21FC4E2A000A5440 /* oldCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83B21FC4E2A000A5440 /* oldCategoryViewController.swift */; };
 		F3E8D83F21FE4BDE000A5440 /* CategorySpendingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83E21FE4BDE000A5440 /* CategorySpendingController.swift */; };
 		F3E8D84121FE7E16000A5440 /* InputSpendingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D84021FE7E16000A5440 /* InputSpendingController.swift */; };
 		F3E8D84321FE8A5E000A5440 /* HandleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D84221FE8A5E000A5440 /* HandleData.swift */; };
@@ -61,7 +61,7 @@
 		F3A7CC732221F04C00B7F867 /* NewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewController.swift; sourceTree = "<group>"; };
 		F3E8D83721FBF98B000A5440 /* MainViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3E8D83921FC0AD7000A5440 /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
-		F3E8D83B21FC4E2A000A5440 /* NewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewController.swift; sourceTree = "<group>"; };
+		F3E8D83B21FC4E2A000A5440 /* oldCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = oldCategoryViewController.swift; sourceTree = "<group>"; };
 		F3E8D83E21FE4BDE000A5440 /* CategorySpendingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySpendingController.swift; sourceTree = "<group>"; };
 		F3E8D84021FE7E16000A5440 /* InputSpendingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSpendingController.swift; sourceTree = "<group>"; };
 		F3E8D84221FE8A5E000A5440 /* HandleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandleData.swift; sourceTree = "<group>"; };
@@ -140,9 +140,9 @@
 			isa = PBXGroup;
 			children = (
 				F39E0465221E264D00141D8F /* LoginViewController.swift */,
-				F3A7CC732221F04C00B7F867 /* NewCategoryViewController.swift */,
-				F305E15F221F908500FA45F0 /* FirstViewController.swift */,
 				F3A7CC6F2220ADAC00B7F867 /* OnboardingViewController.swift */,
+				F305E15F221F908500FA45F0 /* FirstViewController.swift */,
+				F3A7CC732221F04C00B7F867 /* NewCategoryViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -208,7 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				F3347E7021F3E302004E83EE /* ThisMonthView.swift */,
-				F3E8D83B21FC4E2A000A5440 /* NewCategoryViewController.swift */,
+				F3E8D83B21FC4E2A000A5440 /* oldCategoryViewController.swift */,
 				F3E8D83E21FE4BDE000A5440 /* CategorySpendingController.swift */,
 				F3E8D84021FE7E16000A5440 /* InputSpendingController.swift */,
 			);
@@ -377,7 +377,7 @@
 				F3347E5B21F3DDBF004E83EE /* MainViewController.swift in Sources */,
 				F3E8D84321FE8A5E000A5440 /* HandleData.swift in Sources */,
 				F33DE079221E4B7F00DB50D0 /* ButtonExtentions.swift in Sources */,
-				F3E8D83C21FC4E2A000A5440 /* NewCategoryViewController.swift in Sources */,
+				F3E8D83C21FC4E2A000A5440 /* oldCategoryViewController.swift in Sources */,
 				F3A7CC702220ADAC00B7F867 /* OnboardingViewController.swift in Sources */,
 				F3F6660721FA7A13007DC903 /* MainCollectionviewController.swift in Sources */,
 				F3E8D84721FEADFC000A5440 /* OldLoginController.swift in Sources */,

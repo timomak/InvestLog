@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         
         // Override point for customization after application launch.
-        let initialViewController  = LoginViewController()
+        let initialViewController  = NewCategoryViewController()
         window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.rootViewController = initialViewController
         self.window?.makeKeyAndVisible()

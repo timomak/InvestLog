@@ -209,7 +209,7 @@ class ThisMonthView: UIViewController {
 //        var newCategory = Category(name: "Job", creationDate: Date(), modificationDate: Date(), spendingArray: [newCategorySpending])
 //        categories.append(newCategory)
 //        tableView.reloadData()
-        self.present(NewCategoryViewController(), animated: true)
+//        self.present(NewCategoryViewController(), animated: true)
     }
 }
 

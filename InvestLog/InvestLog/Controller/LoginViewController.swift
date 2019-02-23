@@ -15,7 +15,9 @@ import Lottie
 // TODO: Add image at top.
 
 
-""" This View Controller handles Log in / Sign up / Google log in and getting DATABASE data. """
+/*
+This View Controller handles Log in / Sign up / Google log in and getting DATABASE data.
+*/
 class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextFieldDelegate {
     
     // Textfield for email

@@ -27,7 +27,7 @@ extension UIView {
         widthAnchor.constraint(equalToConstant: height.height).isActive = true
     }
     
-    func viewConstantRatio(widthToHeightRatio: Int, width: CGSize = .zero) {
+    func viewConstantRatio(widthToHeightRatio: Float, width: CGSize = .zero) {
         widthAnchor.constraint(equalToConstant: width.width).isActive = true
         heightAnchor.constraint(equalToConstant: width.width * CGFloat(widthToHeightRatio)).isActive = true
     }
