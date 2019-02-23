@@ -10,7 +10,7 @@ import UIKit
 import Lottie
 
 // TODO: Watch tutorial and use scrolling animation.
-
+""" This is only going to be shown the first time the user opens the app. Onboarding... """
 class OnboardingViewController: UIViewController {
     var animationTime = 0.0
     let animationView = LOTAnimationView(name: "onboarding")

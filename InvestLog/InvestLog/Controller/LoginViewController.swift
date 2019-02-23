@@ -14,6 +14,8 @@ import Lottie
 // TODO: Auth at https://firebase.google.com/docs/auth/ios/password-auth
 // TODO: Add image at top.
 
+
+""" This View Controller handles Log in / Sign up / Google log in and getting DATABASE data. """
 class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextFieldDelegate {
     
     // Textfield for email
@@ -379,10 +381,12 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         
         if self.isSignedIn == true {
             if UserDefaults.standard.integer(forKey: "numberOfUses") == 1 {
+                self.dismiss(animated: true, completion: nil)
                 // Handle not the first sign in.
                 self.present(mainViewController, animated: true)
             }
             else {
+                self.dismiss(animated: true, completion: nil)
                 // Handle First time Sign in.
                 self.present(mainViewController, animated: true)
                 // TODO: Add onboarding.

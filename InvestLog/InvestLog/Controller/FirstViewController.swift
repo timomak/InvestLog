@@ -11,6 +11,8 @@ import Firebase
 import GoogleSignIn
 import Lottie
 
+""" This controller handles displaying all the categories. And also shows default options such as settings or adding new categories. """
+
 class FirstViewController: UIViewController {
     
     // Collection view list

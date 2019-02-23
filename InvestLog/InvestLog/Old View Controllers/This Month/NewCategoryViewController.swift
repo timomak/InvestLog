@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewCategoryViewController: UIViewController, UITextFieldDelegate {
+class oldCategoryViewController: UIViewController, UITextFieldDelegate {
     // Creating Navbar
     private let navbar: UIView = {
         let navigationBar = UIView()
