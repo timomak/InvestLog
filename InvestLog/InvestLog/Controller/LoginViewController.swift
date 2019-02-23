@@ -125,11 +125,11 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
     }()
     
     // Logo Image
-//    let logoImage: UIImageView = {
-//        var newImage = UIImageView()
-//        newImage.image = #imageLiteral(resourceName: "InvestLog-icon-withoutBackground")
-//        return newImage
-//    }()
+    //    let logoImage: UIImageView = {
+    //        var newImage = UIImageView()
+    //        newImage.image = #imageLiteral(resourceName: "InvestLog-icon-withoutBackground")
+    //        return newImage
+    //    }()
     let logoImage = LOTAnimationView(name: "loading")
     var canLoadNextView = false
     
@@ -166,6 +166,25 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
         addViewComponents()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("Trying to log in")
+        guard let userData = UserDefaults.standard.dictionary(forKey: "userData") as? [String:String]
+            else { return }
+        logoImage.loopAnimation = true
+        
+        // After the animation finshed last loop.
+        logoImage.play { (finished) in
+            if self.canLoadNextView == true {
+                self.moveToNextView()
+            }
+        }
+        let currentEmail = userData["email"]
+        let currentPassword = userData["password"]
+        
+        firebaseLogIn(userEmail: currentEmail!, userPassword: currentPassword!)
+        
     }
     
     func addViewComponents() {
@@ -276,12 +295,13 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
                     print("Error: ", error.localizedDescription)
                     if error.localizedDescription == "The email address is already in use by another account." {
                         // Log in with the data.
-                        self.firebaseLogIn()
+                        self.firebaseLogIn(userEmail: self.emailTextField.text!, userPassword: self.passwordTextField.text!)
                     } else {
                         self.errorText = error.localizedDescription
                         self.logInButton.shake()
                     }
                 } else {
+                    
                     // User is signed in
                     self.isSignedIn = true
                     
@@ -289,14 +309,22 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
                     self.username = Auth.auth().currentUser?.displayName
                     self.email = Auth.auth().currentUser?.email
                     self.uid = Auth.auth().currentUser?.uid
+                    
+                    self.safeUserInfoForNextLogIn(userEmail:  self.emailTextField.text!, userPassword: self.passwordTextField.text!)
+                    
                     self.loadNextView()
                 }
             }
         }
     }
-    
-    func firebaseLogIn() {
-        Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { [weak self] user, error in
+    func safeUserInfoForNextLogIn(userEmail:String, userPassword:String) {
+        print("SAving user data!")
+        // Safe user info for next log in
+        UserDefaults.standard.set(["email": userEmail, "password": userPassword], forKey: "userData")
+        UserDefaults.standard.synchronize()
+    }
+    func firebaseLogIn(userEmail:String, userPassword:String) {
+        Auth.auth().signIn(withEmail: userEmail, password: userPassword) { [weak self] user, error in
             guard let strongSelf = self else {
                 self?.errorText = "Some Error Occurred."
                 self?.logInButton.shake()
@@ -315,6 +343,9 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
                 strongSelf.username = Auth.auth().currentUser?.displayName
                 strongSelf.email = Auth.auth().currentUser?.email
                 strongSelf.uid = Auth.auth().currentUser?.uid
+                
+                strongSelf.safeUserInfoForNextLogIn(userEmail: userEmail, userPassword: userPassword)
+                
                 strongSelf.loadNextView()
             }
         }
@@ -332,33 +363,38 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         // After the animation finshed last loop.
         logoImage.play { (finished) in
             if self.canLoadNextView == true {
-                print("Animation Finished")
-                // Next view. Choose between onboarding or continue
-                let mainViewController = MainCollectionViewController()
-                
-                // TODO: Get data from Firebase for user!
-                
-                if self.isSignedIn == true {
-                    if UserDefaults.standard.integer(forKey: "numberOfUses") == 1 {
-                        // Handle not the first sign in.
-                        self.present(mainViewController, animated: true)
-                    }
-                    else {
-                        // Handle First time Sign in.
-                        self.present(mainViewController, animated: true)
-                        // TODO: Add onboarding.
-                        UserDefaults.standard.set(1, forKey: "numberOfUses")
-                        UserDefaults.standard.synchronize()
-                    }
-                }
+                self.moveToNextView()
             }
         }
         
         firebaseSignUp()
     }
+    
+    func moveToNextView() {
+        print("Animation Finished")
+        // Next view. Choose between onboarding or continue
+        let mainViewController = FirstViewController()
+        
+        // TODO: Get data from Firebase for user!
+        
+        if self.isSignedIn == true {
+            if UserDefaults.standard.integer(forKey: "numberOfUses") == 1 {
+                // Handle not the first sign in.
+                self.present(mainViewController, animated: true)
+            }
+            else {
+                // Handle First time Sign in.
+                self.present(mainViewController, animated: true)
+                // TODO: Add onboarding.
+                UserDefaults.standard.set(1, forKey: "numberOfUses")
+                UserDefaults.standard.synchronize()
+            }
+        }
+    }
+    
     @objc func loginButtonBegan() {
         logInButton.backgroundColor = #colorLiteral(red: 0.9433736205, green: 0.9435314536, blue: 0.9433527589, alpha: 1)
-
+        
     }
     
     @objc func googleButtonPressedBegan() {
@@ -407,7 +443,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
             //            self.readPropertiesFromDatabase()
             
             // Logins automatically after sign in.
-//            self.loadNextView()
+            //            self.loadNextView()
         }
     }
     
