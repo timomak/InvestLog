@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import GoogleSignIn
+import Lottie
 
 class FirstViewController: UIViewController {
     
@@ -26,8 +27,8 @@ class FirstViewController: UIViewController {
     let viewNavbarTitle: UITextView = {
         var title = UITextView()
         title.text = "Welcome"
-        title.font = UIFont(name: "AvenirNext-Bold", size: 30)
-        title.textColor = #colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1)
+        title.font = UIFont(name: "AvenirNext-Medium", size: 60)
+        title.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         title.backgroundColor = nil
         title.textAlignment = .center
         title.isEditable = false
@@ -37,12 +38,12 @@ class FirstViewController: UIViewController {
     }()
     
     // Adding Button To Navbar
-    private let signOut: UIButton = {
+    private let settingsButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Sign Out", for: .normal)
-        button.setTitleColor(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1), for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        button.addTarget(self, action: #selector(signOutPressed), for: .touchUpInside)
+        button.setTitle("Settings", for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.9645629525, green: 0.9588286281, blue: 0.9689704776, alpha: 1), for: .normal)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 25)
+        button.addTarget(self, action: #selector(settingsButtonPressed), for: .touchUpInside)
         return button
     }()
     
@@ -59,16 +60,26 @@ class FirstViewController: UIViewController {
     
     var collectionView: UICollectionView!
     var flowLayout = UICollectionViewFlowLayout()
-    
+    let backgroundAnimation = LOTAnimationView(name: "background")
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
+        view.addSubview(backgroundAnimation)
+        backgroundAnimation.fillSuperview()
+        backgroundAnimation.contentMode = .scaleAspectFit
+        
+        backgroundAnimation.loopAnimation = true
+        backgroundAnimation.play()
+        
+        
         addCustomNavbar()
-        view.backgroundColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
+        
+        // Collection View Setup
         collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: flowLayout)
         collectionView.register(MaiCollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.backgroundColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
+        collectionView.backgroundColor = UIColor.clear
         collectionView.contentOffset = .zero
         view.addSubview(collectionView)
         
@@ -78,44 +89,45 @@ class FirstViewController: UIViewController {
     
     
     func createAllViewsStructs() {
-        let thisMonth = Views(name: "This Month", totalAmount: 4500.00, controller: ThisMonthView())
+        let thisMonth = Views(name: "This Month", totalAmount: 2578.00, categories: [])
         allViews.append(thisMonth)
         
-        let settings = Views(name: "Settings", totalAmount: 0.00, controller: SettingsView())
-        allViews.append(settings)
+        let borrow = Views(name: "Borrow", totalAmount: -50.00, categories: [])
+        allViews.append(borrow)
+        
+        let bank = Views(name: "Banks", totalAmount: 525044.00, categories: [])
+        allViews.append(bank)
+
         print(allViews)
     }
     
     func addCustomNavbar() {
         view.addSubview(navbar)
-        // Navbar Size
-        navbar.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, size: .init(width: view.bounds.width, height: 100))
-        
-        // Adding Title to Navbar
         view.addSubview(viewNavbarTitle)
+        view.addSubview(addNewButton)
+        view.addSubview(settingsButton)
+        
+        
+        // Navbar Size
+        navbar.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, size: .init(width: view.bounds.width, height: 130))
         
         // Title Size
         viewNavbarTitle.anchor(top: navbar.topAnchor, leading: navbar.leadingAnchor, bottom: navbar.bottomAnchor, trailing: nil, padding: .init(top: 45, left: 20, bottom: 5, right: 0))
-        viewNavbarTitle.text = (Auth.auth().currentUser?.displayName) ?? "Categories"
+        viewNavbarTitle.text = (Auth.auth().currentUser?.displayName) ?? "Welcome"
         
-        view.addSubview(signOut)
-        
-        // Button Size
-        signOut.anchor(top: navbar.topAnchor, leading: nil, bottom: nil, trailing: navbar.trailingAnchor, padding: .init(top: 45, left: 0, bottom: 0, right: 20), size: .init(width: 0, height: 48))
-        
-        view.addSubview(addNewButton)
+        // Button constrains
         addNewButton.anchor(top: nil, leading: nil, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 10, right: 0))
         addNewButton.centerHorizontalOfView(to: view)
+        
+        // Button Size
+        settingsButton.anchor(top: addNewButton.topAnchor, leading: nil, bottom: addNewButton.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 20))
     }
     func addCollectionView() {
         collectionView.anchor(top: navbar.bottomAnchor, leading: view.leadingAnchor, bottom: addNewButton.topAnchor, trailing: view.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 10, right: 0))
     }
     
-    @objc func signOutPressed() {
-        print("Sign out pressed")
-        GIDSignIn.sharedInstance().signOut()
-        GIDSignIn.sharedInstance().disconnect()
-        self.dismiss(animated: true)
+    @objc func settingsButtonPressed() {
+        self.present(SettingsView(), animated: true)
     }
     
 }
@@ -130,46 +142,61 @@ extension FirstViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! MaiCollectionViewCell
-        if allViews[indexPath.row].name == "Settings" {
-            cell.colorIndicator.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        }
+//        if allViews[indexPath.row].name == "Settings" {
+//            cell.colorIndicator.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+//        }
         cell.label.text =  allViews[indexPath.row].name
-        cell.amount.text = "$" + allViews[indexPath.row].totalAmount.formattedWithSeparator
+        var amountValue = allViews[indexPath.row].totalAmount
+        if amountValue > 0 {
+            cell.amount.textColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
+        }
+        else if amountValue < 0 {
+            cell.amount.textColor = #colorLiteral(red: 1, green: 0.08736196905, blue: 0.08457560092, alpha: 1)
+            amountValue *= -1
+        }
+        else {
+            cell.amount.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        }
+        cell.amount.text = "$" + amountValue.formattedWithSeparator
         //        cell.backgroundColor =  #colorLiteral(red: 1, green: 0.3644781709, blue: 1, alpha: 1)
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Cell Pressed")
-        if allViews[indexPath.row].controller == ThisMonthView() {
-            let thisMonth = ThisMonthView()
-            thisMonth.tableView.reloadData()
-            self.present(thisMonth, animated: true)
-        } else {
-            self.present(allViews[indexPath.row].controller, animated: true)
-        }
+//        if allViews[indexPath.row].controller == ThisMonthView() {
+//            let thisMonth = ThisMonthView()
+//            thisMonth.tableView.reloadData()
+//            self.present(thisMonth, animated: true)
+//        } else {
+//            self.present(allViews[indexPath.row].controller, animated: true)
+//        }
     }
 }
 
 extension FirstViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         //        print(CGSize(width: (view.frame.width / 2) - 5, height: (view.frame.height / 5)))
-        return CGSize(width: (UIScreen.main.bounds.width / 2), height: (view.frame.height / 4.6))
+        return CGSize(width: (collectionView.bounds.size.width / 2) - 13, height: 150)
         //        return CGSize(width: 160, height: 150)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets
     {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        return UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        // Vertical Spacing
+        return 10.0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+        // Middle spacing
+        return 3.0
     }
+    
+    
 }

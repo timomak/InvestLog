@@ -138,9 +138,9 @@ class NewCategoryViewController: UIViewController, UITextFieldDelegate {
 //                UserDefaults.standard.set(categories, forKey: "CategorySpendingArray")
 //                UserDefaults.standard.synchronize()
 //            }
-            let newCategory = Category(name: text, creationDate: Date(), modificationDate: Date())
-            HandleData().saveDataCategoryToUserDefaults(newCategory)
-            self.dismiss(animated: true)
+//            let newCategory = Category(name: text, creationDate: Date(), modificationDate: Date())
+//            HandleData().saveDataCategoryToUserDefaults(newCategory)
+//            self.dismiss(animated: true)
         }
     }
     

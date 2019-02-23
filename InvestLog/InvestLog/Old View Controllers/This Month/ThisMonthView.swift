@@ -124,7 +124,7 @@ class ThisMonthView: UIViewController {
 //        } else {
 //            print("User has no categories yet.")
 //        }
-        categories = HandleData().pullCategoriesFromUserDefaults() 
+//        categories = HandleData().pullCategoriesFromUserDefaults()
         tableView.reloadData()
 //        print(categories)
     }
@@ -245,7 +245,7 @@ extension ThisMonthView: UITableViewDataSource {
         if editingStyle == .delete {
             // TODO: Handle Deletion of UserDefaults array.
             categories.remove(at: indexPath.row)
-            HandleData().saveTheEntireCategoryArrayToUserDefaults(categories)
+//            HandleData().saveTheEntireCategoryArrayToUserDefaults(categories)
             tableView.reloadData()
         }
     }

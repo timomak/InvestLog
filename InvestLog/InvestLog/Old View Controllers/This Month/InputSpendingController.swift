@@ -10,7 +10,8 @@
 import UIKit
 
 class InputSpendingController: UIViewController, UITextFieldDelegate {
-    var currentCategory: Category = Category(name: "Error", creationDate: Date(), modificationDate: Date())
+    var currentCategory: Category = Category(name: "Error", creationDate: Date(), modificationDate: Date(), allSpending: [])
+    
     // Creating Navbar
     private let navbar: UIView = {
         let navigationBar = UIView()
@@ -37,7 +38,7 @@ class InputSpendingController: UIViewController, UITextFieldDelegate {
         button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 40)
         button.backgroundColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)
         button.layer.cornerRadius = 15
-        button.addTarget(self, action: #selector(saveSpendingButtonPressed), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(saveSpendingButtonPressed), for: .touchUpInside)
         return button
     }()
     
@@ -176,33 +177,33 @@ class InputSpendingController: UIViewController, UITextFieldDelegate {
         self.dismiss(animated: true)
     }
     
-    @objc func saveSpendingButtonPressed() {
-        // TODO: Handle Saving of spending
-        var amount = Double(nameInput.text!) ?? 0.00
-        if moneyFlow == "out" {
-            amount *= -1
-        }
-        let spending = CategorySpending(amount: amount, creationDate: Date())
-        currentCategory.allSpending.append(spending)
-        
-        var allCategories = HandleData().pullCategoriesFromUserDefaults()
-        var counter = 0
-        for category in allCategories {
-            if category.creationDate == currentCategory.creationDate {
-                allCategories.remove(at: counter)
-                allCategories.insert(currentCategory, at: counter)
-            }
-            counter += 1
-        }
-        var tempArray: [[String:[String:Any]]] = []
-        for i in allCategories {
-            tempArray.append(i.getDictionary())
-        }
-        UserDefaults.standard.set(tempArray, forKey: "CategorySpendingArray")
-        UserDefaults.standard.synchronize()
-//        HandleData().saveTheEntireCategoryArrayToUserDefaults(allCategories)
-        self.dismiss(animated: true)
-    }
+//    @objc func saveSpendingButtonPressed() {
+//        // TODO: Handle Saving of spending
+//        var amount = Double(nameInput.text!) ?? 0.00
+//        if moneyFlow == "out" {
+//            amount *= -1
+//        }
+//        let spending = CategorySpending(creationDate: Date(), amount: amount)
+//        currentCategory.allSpending.append(spending)
+//
+//        var allCategories = HandleData().pullCategoriesFromUserDefaults()
+//        var counter = 0
+//        for category in allCategories {
+//            if category.creationDate == currentCategory.creationDate {
+//                allCategories.remove(at: counter)
+//                allCategories.insert(currentCategory, at: counter)
+//            }
+//            counter += 1
+//        }
+//        var tempArray: [[String:[String:Any]]] = []
+//        for i in allCategories {
+//            tempArray.append(i.getDictionary())
+//        }
+//        UserDefaults.standard.set(tempArray, forKey: "CategorySpendingArray")
+//        UserDefaults.standard.synchronize()
+////        HandleData().saveTheEntireCategoryArrayToUserDefaults(allCategories)
+//        self.dismiss(animated: true)
+//    }
     
     @objc func inButtonPressed() {
         inButton.backgroundColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)

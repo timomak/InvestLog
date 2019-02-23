@@ -11,5 +11,19 @@ import UIKit
 struct Views {
     var name: String
     var totalAmount: Double
-    var controller: UIViewController
+    var categories: [Category]
 }
+
+struct Category {
+    // Category
+    var name: String
+    var creationDate: Date
+    var modificationDate: Date
+    var allSpending: [CategorySpending]
+}
+
+struct CategorySpending {
+    var creationDate: Date
+    var amount: Double
+}
+

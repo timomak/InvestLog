@@ -9,7 +9,7 @@
 import UIKit
 
 class CategorySpendingController: UIViewController {
-    var currentCategory: Category = Category(name: "Error", creationDate: Date(), modificationDate: Date())
+    var currentCategory: Category = Category(name: "Error", creationDate: Date(), modificationDate: Date(), allSpending: [])
     // Creating Navbar
     private let navbar: UIView = {
         let navigationBar = UIView()

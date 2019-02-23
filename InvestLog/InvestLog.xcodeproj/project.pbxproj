@@ -21,7 +21,6 @@
 		F3347E7821F404CA004E83EE /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3347E7721F404CA004E83EE /* TableViewCell.swift */; };
 		F33DE079221E4B7F00DB50D0 /* ButtonExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33DE078221E4B7F00DB50D0 /* ButtonExtentions.swift */; };
 		F33DE07C221E4F7000DB50D0 /* background.json in Resources */ = {isa = PBXBuildFile; fileRef = F33DE07B221E4F7000DB50D0 /* background.json */; };
-		F398016621F55ABD00F228E8 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = F398016521F55ABD00F228E8 /* Categories.swift */; };
 		F39E0466221E264D00141D8F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39E0465221E264D00141D8F /* LoginViewController.swift */; };
 		F3A7CC702220ADAC00B7F867 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7CC6F2220ADAC00B7F867 /* OnboardingViewController.swift */; };
 		F3A7CC722220B05900B7F867 /* onboarding.json in Resources */ = {isa = PBXBuildFile; fileRef = F3A7CC712220B05900B7F867 /* onboarding.json */; };
@@ -55,7 +54,6 @@
 		F3347E7721F404CA004E83EE /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		F33DE078221E4B7F00DB50D0 /* ButtonExtentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonExtentions.swift; sourceTree = "<group>"; };
 		F33DE07B221E4F7000DB50D0 /* background.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = background.json; sourceTree = "<group>"; };
-		F398016521F55ABD00F228E8 /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
 		F39E0465221E264D00141D8F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F3A7CC6F2220ADAC00B7F867 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		F3A7CC712220B05900B7F867 /* onboarding.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = onboarding.json; sourceTree = "<group>"; };
@@ -158,7 +156,6 @@
 		F3347E6C21F3DF32004E83EE /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				F398016521F55ABD00F228E8 /* Categories.swift */,
 				F3E8D83921FC0AD7000A5440 /* Views.swift */,
 			);
 			path = Model;
@@ -387,7 +384,6 @@
 				F305E160221F908500FA45F0 /* FirstViewController.swift in Sources */,
 				F3E8D84121FE7E16000A5440 /* InputSpendingController.swift in Sources */,
 				F3347E7121F3E302004E83EE /* ThisMonthView.swift in Sources */,
-				F398016621F55ABD00F228E8 /* Categories.swift in Sources */,
 				F3E8D83F21FE4BDE000A5440 /* CategorySpendingController.swift in Sources */,
 				F39E0466221E264D00141D8F /* LoginViewController.swift in Sources */,
 				F3E8D83A21FC0AD7000A5440 /* Views.swift in Sources */,
