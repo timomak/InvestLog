@@ -16,6 +16,9 @@ This controller handles displaying all the categories. And also shows default op
 */
 
 class FirstViewController: UIViewController {
+    // For Firebase
+    var ref: DatabaseReference!
+    let uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]!
     
     // Collection view list
     var allViews = [Views]()
@@ -48,6 +51,8 @@ class FirstViewController: UIViewController {
         button.setTitleColor(#colorLiteral(red: 0.9645629525, green: 0.9588286281, blue: 0.9689704776, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 25)
         button.addTarget(self, action: #selector(settingsButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(settingsButtonPressed), for: .touchDragExit)
+        button.addTarget(self, action: #selector(settingsButtonPressBegan), for: .touchDown)
         return button
     }()
     
@@ -56,25 +61,21 @@ class FirstViewController: UIViewController {
         let button = UIButton()
         button.setTitle("+", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
-        button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 60)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 60)
         button.addTarget(self, action: #selector(newCategoryButtonPressed), for: .touchUpInside)
-        //        button.backgroundColor = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
+        button.addTarget(self, action: #selector(newCategoryButtonPressed), for: .touchDragExit)
+        button.addTarget(self, action: #selector(newCategoryButtonPressBegan), for: .touchDown)
         return button
     }()
     
     var collectionView: UICollectionView!
     var flowLayout = UICollectionViewFlowLayout()
-    let backgroundAnimation = LOTAnimationView(name: "background")
+    
+    let handle = FirebaseHandle()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
-        view.addSubview(backgroundAnimation)
-        backgroundAnimation.fillSuperview()
-        backgroundAnimation.contentMode = .scaleAspectFit
-        
-        backgroundAnimation.loopAnimation = true
-        backgroundAnimation.play()
-        
+        view.backgroundColor = UIColor.clear
         
         addCustomNavbar()
         
@@ -89,6 +90,12 @@ class FirstViewController: UIViewController {
         
         addCollectionView()
         createAllViewsStructs()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("checking data")
+        findUserData(path: "views")
+        print("data should be updated")
     }
     
     
@@ -133,9 +140,55 @@ class FirstViewController: UIViewController {
     @objc func settingsButtonPressed() {
         self.present(SettingsView(), animated: true)
     }
+    @objc func settingsButtonPressBegan() {
+        settingsButton.setTitleColor(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), for: .normal)
+    }
     
     @objc func newCategoryButtonPressed() {
+        addNewButton.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
         self.present(NewCategoryViewController(), animated: true)
+    }
+    
+    @objc func newCategoryButtonPressBegan() {
+        addNewButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+    }
+    
+    func findUserData(path:String) {
+        ref = Database.database().reference().child("users/\(uid)/\(path)")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let value = snapshot.value as? [String: [String:Any]] else {
+                // TODO: Handle error
+                print("snapshot: ",snapshot.value)
+                return
+            }
+            var newViews:[Views] = []
+            
+            
+            // MARK: Will update this as I move forward
+            for (key,item) in value {
+                print("key: ", key)
+                var newView = Views(name: "", totalAmount: 0.0, categories: [])
+                newView.name = item["name"] as! String
+                newView.totalAmount = item["totalAmount"] as! Double
+                
+//                guard let viewCategory = item["categories"] as? [[String:Any]] else {
+//                    print("Couldn't breakdonw categories")
+//                    print("Categories: ", item["categories"])
+//                    newView.categories = []
+//                    return
+//                }
+                
+                let viewCategory = item["categories"] as? [[String:Any]]
+                
+                // TODO: viewCategory into category struct
+                newViews.append(newView)
+            }
+            print("new views: ", newViews)
+            self.allViews = newViews
+            self.collectionView.reloadData()
+        }) { (error) in
+            print(error.localizedDescription)
+        }
     }
     
 }

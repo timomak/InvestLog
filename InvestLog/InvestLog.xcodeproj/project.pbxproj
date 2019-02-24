@@ -25,6 +25,8 @@
 		F3A7CC702220ADAC00B7F867 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7CC6F2220ADAC00B7F867 /* OnboardingViewController.swift */; };
 		F3A7CC722220B05900B7F867 /* onboarding.json in Resources */ = {isa = PBXBuildFile; fileRef = F3A7CC712220B05900B7F867 /* onboarding.json */; };
 		F3A7CC742221F04C00B7F867 /* NewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7CC732221F04C00B7F867 /* NewCategoryViewController.swift */; };
+		F3A7CC76222200AE00B7F867 /* BackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7CC75222200AE00B7F867 /* BackgroundViewController.swift */; };
+		F3A7CC7822226E7600B7F867 /* FirebaseHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7CC7722226E7600B7F867 /* FirebaseHandle.swift */; };
 		F3E8D83821FBF98B000A5440 /* MainViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83721FBF98B000A5440 /* MainViewCollectionViewCell.swift */; };
 		F3E8D83A21FC0AD7000A5440 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83921FC0AD7000A5440 /* Views.swift */; };
 		F3E8D83C21FC4E2A000A5440 /* oldCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83B21FC4E2A000A5440 /* oldCategoryViewController.swift */; };
@@ -59,6 +61,8 @@
 		F3A7CC6F2220ADAC00B7F867 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		F3A7CC712220B05900B7F867 /* onboarding.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = onboarding.json; sourceTree = "<group>"; };
 		F3A7CC732221F04C00B7F867 /* NewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewController.swift; sourceTree = "<group>"; };
+		F3A7CC75222200AE00B7F867 /* BackgroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundViewController.swift; sourceTree = "<group>"; };
+		F3A7CC7722226E7600B7F867 /* FirebaseHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHandle.swift; sourceTree = "<group>"; };
 		F3E8D83721FBF98B000A5440 /* MainViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3E8D83921FC0AD7000A5440 /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		F3E8D83B21FC4E2A000A5440 /* oldCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = oldCategoryViewController.swift; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 		F3347E6A21F3DF26004E83EE /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F3A7CC75222200AE00B7F867 /* BackgroundViewController.swift */,
 				F39E0465221E264D00141D8F /* LoginViewController.swift */,
 				F3A7CC6F2220ADAC00B7F867 /* OnboardingViewController.swift */,
 				F305E15F221F908500FA45F0 /* FirstViewController.swift */,
@@ -170,6 +175,7 @@
 				F3347E6E21F3DF48004E83EE /* Constraints-Extention.swift */,
 				F3E8D84221FE8A5E000A5440 /* HandleData.swift */,
 				F33DE078221E4B7F00DB50D0 /* ButtonExtentions.swift */,
+				F3A7CC7722226E7600B7F867 /* FirebaseHandle.swift */,
 			);
 			path = Extentions;
 			sourceTree = "<group>";
@@ -380,12 +386,14 @@
 				F3E8D83C21FC4E2A000A5440 /* oldCategoryViewController.swift in Sources */,
 				F3A7CC702220ADAC00B7F867 /* OnboardingViewController.swift in Sources */,
 				F3F6660721FA7A13007DC903 /* MainCollectionviewController.swift in Sources */,
+				F3A7CC7822226E7600B7F867 /* FirebaseHandle.swift in Sources */,
 				F3E8D84721FEADFC000A5440 /* OldLoginController.swift in Sources */,
 				F3347E6F21F3DF48004E83EE /* Constraints-Extention.swift in Sources */,
 				F3347E5921F3DDBF004E83EE /* AppDelegate.swift in Sources */,
 				F3A7CC742221F04C00B7F867 /* NewCategoryViewController.swift in Sources */,
 				F3347E7821F404CA004E83EE /* TableViewCell.swift in Sources */,
 				F305E160221F908500FA45F0 /* FirstViewController.swift in Sources */,
+				F3A7CC76222200AE00B7F867 /* BackgroundViewController.swift in Sources */,
 				F3E8D84121FE7E16000A5440 /* InputSpendingController.swift in Sources */,
 				F3347E7121F3E302004E83EE /* ThisMonthView.swift in Sources */,
 				F3E8D83F21FE4BDE000A5440 /* CategorySpendingController.swift in Sources */,

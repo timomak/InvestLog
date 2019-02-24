@@ -14,12 +14,16 @@ import Lottie
 // TODO: Auth at https://firebase.google.com/docs/auth/ios/password-auth
 // TODO: Add image at top.
 
+protocol OpenFirstVC: class {
+    func openFirstVC()
+}
 
 /*
 This View Controller handles Log in / Sign up / Google log in and getting DATABASE data.
 */
 class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextFieldDelegate {
     
+    var delegate: OpenFirstVC?
     // Textfield for email
     private let emailTextField: UITextField = {
         var textField = UITextField()
@@ -155,7 +159,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
     
     
     // Lottie animation
-    let backgroundAnimation =  LOTAnimationView(name: "background")
+//    let backgroundAnimation =  LOTAnimationView(name: "background")
     
     // Stuff for firebase
     var ref: DatabaseReference!
@@ -192,10 +196,10 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
     }
     
     func addViewComponents() {
-        view.backgroundColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
+        view.backgroundColor = UIColor.clear
         
         // Adding all Subviews
-        view.addSubview(backgroundAnimation)
+//        view.addSubview(backgroundAnimation)
         view.addSubview(googleButton)
         view.addSubview(logInButton)
         view.addSubview(inputContainer)
@@ -206,11 +210,11 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         view.addSubview(logoImage)
         view.addSubview(errorLabel)
         
-        // Animation settings
-        backgroundAnimation.fillSuperview()
-        backgroundAnimation.loopAnimation = true
-        backgroundAnimation.contentMode = .scaleAspectFit
-        backgroundAnimation.play()
+//        // Animation settings
+//        backgroundAnimation.fillSuperview()
+//        backgroundAnimation.loopAnimation = true
+//        backgroundAnimation.contentMode = .scaleAspectFit
+//        backgroundAnimation.play()
         
         logoImage.contentMode = .scaleAspectFit
         
@@ -377,20 +381,22 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
     func moveToNextView() {
         print("Animation Finished")
         // Next view. Choose between onboarding or continue
+        
+        // Mark Handled by the background
         let mainViewController = FirstViewController()
+        mainViewController.modalPresentationStyle = .overCurrentContext
         
         // TODO: Get data from Firebase for user!
-        
+        saveUserID(uid!)
         if self.isSignedIn == true {
             if UserDefaults.standard.integer(forKey: "numberOfUses") == 1 {
-                self.dismiss(animated: true, completion: nil)
-                // Handle not the first sign in.
-                self.present(mainViewController, animated: true)
+                self.dismiss(animated: true)
+                delegate?.openFirstVC()
             }
             else {
-                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true)
+                delegate?.openFirstVC()
                 // Handle First time Sign in.
-                self.present(mainViewController, animated: true)
                 // TODO: Add onboarding.
                 UserDefaults.standard.set(1, forKey: "numberOfUses")
                 UserDefaults.standard.synchronize()
@@ -444,6 +450,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
             self.username = Auth.auth().currentUser?.displayName
             self.email = Auth.auth().currentUser?.email
             self.uid = Auth.auth().currentUser?.uid
+            self.saveUserID(self.uid!)
             print("user successfully signed in through GOOGLE! uid:\(String(describing: Auth.auth().currentUser!.email))")
             
             //            self.readPropertiesFromDatabase()
@@ -451,6 +458,12 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
             // Logins automatically after sign in.
             //            self.loadNextView()
         }
+    }
+    
+    func saveUserID(_ userID:String) {
+        print("UserID: ", userID)
+        UserDefaults.standard.set(["uid":uid], forKey: "uid")
+        UserDefaults.standard.synchronize()
     }
     
     // Action when begins to edit any textfield

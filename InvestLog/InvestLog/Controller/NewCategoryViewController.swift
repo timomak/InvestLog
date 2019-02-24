@@ -7,11 +7,15 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 /*
 This view controller handles the createtion of new Categoties. Eventually also the addtion of new sub categories.
 */
 class NewCategoryViewController: UIViewController {
+    
+    var ref: DatabaseReference!
+    
     // Title
     let topTitle: UITextView = {
         var title = UITextView()
@@ -84,6 +88,8 @@ class NewCategoryViewController: UIViewController {
         view.backgroundColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
         hideKeyboardWhenTappedAround()
         
+        let uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]!
+        ref = Database.database().reference().child("users/\(uid)/views").childByAutoId()
         setupLayout()
     }
     
@@ -108,8 +114,19 @@ class NewCategoryViewController: UIViewController {
     }
     
     @objc func saveCategoryButtonPressed() {
-        // Just dimiss for now. Gonna save it to the database next change.
-        self.dismiss(animated: true, completion: nil)
+        if nameInput.text == "" {
+            saveButton.shake()
+            return
+        }
+        else {
+            // Testing
+            let newView = Views(name: nameInput.text!, totalAmount: 0, categories: [])
+            print(newView.getDictionary())
+            self.ref.setValue(newView.getDictionary())
+            
+            // Just dimiss for now. Gonna save it to the database next change.
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     
