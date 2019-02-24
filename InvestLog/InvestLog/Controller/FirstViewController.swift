@@ -18,7 +18,7 @@ This controller handles displaying all the categories. And also shows default op
 class FirstViewController: UIViewController {
     // For Firebase
     var ref: DatabaseReference!
-    let uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]!
+    var uid: String = ""
     
     // Collection view list
     var allViews = [Views]()
@@ -76,7 +76,7 @@ class FirstViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.clear
-        
+        uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
         addCustomNavbar()
         
         // Collection View Setup

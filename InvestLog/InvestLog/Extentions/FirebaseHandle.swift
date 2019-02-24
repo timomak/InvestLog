@@ -12,7 +12,7 @@ import UIKit
 
 class FirebaseHandle {
     var ref: DatabaseReference!
-    let uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]!
+//    let uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]!
     
     
     
