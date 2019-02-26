@@ -27,7 +27,7 @@ extension UIView {
         widthAnchor.constraint(equalToConstant: height.height).isActive = true
     }
     
-    func viewConstantRatio(widthToHeightRatio: Int, width: CGSize = .zero) {
+    func viewConstantRatio(widthToHeightRatio: Float, width: CGSize = .zero) {
         widthAnchor.constraint(equalToConstant: width.width).isActive = true
         heightAnchor.constraint(equalToConstant: width.width * CGFloat(widthToHeightRatio)).isActive = true
     }
@@ -83,8 +83,7 @@ extension UIView {
     }
 }
 
-extension UIViewController {
-    // Hide the keyboard when tapped away from it.
+extension UIViewController{
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
@@ -111,4 +110,9 @@ extension Double {
     }
 }
 
-
+// Extention to check the root view controller at the given moment to avoid errors.
+extension UIResponder {
+    func next<T: UIResponder>(_ type: T.Type) -> T? {
+        return next as? T ?? next?.next(type)
+    }
+}
