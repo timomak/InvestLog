@@ -43,6 +43,7 @@ class BackgroundViewController: UIViewController, OpenFirstVC {
             self.present(loginVC, animated: false)
     }
     func openFirstVC() {
+        mainVC.findUserData(path: "views")
         mainVC.modalPresentationStyle = .overFullScreen
         self.present(mainVC, animated: true)
     }

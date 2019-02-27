@@ -1,5 +1,5 @@
 //
-//  ThisMonthView.swift
+//  PresentCategoryViewController.swift
 //  InvestLog
 //
 //  Created by timofey makhlay on 1/19/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ThisMonthView: UIViewController {
+class PresentCategoryViewController: UIViewController {
     // Array to supply table view
     var categories: [Category] = [Category]()
     
@@ -215,7 +215,7 @@ class ThisMonthView: UIViewController {
 
 
 
-extension ThisMonthView: UITableViewDataSource {
+extension PresentCategoryViewController: UITableViewDataSource {
     // Table View Rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categories.count
@@ -251,7 +251,7 @@ extension ThisMonthView: UITableViewDataSource {
     }
 }
 
-extension ThisMonthView: UITableViewDelegate {
+extension PresentCategoryViewController: UITableViewDelegate {
 //     Table View Cell Styling
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70

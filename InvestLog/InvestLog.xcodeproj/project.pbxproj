@@ -8,14 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		1683E65E2158B4A1E82E72C9 /* Pods_InvestLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7413AF8196EFC5F901CA677E /* Pods_InvestLog.framework */; };
-		F305E15E221F8F8900FA45F0 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = F305E15D221F8F8900FA45F0 /* loading.json */; };
+		F305E15E221F8F8900FA45F0 /* oldLoading.json in Resources */ = {isa = PBXBuildFile; fileRef = F305E15D221F8F8900FA45F0 /* oldLoading.json */; };
 		F305E160221F908500FA45F0 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F305E15F221F908500FA45F0 /* FirstViewController.swift */; };
 		F3347E5921F3DDBF004E83EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3347E5821F3DDBF004E83EE /* AppDelegate.swift */; };
 		F3347E5B21F3DDBF004E83EE /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3347E5A21F3DDBF004E83EE /* MainViewController.swift */; };
 		F3347E6021F3DDC1004E83EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3347E5F21F3DDC1004E83EE /* Assets.xcassets */; };
 		F3347E6321F3DDC1004E83EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3347E6121F3DDC1004E83EE /* LaunchScreen.storyboard */; };
 		F3347E6F21F3DF48004E83EE /* Constraints-Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3347E6E21F3DF48004E83EE /* Constraints-Extention.swift */; };
-		F3347E7121F3E302004E83EE /* ThisMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3347E7021F3E302004E83EE /* ThisMonthView.swift */; };
+		F3347E7121F3E302004E83EE /* PresentCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3347E7021F3E302004E83EE /* PresentCategoryViewController.swift */; };
 		F3347E7321F3EE57004E83EE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3347E7221F3EE57004E83EE /* SettingsView.swift */; };
 		F3347E7621F3F04E004E83EE /* Avenir Next.ttc in Resources */ = {isa = PBXBuildFile; fileRef = F3347E7521F3F04E004E83EE /* Avenir Next.ttc */; };
 		F3347E7821F404CA004E83EE /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3347E7721F404CA004E83EE /* TableViewCell.swift */; };
@@ -27,6 +27,7 @@
 		F3A7CC742221F04C00B7F867 /* NewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7CC732221F04C00B7F867 /* NewCategoryViewController.swift */; };
 		F3A7CC76222200AE00B7F867 /* BackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7CC75222200AE00B7F867 /* BackgroundViewController.swift */; };
 		F3A7CC7822226E7600B7F867 /* FirebaseHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7CC7722226E7600B7F867 /* FirebaseHandle.swift */; };
+		F3C1AC732225F08B0073F60F /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = F3C1AC722225F08B0073F60F /* loading.json */; };
 		F3E8D83821FBF98B000A5440 /* MainViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83721FBF98B000A5440 /* MainViewCollectionViewCell.swift */; };
 		F3E8D83A21FC0AD7000A5440 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83921FC0AD7000A5440 /* Views.swift */; };
 		F3E8D83C21FC4E2A000A5440 /* oldCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83B21FC4E2A000A5440 /* oldCategoryViewController.swift */; };
@@ -42,7 +43,7 @@
 		17D4313D09B1F3DB42EBD1FC /* Pods-InvestLog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InvestLog.release.xcconfig"; path = "Pods/Target Support Files/Pods-InvestLog/Pods-InvestLog.release.xcconfig"; sourceTree = "<group>"; };
 		3D52EC9907B2B5163DB25626 /* Pods-InvestLog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InvestLog.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InvestLog/Pods-InvestLog.debug.xcconfig"; sourceTree = "<group>"; };
 		7413AF8196EFC5F901CA677E /* Pods_InvestLog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InvestLog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F305E15D221F8F8900FA45F0 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
+		F305E15D221F8F8900FA45F0 /* oldLoading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oldLoading.json; sourceTree = "<group>"; };
 		F305E15F221F908500FA45F0 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		F3347E5521F3DDBF004E83EE /* InvestLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InvestLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3347E5821F3DDBF004E83EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -51,7 +52,7 @@
 		F3347E6221F3DDC1004E83EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F3347E6421F3DDC1004E83EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F3347E6E21F3DF48004E83EE /* Constraints-Extention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Constraints-Extention.swift"; sourceTree = "<group>"; };
-		F3347E7021F3E302004E83EE /* ThisMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThisMonthView.swift; sourceTree = "<group>"; };
+		F3347E7021F3E302004E83EE /* PresentCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentCategoryViewController.swift; sourceTree = "<group>"; };
 		F3347E7221F3EE57004E83EE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F3347E7521F3F04E004E83EE /* Avenir Next.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Avenir Next.ttc"; sourceTree = "<group>"; };
 		F3347E7721F404CA004E83EE /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
@@ -63,6 +64,7 @@
 		F3A7CC732221F04C00B7F867 /* NewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewController.swift; sourceTree = "<group>"; };
 		F3A7CC75222200AE00B7F867 /* BackgroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundViewController.swift; sourceTree = "<group>"; };
 		F3A7CC7722226E7600B7F867 /* FirebaseHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHandle.swift; sourceTree = "<group>"; };
+		F3C1AC722225F08B0073F60F /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		F3E8D83721FBF98B000A5440 /* MainViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3E8D83921FC0AD7000A5440 /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		F3E8D83B21FC4E2A000A5440 /* oldCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = oldCategoryViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				F3A7CC6F2220ADAC00B7F867 /* OnboardingViewController.swift */,
 				F305E15F221F908500FA45F0 /* FirstViewController.swift */,
 				F3A7CC732221F04C00B7F867 /* NewCategoryViewController.swift */,
+				F3347E7021F3E302004E83EE /* PresentCategoryViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -192,7 +195,8 @@
 			isa = PBXGroup;
 			children = (
 				F33DE07B221E4F7000DB50D0 /* background.json */,
-				F305E15D221F8F8900FA45F0 /* loading.json */,
+				F305E15D221F8F8900FA45F0 /* oldLoading.json */,
+				F3C1AC722225F08B0073F60F /* loading.json */,
 				F3A7CC712220B05900B7F867 /* onboarding.json */,
 			);
 			path = Animations;
@@ -213,7 +217,6 @@
 		F3E8D83D21FE4BAA000A5440 /* This Month */ = {
 			isa = PBXGroup;
 			children = (
-				F3347E7021F3E302004E83EE /* ThisMonthView.swift */,
 				F3E8D83B21FC4E2A000A5440 /* oldCategoryViewController.swift */,
 				F3E8D83E21FE4BDE000A5440 /* CategorySpendingController.swift */,
 				F3E8D84021FE7E16000A5440 /* InputSpendingController.swift */,
@@ -284,8 +287,9 @@
 			files = (
 				F33DE07C221E4F7000DB50D0 /* background.json in Resources */,
 				F3347E7621F3F04E004E83EE /* Avenir Next.ttc in Resources */,
+				F3C1AC732225F08B0073F60F /* loading.json in Resources */,
 				F3E8D84521FEAC61000A5440 /* GoogleService-Info.plist in Resources */,
-				F305E15E221F8F8900FA45F0 /* loading.json in Resources */,
+				F305E15E221F8F8900FA45F0 /* oldLoading.json in Resources */,
 				F3347E6321F3DDC1004E83EE /* LaunchScreen.storyboard in Resources */,
 				F3A7CC722220B05900B7F867 /* onboarding.json in Resources */,
 				F3347E6021F3DDC1004E83EE /* Assets.xcassets in Resources */,
@@ -395,7 +399,7 @@
 				F305E160221F908500FA45F0 /* FirstViewController.swift in Sources */,
 				F3A7CC76222200AE00B7F867 /* BackgroundViewController.swift in Sources */,
 				F3E8D84121FE7E16000A5440 /* InputSpendingController.swift in Sources */,
-				F3347E7121F3E302004E83EE /* ThisMonthView.swift in Sources */,
+				F3347E7121F3E302004E83EE /* PresentCategoryViewController.swift in Sources */,
 				F3E8D83F21FE4BDE000A5440 /* CategorySpendingController.swift in Sources */,
 				F39E0466221E264D00141D8F /* LoginViewController.swift in Sources */,
 				F3E8D83A21FC0AD7000A5440 /* Views.swift in Sources */,

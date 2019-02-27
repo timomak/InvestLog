@@ -21,7 +21,13 @@ class FirstViewController: UIViewController {
     var uid: String = ""
     
     // Collection view list
-    var allViews = [Views]()
+    var allViews = [Views]() {
+        didSet {
+            // Sorts all the views in alphabetical order.
+            allViews = allViews.sorted { $0.name < $1.name }
+
+        }
+    }
     
     // Creating Navbar
     private let navbar: UIView = {
@@ -89,28 +95,29 @@ class FirstViewController: UIViewController {
         view.addSubview(collectionView)
         
         addCollectionView()
-        createAllViewsStructs()
+//        createAllViewsStructs()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         print("checking data")
         findUserData(path: "views")
-        print("data should be updated")
+        print("Views: ", allViews)
+        
     }
     
     
-    func createAllViewsStructs() {
-        let thisMonth = Views(name: "This Month", totalAmount: 2578.00, categories: [])
-        allViews.append(thisMonth)
-        
-        let borrow = Views(name: "Borrow", totalAmount: -50.00, categories: [])
-        allViews.append(borrow)
-        
-        let bank = Views(name: "Banks", totalAmount: 525044.00, categories: [])
-        allViews.append(bank)
-
-        print(allViews)
-    }
+//    func createAllViewsStructs() {
+//        let thisMonth = Views(name: "This Month", totalAmount: 2578.00, categories: [])
+//        allViews.append(thisMonth)
+//
+//        let borrow = Views(name: "Borrow", totalAmount: -50.00, categories: [])
+//        allViews.append(borrow)
+//
+//        let bank = Views(name: "Banks", totalAmount: 525044.00, categories: [])
+//        allViews.append(bank)
+//
+//        print(allViews)
+//    }
     
     func addCustomNavbar() {
         view.addSubview(navbar)
@@ -159,26 +166,22 @@ class FirstViewController: UIViewController {
             guard let value = snapshot.value as? [String: [String:Any]] else {
                 // TODO: Handle error
                 print("snapshot: ",snapshot.value)
+                
+                // Will happen if there's no views on database
+                self.noViewsInFirebase()
+                
+                
                 return
             }
             var newViews:[Views] = []
             
             
-            // MARK: Will update this as I move forward
+            // Will only get the name and total Amount for all the Views on Firebase
             for (key,item) in value {
                 print("key: ", key)
-                var newView = Views(name: "", totalAmount: 0.0, categories: [])
+                var newView = Views(name: "", totalAmount: 0.0, categories: [], id: key)
                 newView.name = item["name"] as! String
                 newView.totalAmount = item["totalAmount"] as! Double
-                
-//                guard let viewCategory = item["categories"] as? [[String:Any]] else {
-//                    print("Couldn't breakdonw categories")
-//                    print("Categories: ", item["categories"])
-//                    newView.categories = []
-//                    return
-//                }
-                
-                let viewCategory = item["categories"] as? [[String:Any]]
                 
                 // TODO: viewCategory into category struct
                 newViews.append(newView)
@@ -188,6 +191,42 @@ class FirstViewController: UIViewController {
             self.collectionView.reloadData()
         }) { (error) in
             print(error.localizedDescription)
+        }
+    }
+    
+    func noViewsInFirebase() {
+        // TODO: Func to handle not having views in the database.
+        
+    }
+    
+    func getCategoriesFromId(id: String) {
+        // TODO: Using the view id, get all the categories under that Id and load PresentCategoryViewController() using those categories.
+        let presentVC = PresentCategoryViewController()
+        ref = Database.database().reference().child("users/\(uid)/views/\(id)/categories")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let value = snapshot.value as? [String: [String:Any]] else {
+                // TODO: Handle error
+                print("snapshot: ",snapshot.value)
+                
+                // Will happen if there's no categories in the view but there is a path
+                presentVC.categories = []
+                self.present(presentVC, animated: true)
+                
+                return
+            }
+            
+            // TODO: Present the view with categories
+            presentVC.categories = []
+            self.present(presentVC, animated: true)
+            
+        }) { (error) in
+            print("Error: ", error.localizedDescription)
+            // Will happen if there's no categories in the view because the path doesn't exist
+            // Will almost never happen.
+            
+            // TODO: Present the view without categories
+            presentVC.categories = []
+            self.present(presentVC, animated: true)
         }
     }
     
@@ -208,15 +247,20 @@ extension FirstViewController: UICollectionViewDataSource {
         var amountValue = allViews[indexPath.row].totalAmount
         if amountValue > 0 {
             cell.amount.textColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
+            cell.amount.text = "$" + amountValue.formattedWithSeparator
         }
         else if amountValue < 0 {
             cell.amount.textColor = #colorLiteral(red: 1, green: 0.08736196905, blue: 0.08457560092, alpha: 1)
             amountValue *= -1
+            cell.amount.text = "$" + amountValue.formattedWithSeparator
         }
         else {
-            cell.amount.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            // If there's no spending.
+            cell.amount.textColor = #colorLiteral(red: 0.8445890546, green: 0.8395691514, blue: 0.8484483361, alpha: 1)
+            cell.amount.font = UIFont(name: "AvenirNext-Medium", size: 22)
+            cell.amount.text = "Tap to add +"
         }
-        cell.amount.text = "$" + amountValue.formattedWithSeparator
+        
         //        cell.backgroundColor =  #colorLiteral(red: 1, green: 0.3644781709, blue: 1, alpha: 1)
         return cell
     }
@@ -229,6 +273,8 @@ extension FirstViewController: UICollectionViewDataSource {
 //        } else {
 //            self.present(allViews[indexPath.row].controller, animated: true)
 //        }
+        let viewId = allViews[indexPath.row].id
+        getCategoriesFromId(id: viewId)
     }
 }
 
@@ -241,7 +287,7 @@ extension FirstViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets
     {
-        return UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        return UIEdgeInsets(top: 5, left: 5, bottom: 0, right: 5)
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -249,7 +295,7 @@ extension FirstViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         // Vertical Spacing
-        return 10.0
+        return 20.0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

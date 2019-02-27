@@ -12,6 +12,7 @@ struct Views {
     var name: String
     var totalAmount: Double
     var categories: [Category]
+    var id = ""
     
     
     func getNewTotalAmount() -> Double {

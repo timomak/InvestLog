@@ -167,9 +167,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
     var username: String?
     var email: String?
     var uid: String?
-    
-    
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
@@ -381,11 +379,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
     func moveToNextView() {
         print("Animation Finished")
         // Next view. Choose between onboarding or continue
-        
-        // Mark Handled by the background
-        let mainViewController = FirstViewController()
-        mainViewController.modalPresentationStyle = .overCurrentContext
-        
+    
         // TODO: Get data from Firebase for user!
         saveUserID(uid!)
         if self.isSignedIn == true {

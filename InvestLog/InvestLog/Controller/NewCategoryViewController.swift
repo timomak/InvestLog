@@ -120,7 +120,7 @@ class NewCategoryViewController: UIViewController {
         }
         else {
             // Testing
-            let newView = Views(name: nameInput.text!, totalAmount: 0, categories: [])
+            let newView = Views(name: nameInput.text!, totalAmount: 0, categories: [], id: "")
             print(newView.getDictionary())
             self.ref.setValue(newView.getDictionary())
             
