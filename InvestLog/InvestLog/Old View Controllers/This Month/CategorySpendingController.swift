@@ -133,7 +133,7 @@ extension CategorySpendingController: UITableViewDataSource {
         
         // Set the cell label text
         cell.name.text = df.string(from: currentCategory.allSpending[indexPath.row].creationDate)
-        cell.colorIndicator.backgroundColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)
+//        cell.colorIndicator.backgroundColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)
         cell.amount.text = "$" + currentCategory.allSpending[indexPath.row].amount.formattedWithSeparator
         cell.selectionStyle = .none
         cell.backgroundColor = tableView.backgroundColor

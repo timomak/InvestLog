@@ -16,6 +16,9 @@ This controller handles displaying all the categories. And also shows default op
 */
 
 class FirstViewController: UIViewController {
+    // To present next view with categories
+    var delegate: OpenFirstVC?
+    
     // For Firebase
     var ref: DatabaseReference!
     var uid: String = ""
@@ -198,38 +201,6 @@ class FirstViewController: UIViewController {
         // TODO: Func to handle not having views in the database.
         
     }
-    
-    func getCategoriesFromId(id: String) {
-        // TODO: Using the view id, get all the categories under that Id and load PresentCategoryViewController() using those categories.
-        let presentVC = PresentCategoryViewController()
-        ref = Database.database().reference().child("users/\(uid)/views/\(id)/categories")
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let value = snapshot.value as? [String: [String:Any]] else {
-                // TODO: Handle error
-                print("snapshot: ",snapshot.value)
-                
-                // Will happen if there's no categories in the view but there is a path
-                presentVC.categories = []
-                self.present(presentVC, animated: true)
-                
-                return
-            }
-            
-            // TODO: Present the view with categories
-            presentVC.categories = []
-            self.present(presentVC, animated: true)
-            
-        }) { (error) in
-            print("Error: ", error.localizedDescription)
-            // Will happen if there's no categories in the view because the path doesn't exist
-            // Will almost never happen.
-            
-            // TODO: Present the view without categories
-            presentVC.categories = []
-            self.present(presentVC, animated: true)
-        }
-    }
-    
 }
 
 
@@ -266,15 +237,13 @@ extension FirstViewController: UICollectionViewDataSource {
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Cell Pressed")
-//        if allViews[indexPath.row].controller == ThisMonthView() {
-//            let thisMonth = ThisMonthView()
-//            thisMonth.tableView.reloadData()
-//            self.present(thisMonth, animated: true)
-//        } else {
-//            self.present(allViews[indexPath.row].controller, animated: true)
-//        }
-        let viewId = allViews[indexPath.row].id
-        getCategoriesFromId(id: viewId)
+        
+//        let viewId = allViews[indexPath.row].id
+//        getCategoriesFromId(id: viewId)
+        
+        self.dismiss(animated: true)
+        // MARK: Delegate transition
+        delegate?.openPresentCategoriesVC()
     }
 }
 

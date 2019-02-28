@@ -13,6 +13,11 @@ import Lottie
  I know this is weird, but hear me out :)! I'm making this controller to always be in the background playing, no matter what view you're on!
  */
 
+protocol OpenFirstVC: class {
+    func openFirstVC()
+    func openPresentCategoriesVC()
+}
+
 class BackgroundViewController: UIViewController, OpenFirstVC {
     // Animation view
     let background = LOTAnimationView(name: "background")
@@ -21,12 +26,15 @@ class BackgroundViewController: UIViewController, OpenFirstVC {
     
     let loginVC = LoginViewController()
     let mainVC = FirstViewController()
+    let presentCategoriesVC = PresentCategoryViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
         
         loginVC.delegate = self
+        mainVC.delegate = self
+        presentCategoriesVC.delegate = self
         
         // Putting the animation in and setting it up.
         view.addSubview(background)
@@ -46,5 +54,12 @@ class BackgroundViewController: UIViewController, OpenFirstVC {
         mainVC.findUserData(path: "views")
         mainVC.modalPresentationStyle = .overFullScreen
         self.present(mainVC, animated: true)
+    }
+    
+    func openPresentCategoriesVC() {
+        print("Adding presnet VC")
+        presentCategoriesVC.modalPresentationStyle = .overFullScreen
+//        presentCategoriesVC.modalTransitionStyle = .coverVertical
+        self.present(presentCategoriesVC, animated: true)
     }
 }

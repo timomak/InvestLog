@@ -12,15 +12,19 @@ struct Views {
     var name: String
     var totalAmount: Double
     var categories: [Category]
-    var id = ""
+    var id: String
     
+    init(name:String, totalAmount: Double = 0, categories:[Category] = [], id: String = "") {
+        self.name = name
+        self.totalAmount = totalAmount
+        self.categories = categories
+        self.id = id
+    }
     
     func getNewTotalAmount() -> Double {
         var total: Double = 0
         for category in categories {
-            for spending in category.allSpending {
-                total += spending.amount
-            }
+            total += category.getTotalAmount()
         }
         return total
     }
@@ -44,7 +48,16 @@ struct Category {
     var name: String
     var creationDate: Date
     var modificationDate: Date
+    var totalAmount: Double
     var allSpending: [CategorySpending]
+    
+    init(name:String, creationDate: Date, modificationDate: Date, allSpending:[CategorySpending] = [], totalAmount: Double = 0) {
+        self.name = name
+        self.totalAmount = totalAmount
+        self.creationDate = creationDate
+        self.allSpending = allSpending
+        self.modificationDate = modificationDate
+    }
     
     func getDictionary() -> [String:Any] {
         var temp: [[String:Any]] = []
@@ -59,11 +72,24 @@ struct Category {
             "allSpending": allSpending
         ]
     }
+    
+    func getTotalAmount() -> Double {
+        var total: Double = 0
+        for item in allSpending {
+            total += item.amount
+        }
+        return total
+    }
 }
 
 struct CategorySpending {
     var creationDate: Date
     var amount: Double
+    
+    init(creationDate: Date, amount:Double) {
+        self.creationDate = creationDate
+        self.amount = amount
+    }
     
     func getDictionary() -> [String:Any] {
         return [

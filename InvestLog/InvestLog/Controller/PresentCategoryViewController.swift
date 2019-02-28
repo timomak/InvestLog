@@ -7,209 +7,214 @@
 //
 
 import UIKit
+import Firebase
 
 class PresentCategoryViewController: UIViewController {
+    // For Firebase
+    var ref: DatabaseReference!
+    var uid: String = ""
+    
     // Array to supply table view
-    var categories: [Category] = [Category]()
-    
-    // Backgrvard for everything
-    var background: UIView = {
-        var backgroundView = UIView()
-        backgroundView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        return backgroundView
-    }()
-    
-    // Creating Navbar
-    private let navbar: UIView = {
-        let navigationBar = UIView()
-        navigationBar.alpha = 0
-        return navigationBar
-    }()
-    
-    // Addting title to Navbar
-    let viewNavbarTitle: UITextView = {
-        var title = UITextView()
-        title.text = "This month"
-        title.font = UIFont(name: "AvenirNext-Bold", size: 30)
-        title.textColor = #colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1)
-        title.backgroundColor = nil
-        title.textAlignment = .center
-        title.isEditable = false
-        title.isSelectable = false
-        title.isScrollEnabled = false
-        return title
-    }()
-    
-    // Adding Button To Navbar
-    private let addNewCategoryButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("+", for: .normal)
-        button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
-        button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 40)
-        button.addTarget(self, action: #selector(newCategoryButtonPressed), for: .touchUpInside)
-//        button.backgroundColor = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
-        return button
-    }()
-    
-    // Addting label to show a dollar
-    let dollarSignLabel: UITextView = {
-        var title = UITextView()
-        title.text = "$"
-        title.font = UIFont(name: "AvenirNext-Bold", size: 40)
-        title.textColor = #colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1)
-        title.backgroundColor = nil
-        title.textAlignment = .center
-        title.isEditable = false
-        title.isSelectable = false
-        title.isScrollEnabled = false
-        return title
-    }()
-    
-    // Addting label to show a accumulated spending
-    let accumulatedAmountLabel: UITextView = {
-        var title = UITextView()
-        title.text = "2,527"
-        title.font = UIFont(name: "AvenirNext-Bold", size: 40)
-        title.textColor = #colorLiteral(red: 1, green: 0.08736196905, blue: 0.08457560092, alpha: 1)
-        title.backgroundColor = nil
-        title.textAlignment = .center
-        title.isEditable = false
-        title.isSelectable = false
-        title.isScrollEnabled = false
-        return title
-    }()
-    
-    // Add new spedning button
-    private let newExpenseButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Add", for: .normal)
-        button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
-        button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 40)
-        button.backgroundColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)
-        button.layer.cornerRadius = 15
-        button.addTarget(self, action: #selector(newCategoryButtonPressed), for: .touchUpInside)
-        return button
-    }()
+    var categories: [Category] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     // Cell ID
     private let cellId = "cellId"
     
-
+    // Delegate to switch views
+    var delegate: OpenFirstVC?
+    
+    
     // Creating table view
     var tableView = UITableView()
     
+    var tableViewBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 15
+        view.layer.shadowOpacity = 0.7
+        view.layer.shadowRadius = 5
+        view.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
+        return view
+    }()
+    
+    // Return button
+    private let returnButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("+", for: .normal)
+        button.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 60)
+        button.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 4)
+        button.addTarget(self, action: #selector(returnButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    
+    // Add button
+    private let addButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("+", for: .normal)
+        button.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 60)
+//        button.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 4)
+        button.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    
+    // Labels background
+    var labelsBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 50
+        view.layer.shadowOpacity = 0.7
+        view.layer.shadowRadius = 5
+        view.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
+        return view
+    }()
+    
+    // Title
+    let viewNameLabel: UITextView = {
+        var title = UITextView()
+        title.text = "Name"
+        title.font = UIFont(name: "AvenirNext-Medium", size: 25)
+        title.textColor = #colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1)
+        title.backgroundColor = nil
+        title.textAlignment = .center
+        title.isEditable = false
+        title.isSelectable = false
+        title.isScrollEnabled = false
+        return title
+    }()
+    
+    // Amount
+    let totalAmountLabel: UITextView = {
+        var title = UITextView()
+        title.text = "Tap \"+\" to add"
+        title.font = UIFont(name: "AvenirNext-Medium", size: 25)
+        title.textColor = #colorLiteral(red: 0.8514072299, green: 0.8501688242, blue: 0.870927155, alpha: 1)
+        title.backgroundColor = nil
+        title.textAlignment = .center
+        title.isEditable = false
+        title.isSelectable = false
+        title.isScrollEnabled = false
+        return title
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.addSubview(background)
-        background.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
-        
-        addCustomNavbar()
-        addLabelAboveTableView()
-        addExpencesButton()
+        view.backgroundColor = .clear
+//        uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
+        setTop()
+        createTempData()
+        view.addSubview(tableViewBackground)
         addTableView()
-        
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
-        swipeDown.direction = UISwipeGestureRecognizer.Direction.down
-        self.view.addGestureRecognizer(swipeDown)
-    }
-    override func viewDidAppear(_ animated: Bool) {
-//        if UserDefaults.standard.bool(forKey: "hasCategorySpending") == true {
-//            print("hasCategorySpending == ", UserDefaults.standard.bool(forKey: "hasCategorySpending"))
-////            categories = UserDefaults.standard.array(forKey: "CategorySpendingArray") as! [Category]
-//            let newCategories = UserDefaults.standard.array(forKey: "CategorySpendingArray") as! [[String: [String: Any]]]
-//            // TODO: Unwrap dictionary
-//            categories = HandleData().UnwrapCategoryDictionary(newCategories)
-//            print("New categories: ", categories)
-//        } else {
-//            print("User has no categories yet.")
-//        }
-//        categories = HandleData().pullCategoriesFromUserDefaults()
-        tableView.reloadData()
-//        print(categories)
     }
     
-    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
-        // Swipe gesture recognizer action
-        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-            switch swipeGesture.direction {
-            case UISwipeGestureRecognizer.Direction.down:
-                print("Going back")
-                // Update page control
-                self.dismiss(animated: true, completion: nil)
-            default:
-                break
-            }
+    func createTempData() {
+        for _ in 0...3 {
+            var newCategory = Category(name: "Groceries", creationDate: Date(), modificationDate: Date(), allSpending: [], totalAmount: 3000)
+            
+            categories.append(newCategory)
         }
     }
-
-    func addCustomNavbar() {
-        // Adding Navbar View
-        view.addSubview(navbar)
+    
+    func setTop() {
+        view.addSubview(returnButton)
+        view.addSubview(addButton)
+        view.addSubview(labelsBackground)
+        view.addSubview(viewNameLabel)
+        view.addSubview(totalAmountLabel)
         
-        // Navbar Size
-        navbar.anchor(top: background.topAnchor, leading: background.leadingAnchor, bottom: nil, trailing: background.trailingAnchor, size: .init(width: background.bounds.width, height: 100))
+        returnButton.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 30, left: 30, bottom: 0, right: 0), size: .init(width: view.bounds.size.width / 8, height: view.bounds.size.width / 8))
         
-        // Adding Title to Navbar
-        view.addSubview(viewNavbarTitle)
+        addButton.anchor(top: view.topAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 30), size: .init(width: view.bounds.size.width / 8, height: view.bounds.size.width / 8))
         
-        // Title Size
-        viewNavbarTitle.anchor(top: navbar.topAnchor, leading: navbar.leadingAnchor, bottom: navbar.bottomAnchor, trailing: nil, padding: .init(top: 45, left: 20, bottom: 5, right: 0))
+        labelsBackground.anchor(top: returnButton.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: view.bounds.width - 40, height: 100))
+        labelsBackground.centerHorizontalOfView(to: view)
         
-        view.addSubview(addNewCategoryButton)
-        
-        // Button Size
-        addNewCategoryButton.anchor(top: navbar.topAnchor, leading: nil, bottom: nil, trailing: navbar.trailingAnchor, padding: .init(top: 45, left: 0, bottom: 0, right: 20), size: .init(width: 48, height: 48))
-            
+        let labelStack = UIStackView(arrangedSubviews: [viewNameLabel, totalAmountLabel])
+        labelStack.axis = .vertical
+        labelStack.spacing = -5
+        view.addSubview(labelStack)
+        labelStack.centerOfView(to: labelsBackground)
     }
     
-    func addLabelAboveTableView() {
-        background.addSubview(dollarSignLabel)
-        
-        dollarSignLabel.anchor(top: viewNavbarTitle.topAnchor, leading: background.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 40, left: 20, bottom: 0, right: 0))
-        
-        background.addSubview(accumulatedAmountLabel)
-        
-        accumulatedAmountLabel.anchor(top: viewNavbarTitle.topAnchor, leading: dollarSignLabel.trailingAnchor, bottom: nil, trailing: nil, padding: .init(top: 40, left: -5, bottom: 0, right: 0))
+    func updateTableViewBackgroundConstrainsts() {
+        // Set the background of the table view
+        tableViewBackground.anchor(top: tableView.topAnchor, leading: tableView.leadingAnchor, bottom: tableView.bottomAnchor, trailing: tableView.trailingAnchor, padding: .init(top: -10, left: -5, bottom: -30, right: -5))
+        tableViewBackground.layer.cornerRadius = 30
     }
     
-    
-    func addExpencesButton() {
-        view.addSubview(newExpenseButton)
-        newExpenseButton.anchor(top: nil, leading: background.leadingAnchor, bottom: background.bottomAnchor, trailing: background.trailingAnchor, padding: .init(top: 0, left: 15, bottom: 20, right: 15))
-        
-    }
     
     func addTableView() {
         // Add to Table View to View
-        background.addSubview(tableView)
+        view.addSubview(tableView)
         
-        // Table View Size
-        tableView.anchor(top: dollarSignLabel.bottomAnchor, leading: background.leadingAnchor, bottom: newExpenseButton.topAnchor, trailing: background.trailingAnchor)
-        
-        // Register Table View Cells
-        tableView.register(TableViewCell.self, forCellReuseIdentifier: cellId)
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        // Table View
-        tableView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-//        tableView.allowsSelection = false
-//        var refreshControl = UIRefreshControl()
-//        tableView.refreshControl = refreshControl
-//        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+        let cellXCount = CGFloat(70 * categories.count)
+        if cellXCount >= 70 {
+            // Table View Size
+            tableView.anchor(top: labelsBackground.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: view.bounds.width - 30, height: cellXCount))
+            tableView.centerHorizontalOfView(to: view)
+
+            
+            // Register Table View Cells
+            tableView.register(TableViewCell.self, forCellReuseIdentifier: cellId)
+            tableView.delegate = self
+            tableView.dataSource = self
+            
+            // Table View
+            tableView.backgroundColor = .clear
+            tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+            //        tableView.allowsSelection = false
+            //        var refreshControl = UIRefreshControl()
+            //        tableView.refreshControl = refreshControl
+            //        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+            
+            
+            updateTableViewBackgroundConstrainsts()
+        }
+        else {
+            tableViewBackground.backgroundColor = .clear
+        }
     }
     
+//    func getCategoriesFromId(id: String) {
+//        // Using the view id, get all the categories under that Id and load those categories.
+//        let presentVC = PresentCategoryViewController()
+//        ref = Database.database().reference().child("users/\(uid)/views/\(id)/categories")
+//        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+//            guard let value = snapshot.value as? [String: [String:Any]] else {
+//                // TODO: Handle error
+//                print("snapshot: ",snapshot.value)
+//
+//                // Will happen if there's no categories in the view but there is a path
+//                self.categories = []
+//
+//                return
+//            }
+//
+//            // TODO: Present the view with categories
+//            self.categories = []
+//
+//
+//        }) { (error) in
+//            print("Error: ", error.localizedDescription)
+//            // Will happen if there's no categories in the view because the path doesn't exist
+//            // Will almost never happen.
+//            self.categories = []
+//        }
+//    }
     
-    
-    @objc func newCategoryButtonPressed() {
-        print("Button Pressed")
-//        var newCategorySpending = CategorySpending(amount: 2000, creationDate: Date())
-//        var newCategory = Category(name: "Job", creationDate: Date(), modificationDate: Date(), spendingArray: [newCategorySpending])
-//        categories.append(newCategory)
-//        tableView.reloadData()
-//        self.present(NewCategoryViewController(), animated: true)
+    @objc func addButtonPressed() {
+        
+    }
+    @objc func returnButtonPressed() {
+        self.dismiss(animated: true)
+        
+        // TODO: Add delegate to present FirstVC
+        delegate?.openFirstVC()
     }
 }
 
@@ -228,8 +233,8 @@ extension PresentCategoryViewController: UITableViewDataSource {
 
         // Set the cell label text
         cell.name.text = categories[indexPath.row].name
-        cell.colorIndicator.backgroundColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)
-        cell.amount.text = "$" + "4,500"
+//        cell.colorIndicator.backgroundColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)
+        cell.amount.text = "$" + categories[indexPath.row].totalAmount.formattedWithSeparator
         cell.selectionStyle = .none
         // Push your cell to the table view
         return cell

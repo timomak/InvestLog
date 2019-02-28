@@ -14,10 +14,6 @@ import Lottie
 // TODO: Auth at https://firebase.google.com/docs/auth/ios/password-auth
 // TODO: Add image at top.
 
-protocol OpenFirstVC: class {
-    func openFirstVC()
-}
-
 /*
 This View Controller handles Log in / Sign up / Google log in and getting DATABASE data.
 */
