@@ -14,9 +14,17 @@ class PresentCategoryViewController: UIViewController {
     var ref: DatabaseReference!
     var uid: String = ""
     
+    // View Id
+    var viewId: String = ""
+    var categoriesId:[String] = []
+    
     // Array to supply table view
     var categories: [Category] = [] {
         didSet {
+            for category in categories {
+                totalAmount += category.getTotalAmount()
+            }
+            print("Number of items in categories: ", categories.count)
             tableView.reloadData()
         }
     }
@@ -102,14 +110,38 @@ class PresentCategoryViewController: UIViewController {
         return title
     }()
     
+    // Amount String
+    var totalAmount: Double = 0 {
+        didSet{
+            if totalAmount > 0 {
+                totalAmountLabel.textColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
+                totalAmountLabel.text = "$" + totalAmount.formattedWithSeparator
+            }
+            else if totalAmount < 0 {
+                totalAmountLabel.textColor = #colorLiteral(red: 1, green: 0.08736196905, blue: 0.08457560092, alpha: 1)
+                totalAmountLabel.text = "$" + (totalAmount * -1).formattedWithSeparator
+            }
+            else if totalAmount == 0 {
+                totalAmountLabel.textColor = #colorLiteral(red: 0.8152421713, green: 0.8140566945, blue: 0.8339331746, alpha: 1)
+                totalAmountLabel.text = "Tap \"+\" to add"
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
-//        uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
         setTop()
-        createTempData()
+//        createTempData()
         view.addSubview(tableViewBackground)
         addTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        print("View ID:", viewId)
+        getViewDataFrom(id: viewId)
+        tableView.reloadData()
     }
     
     func createTempData() {
@@ -180,35 +212,75 @@ class PresentCategoryViewController: UIViewController {
         }
     }
     
-//    func getCategoriesFromId(id: String) {
-//        // Using the view id, get all the categories under that Id and load those categories.
-//        let presentVC = PresentCategoryViewController()
-//        ref = Database.database().reference().child("users/\(uid)/views/\(id)/categories")
-//        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-//            guard let value = snapshot.value as? [String: [String:Any]] else {
-//                // TODO: Handle error
-//                print("snapshot: ",snapshot.value)
-//
-//                // Will happen if there's no categories in the view but there is a path
+    func getViewDataFrom(id: String) {
+        // Using the view id, get all the categories under that Id and load those categories.
+        uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
+        ref = Database.database().reference().child("users/\(uid)/views/\(id)")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let viewData = snapshot.value as? [String:Any] else {
+                // TODO: Handle error
+                print("snapshot: ",snapshot.value ?? "Null")
+
+                // Will happen if there's no categories in the view but there is a path
 //                self.categories = []
-//
-//                return
-//            }
-//
-//            // TODO: Present the view with categories
-//            self.categories = []
-//
-//
-//        }) { (error) in
-//            print("Error: ", error.localizedDescription)
-//            // Will happen if there's no categories in the view because the path doesn't exist
-//            // Will almost never happen.
-//            self.categories = []
-//        }
-//    }
+
+                return
+            }
+            
+            self.viewNameLabel.text = viewData["name"] as? String ?? "Error"
+            self.totalAmount = viewData["totalAmount"] as? Double ?? 0
+//            self.categoriesId = viewData["categoriesId"] as? [String] ?? []
+            
+            let categoriesInfo = viewData["categoriesId"] as? [String] ?? []
+            if categoriesInfo != [] {
+                self.categoriesId = categoriesInfo
+                // Call function to fill categories
+                self.findCategoriesData()
+            }
+            
+
+        }) { (error) in
+            print("Error: ", error.localizedDescription)
+            // Will happen if there's no categories in the view because the path doesn't exist
+            // Will almost never happen.
+        }
+    }
+    
+    func findCategoriesData() {
+        ref = Database.database().reference().child("users/\(uid)/categories")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let categoriesData = snapshot.value as? [String:[String:Any]] else {
+                print("snapshot: ",snapshot.value ?? "Null")
+                // If not categories
+                // TODO: HAndle not having categories
+                return
+            }
+            var tempCategories: [Category] = []
+            for (categoryId, category) in categoriesData {
+                print("This should be the category Id:", categoryId)
+                for item in self.categoriesId {
+                    if categoryId == item {
+                        var newCategory = Category(name: "", creationDate: Date(), modificationDate: Date(), allSpending: [], totalAmount: 0, viewId: "")
+                        newCategory.name = category["name"] as? String ?? "Error"
+                        newCategory.creationDate = Date(timeIntervalSince1970: category["creationDate"] as! Double)
+                        newCategory.modificationDate = Date(timeIntervalSince1970: category["modificationDate"] as! Double)
+                        newCategory.viewId = category["viewId"] as? String ?? "Error"
+                        tempCategories.append(newCategory)
+                    }
+                }
+            }
+            self.categories = tempCategories
+        }) { (error) in
+            print("Error: ", error.localizedDescription)
+            // Will happen if there's no categories in the view because the path doesn't exist
+            // Will almost never happen.
+        }
+    }
     
     @objc func addButtonPressed() {
-        self.present(NewSubCategoryViewController(),animated: true)
+        let newSubCategoryVC = NewSubCategoryViewController()
+        newSubCategoryVC.viewId = viewId
+        self.present(newSubCategoryVC,animated: true)
     }
     @objc func returnButtonPressed() {
         self.dismiss(animated: true)

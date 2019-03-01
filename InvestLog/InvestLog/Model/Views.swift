@@ -39,8 +39,8 @@ struct Views {
         }
         return [
             "name": name,
-            "totalAmount": getNewTotalAmount()
-//            "categories": temp
+            "totalAmount": getNewTotalAmount(),
+            "categoriesId": categoriesId
         ]
     }
 }
@@ -64,16 +64,19 @@ struct Category {
     }
     
     func getDictionary() -> [String:Any] {
-        var temp: [[String:Any]] = []
-        
-        for item in allSpending {
-            temp.append(item.getDictionary())
-        }
+        // Things to later handle time
+//        let df = DateFormatter()
+//        df.dateFormat = "MMM dd yyyy"
+//        // gives date with time portion in UTC 0
+//        let date = Date(timeIntervalSince1970: timestamp)
+
         return [
             "name": name,
-            "creationDate":creationDate,
-            "modificationDate": modificationDate,
-            "allSpending": allSpending
+            "creationDate":creationDate.timeIntervalSince1970,
+            "modificationDate": modificationDate.timeIntervalSince1970,
+            "allSpending": allSpending,
+            "viewId": viewId,
+            "totalAmount": totalAmount
         ]
     }
     
@@ -104,4 +107,3 @@ struct CategorySpending {
         ]
     }
 }
-

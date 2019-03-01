@@ -15,7 +15,7 @@ import Lottie
 
 protocol OpenFirstVC: class {
     func openFirstVC()
-    func openPresentCategoriesVC()
+    func openPresentCategoriesVC(id:String)
 }
 
 class BackgroundViewController: UIViewController, OpenFirstVC {
@@ -51,13 +51,15 @@ class BackgroundViewController: UIViewController, OpenFirstVC {
             self.present(loginVC, animated: false)
     }
     func openFirstVC() {
-        mainVC.findUserData(path: "views")
+        mainVC.findUserData()
         mainVC.modalPresentationStyle = .overFullScreen
         self.present(mainVC, animated: true)
     }
     
-    func openPresentCategoriesVC() {
+    func openPresentCategoriesVC(id:String) {
         print("Adding presnet VC")
+        presentCategoriesVC.viewId = id
+        presentCategoriesVC.getViewDataFrom(id: presentCategoriesVC.viewId)
         presentCategoriesVC.modalPresentationStyle = .overFullScreen
 //        presentCategoriesVC.modalTransitionStyle = .coverVertical
         self.present(presentCategoriesVC, animated: true)

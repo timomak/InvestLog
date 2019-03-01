@@ -28,6 +28,9 @@ class FirstViewController: UIViewController {
         didSet {
             // Sorts all the views in alphabetical order.
             allViews = allViews.sorted { $0.name < $1.name }
+            
+            // TODO: This has been giving sometimes errors after having added uid into func.
+            collectionView.reloadData()
 
         }
     }
@@ -101,9 +104,10 @@ class FirstViewController: UIViewController {
 //        createAllViewsStructs()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         print("checking data")
-        findUserData(path: "views")
+        findUserData()
         print("Views: ", allViews)
         
     }
@@ -163,8 +167,9 @@ class FirstViewController: UIViewController {
         addNewButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
     }
     
-    func findUserData(path:String) {
-        ref = Database.database().reference().child("users/\(uid)/\(path)")
+    func findUserData() {
+//        uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
+        ref = Database.database().reference().child("users/\(uid)/views")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             guard let value = snapshot.value as? [String: [String:Any]] else {
                 // TODO: Handle error
@@ -178,20 +183,18 @@ class FirstViewController: UIViewController {
             }
             var newViews:[Views] = []
             
-            
             // Will only get the name and total Amount for all the Views on Firebase
             for (key,item) in value {
                 print("key: ", key)
                 var newView = Views(name: "", totalAmount: 0.0, categories: [], id: key)
                 newView.name = item["name"] as! String
                 newView.totalAmount = item["totalAmount"] as! Double
-                
                 // TODO: viewCategory into category struct
                 newViews.append(newView)
             }
             print("new views: ", newViews)
+            
             self.allViews = newViews
-            self.collectionView.reloadData()
         }) { (error) in
             print(error.localizedDescription)
         }
@@ -238,12 +241,12 @@ extension FirstViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Cell Pressed")
         
-//        let viewId = allViews[indexPath.row].id
+        let viewId = allViews[indexPath.row].id
 //        getCategoriesFromId(id: viewId)
         
         self.dismiss(animated: true)
         // MARK: Delegate transition
-        delegate?.openPresentCategoriesVC()
+        delegate?.openPresentCategoriesVC(id: viewId)
     }
 }
 

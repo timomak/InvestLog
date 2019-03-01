@@ -15,6 +15,9 @@ import FirebaseDatabase
  */
 class NewSubCategoryViewController: UIViewController {
     
+    // Reference to viewID
+    var viewId: String = ""
+    
     var ref: DatabaseReference!
     
     // Title
@@ -123,8 +126,30 @@ class NewSubCategoryViewController: UIViewController {
             // TODO: Set Value when you get here.
             print("Setting new name to be: ", nameInput.text!)
 //            self.ref.setValue(newView.getDictionary())
+            let uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]!
+            ref = Database.database().reference().child("users/\(uid)/categories").childByAutoId()
+            let newCategoryId = ref.key!
+            let newCategory = Category(name: nameInput.text!, creationDate: Date(), modificationDate: Date(), viewId: viewId)
+            ref.setValue(newCategory.getDictionary())
             
+            let ref2 = Database.database().reference().child("users/\(uid)/views/\(viewId)")
+            ref2.observeSingleEvent(of: .value, with: { (snapshot) in
+                guard var view = snapshot.value as? [String:Any] else {
+                    print("snapshot:",snapshot.value)
+                    return
+                }
+                guard var categoriesIdArray = view["categoriesId"] as? [String] else {
+                    // No categories
+                    print("View has no categories Id")
+                    ref2.updateChildValues(["categoriesId":[newCategoryId]])
+                    return
+                }
+                // already has categories
+                categoriesIdArray.append(newCategoryId)
+                ref2.updateChildValues(["categoriesId":categoriesIdArray])
+            })
             
+
             
             // Just dimiss for now. Gonna save it to the database next change.
             self.dismiss(animated: true, completion: nil)
