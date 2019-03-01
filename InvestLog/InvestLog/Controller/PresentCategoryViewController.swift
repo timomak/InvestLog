@@ -208,7 +208,7 @@ class PresentCategoryViewController: UIViewController {
 //    }
     
     @objc func addButtonPressed() {
-        
+        self.present(NewSubCategoryViewController(),animated: true)
     }
     @objc func returnButtonPressed() {
         self.dismiss(animated: true)
@@ -241,7 +241,7 @@ extension PresentCategoryViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let categorySpendingController = CategorySpendingController()
+        let categorySpendingController = CategorySpendingViewController()
         categorySpendingController.currentCategory = categories[indexPath.row]
         self.present(categorySpendingController, animated: true)
     }

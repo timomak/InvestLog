@@ -21,6 +21,7 @@
 		F3347E7821F404CA004E83EE /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3347E7721F404CA004E83EE /* TableViewCell.swift */; };
 		F33DE079221E4B7F00DB50D0 /* ButtonExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33DE078221E4B7F00DB50D0 /* ButtonExtentions.swift */; };
 		F33DE07C221E4F7000DB50D0 /* background.json in Resources */ = {isa = PBXBuildFile; fileRef = F33DE07B221E4F7000DB50D0 /* background.json */; };
+		F3552CFC2228B251009A7057 /* NewSubCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3552CFB2228B251009A7057 /* NewSubCategoryViewController.swift */; };
 		F39E0466221E264D00141D8F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39E0465221E264D00141D8F /* LoginViewController.swift */; };
 		F3A7CC702220ADAC00B7F867 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7CC6F2220ADAC00B7F867 /* OnboardingViewController.swift */; };
 		F3A7CC722220B05900B7F867 /* onboarding.json in Resources */ = {isa = PBXBuildFile; fileRef = F3A7CC712220B05900B7F867 /* onboarding.json */; };
@@ -58,6 +59,7 @@
 		F3347E7721F404CA004E83EE /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		F33DE078221E4B7F00DB50D0 /* ButtonExtentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonExtentions.swift; sourceTree = "<group>"; };
 		F33DE07B221E4F7000DB50D0 /* background.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = background.json; sourceTree = "<group>"; };
+		F3552CFB2228B251009A7057 /* NewSubCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSubCategoryViewController.swift; sourceTree = "<group>"; };
 		F39E0465221E264D00141D8F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F3A7CC6F2220ADAC00B7F867 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		F3A7CC712220B05900B7F867 /* onboarding.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = onboarding.json; sourceTree = "<group>"; };
@@ -151,6 +153,9 @@
 				F305E15F221F908500FA45F0 /* FirstViewController.swift */,
 				F3A7CC732221F04C00B7F867 /* NewCategoryViewController.swift */,
 				F3347E7021F3E302004E83EE /* PresentCategoryViewController.swift */,
+				F3552CFB2228B251009A7057 /* NewSubCategoryViewController.swift */,
+				F3E8D83E21FE4BDE000A5440 /* CategorySpendingController.swift */,
+				F3E8D84021FE7E16000A5440 /* InputSpendingController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -218,8 +223,6 @@
 			isa = PBXGroup;
 			children = (
 				F3E8D83B21FC4E2A000A5440 /* oldCategoryViewController.swift */,
-				F3E8D83E21FE4BDE000A5440 /* CategorySpendingController.swift */,
-				F3E8D84021FE7E16000A5440 /* InputSpendingController.swift */,
 			);
 			path = "This Month";
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3552CFC2228B251009A7057 /* NewSubCategoryViewController.swift in Sources */,
 				F3347E5B21F3DDBF004E83EE /* MainViewController.swift in Sources */,
 				F3E8D84321FE8A5E000A5440 /* HandleData.swift in Sources */,
 				F33DE079221E4B7F00DB50D0 /* ButtonExtentions.swift in Sources */,

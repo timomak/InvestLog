@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CategorySpendingController: UIViewController {
+class CategorySpendingViewController: UIViewController {
     var currentCategory: Category = Category(name: "Error", creationDate: Date(), modificationDate: Date(), allSpending: [])
     // Creating Navbar
     private let navbar: UIView = {
@@ -64,6 +64,7 @@ class CategorySpendingController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupTableView()
+        currentCategory.allSpending = [CategorySpending(creationDate: Date(), amount: 3000)]
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -116,7 +117,7 @@ class CategorySpendingController: UIViewController {
     }
 }
 
-extension CategorySpendingController: UITableViewDataSource {
+extension CategorySpendingViewController: UITableViewDataSource {
     // Table View Rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return currentCategory.allSpending.count
@@ -156,7 +157,7 @@ extension CategorySpendingController: UITableViewDataSource {
     }
 }
 
-extension CategorySpendingController: UITableViewDelegate {
+extension CategorySpendingViewController: UITableViewDelegate {
     //     Table View Cell Styling
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
