@@ -7,9 +7,24 @@
 //
 
 import UIKit
+import Firebase
 
 class CategorySpendingViewController: UIViewController {
-    var currentCategory: Category = Category(name: "Error", creationDate: Date(), modificationDate: Date(), allSpending: [])
+    // For firebase data
+    var ref: DatabaseReference!
+    var uid: String = ""
+    var categoryId: String = ""
+    var spendingId: [String] = []
+    
+    var allSpending:[CategorySpending] = [] {
+        didSet {
+            allSpending = allSpending.sorted(by: { $0.creationDate > $1.creationDate})
+            tableView.reloadData()
+        }
+    }
+    
+//    var currentCategory: Category = Category(name: "Error", creationDate: Date(), modificationDate: Date(), allSpending: [])
+    
     // Creating Navbar
     private let navbar: UIView = {
         let navigationBar = UIView()
@@ -64,11 +79,14 @@ class CategorySpendingViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupTableView()
-        currentCategory.allSpending = [CategorySpending(creationDate: Date(), amount: 3000)]
+//        currentCategory.allSpending = [CategorySpending(creationDate: Date(), amount: 3000)]
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        getCategoryDataFrom(id: categoryId)
         tableView.reloadData()
+        
     }
     
     func setupView() {
@@ -80,7 +98,7 @@ class CategorySpendingViewController: UIViewController {
         goBackButton.anchor(top: navbar.topAnchor, leading: navbar.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 25, left: 35, bottom: 0, right: 0))
         view.addSubview(viewNavbarTitle)
         viewNavbarTitle.anchor(top: goBackButton.bottomAnchor, leading: navbar.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: -15, left: 15, bottom: 0, right: 0))
-        viewNavbarTitle.text = currentCategory.name
+//        viewNavbarTitle.text = currentCategory.name
         view.addSubview(newCategorySpendingButton)
         newCategorySpendingButton.anchor(top: navbar.topAnchor, leading: nil, bottom: nil, trailing: navbar.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 35))
     }
@@ -102,6 +120,8 @@ class CategorySpendingViewController: UIViewController {
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
     
+//    func getCategoryId
+    
     @objc func goBackButtonPressed() {
         self.dismiss(animated: true)
     }
@@ -112,15 +132,84 @@ class CategorySpendingViewController: UIViewController {
 //        tableView.reloadData()
 //        print(currentCategory.allSpending)
         let inputSpendingController = InputSpendingController()
-        inputSpendingController.currentCategory = currentCategory
+//        inputSpendingController.currentCategory = currentCategory
+        inputSpendingController.categoryId = categoryId
         self.present(inputSpendingController, animated: true)
+    }
+    
+    func getCategoryDataFrom(id: String) {
+        // Using the view id, get all the categories under that Id and load those categories.
+        uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
+        ref = Database.database().reference().child("users/\(uid)/categories/\(id)")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let viewData = snapshot.value as? [String:Any] else {
+                // TODO: Handle error
+                print("snapshot: ",snapshot.value ?? "Null")
+                
+                // Will happen if there's no categories in the view but there is a path
+                //                self.categories = []
+                
+                return
+            }
+            
+            self.viewNavbarTitle.text = viewData["name"] as? String ?? "Error"
+//            self.totalAmount = viewData["totalAmount"] as? Double ?? 0
+            //            self.categoriesId = viewData["categoriesId"] as? [String] ?? []
+            
+            let subCategoriesInfo = viewData["subCategoriesId"] as? [String] ?? []
+            if subCategoriesInfo != [] {
+                self.spendingId = subCategoriesInfo
+                // Call function to fill categories
+                self.findSubCategoriesData()
+            }
+            else {
+                self.allSpending = []
+            }
+            
+            
+        }) { (error) in
+            print("Error: ", error.localizedDescription)
+            // Will happen if there's no categories in the view because the path doesn't exist
+            // Will almost never happen.
+        }
+    }
+    
+    func findSubCategoriesData() {
+        ref = Database.database().reference().child("users/\(uid)/subCategories")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let subCategoriesData = snapshot.value as? [String:[String:Any]] else {
+                print("snapshot: ",snapshot.value ?? "Null")
+                // If not categories
+                // TODO: HAndle not having categories
+                self.allSpending = []
+                return
+            }
+            var tempAllSpending: [CategorySpending] = []
+            for (subCategoryId, subCategory) in subCategoriesData {
+                print("This should be the sub category Id:", subCategoryId)
+                for item in self.spendingId {
+                    if subCategoryId == item {
+                        var newSubCategory = CategorySpending(creationDate: Date(), amount: 0, categoryId: "", id: "")
+                        newSubCategory.creationDate = Date(timeIntervalSince1970: subCategory["creationDate"] as! Double)
+                        newSubCategory.amount = subCategory["amount"] as? Double ?? 0
+                        newSubCategory.id = subCategoryId
+                        tempAllSpending.append(newSubCategory)
+                    }
+                }
+            }
+            self.allSpending = tempAllSpending
+        }) { (error) in
+            print("Error: ", error.localizedDescription)
+            // Will happen if there's no categories in the view because the path doesn't exist
+            // Will almost never happen.
+        }
     }
 }
 
 extension CategorySpendingViewController: UITableViewDataSource {
     // Table View Rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentCategory.allSpending.count
+        return allSpending.count
     }
     
     // Table View Cells
@@ -133,13 +222,30 @@ extension CategorySpendingViewController: UITableViewDataSource {
         df.dateFormat = "MMM dd yyyy"
         
         // Set the cell label text
-        cell.name.text = df.string(from: currentCategory.allSpending[indexPath.row].creationDate)
+        cell.name.text = df.string(from: allSpending[indexPath.row].creationDate)
 //        cell.colorIndicator.backgroundColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)
-        cell.amount.text = "$" + currentCategory.allSpending[indexPath.row].amount.formattedWithSeparator
+//        cell.amount.text = "$" + allSpending[indexPath.row].amount.formattedWithSeparator
         cell.selectionStyle = .none
         cell.backgroundColor = tableView.backgroundColor
         
-        // Push your cell to the table view
+        
+        var amountValue = allSpending[indexPath.row].amount
+        
+        if amountValue > 0 {
+            cell.amount.textColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
+            cell.amount.text = "$" + amountValue.formattedWithSeparator
+        }
+        else if amountValue < 0 {
+            cell.amount.textColor = #colorLiteral(red: 1, green: 0.08736196905, blue: 0.08457560092, alpha: 1)
+            amountValue *= -1
+            cell.amount.text = "$" + amountValue.formattedWithSeparator
+        }
+        else {
+            // If there's no spending.
+            cell.amount.textColor = #colorLiteral(red: 0.8445890546, green: 0.8395691514, blue: 0.8484483361, alpha: 1)
+            cell.amount.font = UIFont(name: "AvenirNext-Medium", size: 22)
+            cell.amount.text = "Tap to add +"
+        }
         return cell
     }
     

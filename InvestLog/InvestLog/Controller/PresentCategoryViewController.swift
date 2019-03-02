@@ -21,10 +21,15 @@ class PresentCategoryViewController: UIViewController {
     // Array to supply table view
     var categories: [Category] = [] {
         didSet {
+            totalAmount = 0
             for category in categories {
-                totalAmount += category.getTotalAmount()
+                print("Category total amount", category.totalAmount)
+                totalAmount += category.totalAmount
             }
+            addAmountToViewTotal(totalAmount, viewId)
+            categories = categories.sorted { $0.name < $1.name }
             print("Number of items in categories: ", categories.count)
+            updateTableViewConstrains()
             tableView.reloadData()
         }
     }
@@ -42,7 +47,7 @@ class PresentCategoryViewController: UIViewController {
     var tableViewBackground: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 15
+        view.layer.cornerRadius = 30
         view.layer.shadowOpacity = 0.7
         view.layer.shadowRadius = 5
         view.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
@@ -113,6 +118,7 @@ class PresentCategoryViewController: UIViewController {
     // Amount String
     var totalAmount: Double = 0 {
         didSet{
+            print("total amount changed by:", totalAmount)
             if totalAmount > 0 {
                 totalAmountLabel.textColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
                 totalAmountLabel.text = "$" + totalAmount.formattedWithSeparator
@@ -128,20 +134,24 @@ class PresentCategoryViewController: UIViewController {
         }
     }
     
+    var heightAnchor:NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
         setTop()
 //        createTempData()
-        view.addSubview(tableViewBackground)
         addTableView()
+        tableViewBackgroundConstrainsts()
+        print("test")
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(true)
         print("View ID:", viewId)
         getViewDataFrom(id: viewId)
         tableView.reloadData()
+        updateTableViewConstrains()
     }
     
     func createTempData() {
@@ -173,21 +183,28 @@ class PresentCategoryViewController: UIViewController {
         labelStack.centerOfView(to: labelsBackground)
     }
     
-    func updateTableViewBackgroundConstrainsts() {
+    func tableViewBackgroundConstrainsts() {
+        print("Should be updating constrainsts. Height: ", CGFloat(70 * categories.count))
         // Set the background of the table view
-        tableViewBackground.anchor(top: tableView.topAnchor, leading: tableView.leadingAnchor, bottom: tableView.bottomAnchor, trailing: tableView.trailingAnchor, padding: .init(top: -10, left: -5, bottom: -30, right: -5))
+        tableViewBackground.anchor(top: tableView.topAnchor, leading: tableView.leadingAnchor, bottom: nil, trailing: tableView.trailingAnchor, padding: .init(top: -10, left: -5, bottom: 0, right: -5))
+        heightAnchor = tableViewBackground.heightAnchor.constraint(equalToConstant: CGFloat(70 * categories.count) + 30)
+        heightAnchor.isActive = true
         tableViewBackground.layer.cornerRadius = 30
+        tableViewBackground.layoutIfNeeded()
+        if categories.count == 0 {
+            tableViewBackground.isHidden = true
+        } else {
+            tableViewBackground.isHidden = false
+        }
     }
     
     
     func addTableView() {
         // Add to Table View to View
+        view.addSubview(tableViewBackground)
         view.addSubview(tableView)
-        
-        let cellXCount = CGFloat(70 * categories.count)
-        if cellXCount >= 70 {
-            // Table View Size
-            tableView.anchor(top: labelsBackground.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 30, left: 0, bottom: 0, right: 0), size: .init(width: view.bounds.width - 30, height: cellXCount))
+
+        tableView.anchor(top: labelsBackground.bottomAnchor, leading: nil, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 30, left: 0, bottom: 60, right: 0), size: .init(width: view.bounds.width - 30, height: 0))
             tableView.centerHorizontalOfView(to: view)
 
             
@@ -199,17 +216,23 @@ class PresentCategoryViewController: UIViewController {
             // Table View
             tableView.backgroundColor = .clear
             tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-            //        tableView.allowsSelection = false
-            //        var refreshControl = UIRefreshControl()
-            //        tableView.refreshControl = refreshControl
-            //        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
-            
-            
-            updateTableViewBackgroundConstrainsts()
-        }
-        else {
-            tableViewBackground.backgroundColor = .clear
-        }
+    }
+    
+    func addAmountToViewTotal(_ amount: Double,_ id: String) {
+        print("add ", amount, "to view total amount.")
+        uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
+        ref = Database.database().reference().child("users/\(uid)/views/\(id)")
+        var oldAmount = 0.0
+        // first get the current amount, second add to it.
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let viewData = snapshot.value as? [String:Any] else {
+                // TODO: Handle error
+                print("snapshot: ",snapshot.value ?? "Null")
+                return
+            }
+            oldAmount = viewData["totalAMount"] as? Double ?? 0
+        })
+        ref.updateChildValues(["totalAmount":amount + oldAmount])
     }
     
     func getViewDataFrom(id: String) {
@@ -237,6 +260,9 @@ class PresentCategoryViewController: UIViewController {
                 // Call function to fill categories
                 self.findCategoriesData()
             }
+            else {
+                self.categories = []
+            }
             
 
         }) { (error) in
@@ -253,6 +279,7 @@ class PresentCategoryViewController: UIViewController {
                 print("snapshot: ",snapshot.value ?? "Null")
                 // If not categories
                 // TODO: HAndle not having categories
+                self.categories = []
                 return
             }
             var tempCategories: [Category] = []
@@ -265,6 +292,8 @@ class PresentCategoryViewController: UIViewController {
                         newCategory.creationDate = Date(timeIntervalSince1970: category["creationDate"] as! Double)
                         newCategory.modificationDate = Date(timeIntervalSince1970: category["modificationDate"] as! Double)
                         newCategory.viewId = category["viewId"] as? String ?? "Error"
+                        newCategory.id = item
+                        newCategory.totalAmount = category["totalAmount"] as? Double ?? 0
                         tempCategories.append(newCategory)
                     }
                 }
@@ -277,10 +306,31 @@ class PresentCategoryViewController: UIViewController {
         }
     }
     
+    func updateTableViewConstrains() {
+////        let cellXCount = CGFloat(70 * categories.count)
+////        if cellXCount >= 70 {
+////        tableView.removeFromSuperview()
+        tableViewBackground.removeFromSuperview()
+////            addTableView()
+////        }
+        view.insertSubview(tableViewBackground, belowSubview: tableView)
+//
+//        view.removeConstraints(tableViewBackground.constraints)
+//        tableViewBackground.constraints.removeAll()
+        heightAnchor.isActive = false
+        tableViewBackgroundConstrainsts()
+//        heightAnchor = tableViewBackground.heightAnchor.constraint(equalToConstant: CGFloat(70 * categories.count))
+//        heightAnchor.isActive = true
+        tableViewBackground.layoutIfNeeded()
+    }
+    
+    
     @objc func addButtonPressed() {
         let newSubCategoryVC = NewSubCategoryViewController()
         newSubCategoryVC.viewId = viewId
         self.present(newSubCategoryVC,animated: true)
+//        print("Adding 70 to background of table view")
+//        tableViewBackground.heightAnchor
     }
     @objc func returnButtonPressed() {
         self.dismiss(animated: true)
@@ -306,23 +356,41 @@ extension PresentCategoryViewController: UITableViewDataSource {
         // Set the cell label text
         cell.name.text = categories[indexPath.row].name
 //        cell.colorIndicator.backgroundColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)
-        cell.amount.text = "$" + categories[indexPath.row].totalAmount.formattedWithSeparator
+//        cell.amount.text = "$" + categories[indexPath.row].totalAmount.formattedWithSeparator
         cell.selectionStyle = .none
         // Push your cell to the table view
+        
+        var amountValue = categories[indexPath.row].totalAmount
+        
+        if amountValue > 0 {
+            cell.amount.textColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
+            cell.amount.text = "$" + amountValue.formattedWithSeparator
+        }
+        else if amountValue < 0 {
+            cell.amount.textColor = #colorLiteral(red: 1, green: 0.08736196905, blue: 0.08457560092, alpha: 1)
+            amountValue *= -1
+            cell.amount.text = "$" + amountValue.formattedWithSeparator
+        }
+        else {
+            // If there's no spending.
+            cell.amount.textColor = #colorLiteral(red: 0.8445890546, green: 0.8395691514, blue: 0.8484483361, alpha: 1)
+            cell.amount.font = UIFont(name: "AvenirNext-Medium", size: 22)
+            cell.amount.text = "Tap me to add"
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let categorySpendingController = CategorySpendingViewController()
-        categorySpendingController.currentCategory = categories[indexPath.row]
+        categorySpendingController.categoryId = categories[indexPath.row].id
+//        categorySpendingController.currentCategory = categories[indexPath.row]
         self.present(categorySpendingController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // TODO: Handle Deletion of UserDefaults array.
+            // TODO: Handle Deletion of firebase array.
             categories.remove(at: indexPath.row)
-//            HandleData().saveTheEntireCategoryArrayToUserDefaults(categories)
             tableView.reloadData()
         }
     }

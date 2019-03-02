@@ -28,7 +28,6 @@ class FirstViewController: UIViewController {
         didSet {
             // Sorts all the views in alphabetical order.
             allViews = allViews.sorted { $0.name < $1.name }
-            
             // TODO: This has been giving sometimes errors after having added uid into func.
             collectionView.reloadData()
 
@@ -202,7 +201,7 @@ class FirstViewController: UIViewController {
     
     func noViewsInFirebase() {
         // TODO: Func to handle not having views in the database.
-        
+//        self.allViews = []
     }
 }
 
