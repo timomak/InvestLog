@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "InvestLog/Controller/FirstViewController.swift"
-            timestampString = "574709753.466316"
+            timestampString = "574724714.123305"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "338"
-            endingLineNumber = "338"
+            startingLineNumber = "347"
+            endingLineNumber = "347"
             landmarkName = "delete(category:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "InvestLog/View/MainViewCollectionViewCell.swift"
-            timestampString = "574709753.466399"
+            timestampString = "574724714.124162"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
-            landmarkName = "removeButtonPressed(_:)"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
+            landmarkName = "removeButtonPressed()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

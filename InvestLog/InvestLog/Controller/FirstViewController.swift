@@ -246,6 +246,15 @@ class FirstViewController: UIViewController {
         // TODO: Func to handle not having views in the database.
 //        self.allViews = []
     }
+    
+    @objc func deleteCurrentCell(sender:AnyObject) {
+        let id = sender.tag!
+        allViews.remove(at: id)
+        collectionView.reloadData()
+        
+        // Need to delete from firebase
+        
+    }
 }
 
 
@@ -281,11 +290,12 @@ extension FirstViewController: UICollectionViewDataSource {
             cell.amount.font = UIFont(name: "AvenirNext-Medium", size: 22)
             cell.amount.text = "Tap to add +"
         }
-        
-        // To delete items with delegate
-        cell.delegate = self
-        cell.transparentView.isUserInteractionEnabled = false
-        cell.background.isUserInteractionEnabled = false
+        cell.removeButton.tag = indexPath.row
+//        // To delete items with delegate
+//        cell.delegate = self
+//
+//        cell.transparentView.isUserInteractionEnabled = false
+//        cell.background.isUserInteractionEnabled = false
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

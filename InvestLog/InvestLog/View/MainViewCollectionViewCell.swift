@@ -66,14 +66,15 @@ class MainCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    // remove button
-    private let removeButton: UIButton = {
+// remove button
+    let removeButton: UIButton = {
         let button = UIButton()
         button.setTitle("+", for: .normal)
         button.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 60)
         button.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 4)
-        button.addTarget(self, action: #selector(removeButtonPressed), for: .touchDown)
+        button.addTarget(self, action: #selector(FirstViewController.deleteCurrentCell(sender:)), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(removeButtonPressed), for: .touchUpInside)
         return button
     }()
     
@@ -115,18 +116,11 @@ class MainCollectionViewCell: UICollectionViewCell {
         addSubview(removeButton)
         removeButton.centerOfView(to: removeWrapper)
         removeButton.isUserInteractionEnabled = true
-//        
-//        // Temp
-//        var tempView = UIView()
-//        tempView.alpha = 0.5
-//        tempView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-//        removeWrapper.addSubview(tempView)
-//        tempView.viewConstantRatio(widthToHeightRatio: 1, width: .init(width: 30, height: 30))
-//        tempView.centerOfView(to: removeWrapper)
+
         removeWrapper.isHidden = true
     }
     
-    @objc func removeButtonPressed(_ sender: Any) {
+    @objc func removeButtonPressed() {
         print("Should be deleting")
         delegate?.delete(category: self)
     }
