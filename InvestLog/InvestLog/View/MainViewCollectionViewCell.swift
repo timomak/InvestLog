@@ -8,7 +8,16 @@
 
 import UIKit
 
-class MaiCollectionViewCell: UICollectionViewCell {
+// Delegate to ViewController to delete
+protocol MainCollectionViewCellDelegate {
+    func delete(category: MainCollectionViewCell)
+}
+
+class MainCollectionViewCell: UICollectionViewCell {
+    
+    // Adding delegate
+    var delegate:MainCollectionViewCellDelegate?
+    
     var background: UIView = {
         var view = UIView()
         view.layer.borderWidth = 0
@@ -62,9 +71,9 @@ class MaiCollectionViewCell: UICollectionViewCell {
         let button = UIButton()
         button.setTitle("+", for: .normal)
         button.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
-        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 20)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 60)
         button.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 4)
-//        button.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(removeButtonPressed), for: .touchDown)
         return button
     }()
     
@@ -73,7 +82,7 @@ class MaiCollectionViewCell: UICollectionViewCell {
     var currentlyEditing = false {
         didSet{
             removeWrapper.isHidden = !currentlyEditing
-            print("Should Be hidden:", !currentlyEditing)
+//            print("Should Be hidden:", !currentlyEditing)
         }
     }
     
@@ -103,9 +112,23 @@ class MaiCollectionViewCell: UICollectionViewCell {
         removeWrapper.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 30, height: 30))
         
         removeWrapper.layer.cornerRadius = 15
-        removeWrapper.addSubview(removeButton)
+        addSubview(removeButton)
         removeButton.centerOfView(to: removeWrapper)
+        removeButton.isUserInteractionEnabled = true
+//        
+//        // Temp
+//        var tempView = UIView()
+//        tempView.alpha = 0.5
+//        tempView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+//        removeWrapper.addSubview(tempView)
+//        tempView.viewConstantRatio(widthToHeightRatio: 1, width: .init(width: 30, height: 30))
+//        tempView.centerOfView(to: removeWrapper)
         removeWrapper.isHidden = true
+    }
+    
+    @objc func removeButtonPressed(_ sender: Any) {
+        print("Should be deleting")
+        delegate?.delete(category: self)
     }
     
     

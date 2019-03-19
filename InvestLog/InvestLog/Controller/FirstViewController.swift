@@ -113,7 +113,7 @@ class FirstViewController: UIViewController {
         
         // Collection View Setup
         collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: flowLayout)
-        collectionView.register(MaiCollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
+        collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor.clear
@@ -194,7 +194,7 @@ class FirstViewController: UIViewController {
             isCurrenltyEditing = false
         }
         
-        print("Is editing:",isCurrenltyEditing)
+//        print("Is editing:",isCurrenltyEditing)
     }
     @objc func editButtonPressBegan() {
         editButton.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
@@ -257,7 +257,7 @@ extension FirstViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! MaiCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! MainCollectionViewCell
 
         cell.label.text =  allViews[indexPath.row].name
         
@@ -265,6 +265,7 @@ extension FirstViewController: UICollectionViewDataSource {
         cell.currentlyEditing = isCurrenltyEditing
         
         var amountValue = allViews[indexPath.row].totalAmount
+        
         if amountValue > 0 {
             cell.amount.textColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
             cell.amount.text = "$" + amountValue.formattedWithSeparator
@@ -280,17 +281,23 @@ extension FirstViewController: UICollectionViewDataSource {
             cell.amount.font = UIFont(name: "AvenirNext-Medium", size: 22)
             cell.amount.text = "Tap to add +"
         }
+        
+        // To delete items with delegate
+        cell.delegate = self
+        cell.transparentView.isUserInteractionEnabled = false
+        cell.background.isUserInteractionEnabled = false
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Cell Pressed")
-        
-        let viewId = allViews[indexPath.row].id
-//        getCategoriesFromId(id: viewId)
-        
-        self.dismiss(animated: true)
-        // MARK: Delegate transition
-        delegate?.openPresentCategoriesVC(id: viewId)
+        if isCurrenltyEditing == false {
+            let viewId = allViews[indexPath.row].id
+    //        getCategoriesFromId(id: viewId)
+            
+            self.dismiss(animated: true)
+            // MARK: Delegate transition
+            delegate?.openPresentCategoriesVC(id: viewId)
+        }
     }
 }
 
@@ -317,6 +324,25 @@ extension FirstViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         // Middle spacing
         return 3.0
+    }
+    
+    
+}
+
+// Extention to remove cells
+extension FirstViewController: MainCollectionViewCellDelegate {
+    func delete(category: MainCollectionViewCell) {
+        // Find current indexPath
+        if let indexPath = collectionView.indexPath(for: category) {
+            // 1. remove model from memory
+            allViews.remove(at: indexPath.row)
+            
+            // 2. remove cell from view
+            collectionView.deleteItems(at: [indexPath])
+            
+            // 3. remove from firebase
+            
+        }
     }
     
     
