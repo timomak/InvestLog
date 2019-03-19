@@ -23,6 +23,15 @@ class FirstViewController: UIViewController {
     var ref: DatabaseReference!
     var uid: String = ""
     
+    // State
+    private var isCurrenltyEditing = false {
+        didSet {
+                // TODO: Add remove label on collection view cell.
+                print("Button pressed. Reloading layout.")
+                collectionView.reloadData()
+        }
+    }
+    
     // Collection view list
     var allViews = [Views]() {
         didSet {
@@ -79,6 +88,18 @@ class FirstViewController: UIViewController {
         return button
     }()
     
+    // Edit button
+    private let editButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Edit", for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.9645629525, green: 0.9588286281, blue: 0.9689704776, alpha: 1), for: .normal)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 25)
+        button.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(editButtonPressed), for: .touchDragExit)
+        button.addTarget(self, action: #selector(editButtonPressBegan), for: .touchDown)
+        return button
+    }()
+    
     var collectionView: UICollectionView!
     var flowLayout = UICollectionViewFlowLayout()
     
@@ -130,6 +151,7 @@ class FirstViewController: UIViewController {
         view.addSubview(viewNavbarTitle)
         view.addSubview(addNewButton)
         view.addSubview(settingsButton)
+        view.addSubview(editButton)
         
         
         // Navbar Size
@@ -145,16 +167,37 @@ class FirstViewController: UIViewController {
         
         // Button Size
         settingsButton.anchor(top: addNewButton.topAnchor, leading: nil, bottom: addNewButton.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 20))
+        
+        // Button Size
+        editButton.anchor(top: addNewButton.topAnchor, leading: view.leadingAnchor, bottom: addNewButton.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 20, bottom: 0, right: 0))
     }
     func addCollectionView() {
         collectionView.anchor(top: navbar.bottomAnchor, leading: view.leadingAnchor, bottom: addNewButton.topAnchor, trailing: view.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 10, right: 0))
     }
     
+    // There are two functions per button because I like to slitghtly animate them while they're selected.
+    
     @objc func settingsButtonPressed() {
+        settingsButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
         self.present(SettingsView(), animated: true)
     }
     @objc func settingsButtonPressBegan() {
-        settingsButton.setTitleColor(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), for: .normal)
+        settingsButton.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
+    }
+    
+    @objc func editButtonPressed() {
+//        self.present(SettingsView(), animated: true)
+        editButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        if isCurrenltyEditing == false {
+            isCurrenltyEditing = true
+        } else {
+            isCurrenltyEditing = false
+        }
+        
+        print("Is editing:",isCurrenltyEditing)
+    }
+    @objc func editButtonPressBegan() {
+        editButton.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
     }
     
     @objc func newCategoryButtonPressed() {
@@ -217,6 +260,10 @@ extension FirstViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! MaiCollectionViewCell
 
         cell.label.text =  allViews[indexPath.row].name
+        
+        // Should hide or show the remove button
+        cell.currentlyEditing = isCurrenltyEditing
+        
         var amountValue = allViews[indexPath.row].totalAmount
         if amountValue > 0 {
             cell.amount.textColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
@@ -233,8 +280,6 @@ extension FirstViewController: UICollectionViewDataSource {
             cell.amount.font = UIFont(name: "AvenirNext-Medium", size: 22)
             cell.amount.text = "Tap to add +"
         }
-        
-        //        cell.backgroundColor =  #colorLiteral(red: 1, green: 0.3644781709, blue: 1, alpha: 1)
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

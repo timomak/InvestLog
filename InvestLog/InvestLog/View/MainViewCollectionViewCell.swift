@@ -33,13 +33,7 @@ class MaiCollectionViewCell: UICollectionViewCell {
         title.isScrollEnabled = false
         return title
     }()
-    
-//    var colorIndicator: UIView = {
-//        var view = UIView()
-//        view.backgroundColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)
-//        view.layer.cornerRadius = 10
-//        return view
-//    }()
+
     
     var amount: UITextView = {
         var title = UITextView()
@@ -53,22 +47,50 @@ class MaiCollectionViewCell: UICollectionViewCell {
         title.isSelectable = false
         return title
     }()
+    
+    var removeWrapper: UIView = {
+        var view = UIView()
+        view.backgroundColor = #colorLiteral(red: 1, green: 0.52366817, blue: 0.4613674879, alpha: 1)
+        view.layer.shadowOpacity = 0.7
+        view.layer.shadowRadius = 5
+        view.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
+        return view
+    }()
+    
+    // remove button
+    private let removeButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("+", for: .normal)
+        button.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 20)
+        button.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 4)
+//        button.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    
+    var stack = UIStackView()
+    
+    var currentlyEditing = false {
+        didSet{
+            removeWrapper.isHidden = !currentlyEditing
+            print("Should Be hidden:", !currentlyEditing)
+        }
+    }
+    
     // Weird discovery: When you tap on the labels, the taps aren't registered by the cell. I had to put a transparent UIView on top of the cell to make everything work.
+    
     var transparentView = UIView()
-//    var tempView = UIView()
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        tempView.backgroundColor = UIColor.random
-//        addSubview(tempView)
-//        tempView.fillSuperview()
         setUpLayout()
     }
     
     func setUpLayout() {
         addSubview(background)
+        background.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         background.anchor(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0))
         
-        let stack = UIStackView(arrangedSubviews: [label,amount])
+        stack = UIStackView(arrangedSubviews: [label,amount])
         stack.axis = .vertical
         stack.spacing = -10
         
@@ -77,7 +99,15 @@ class MaiCollectionViewCell: UICollectionViewCell {
         addSubview(transparentView)
         transparentView.anchorSize(to: self)
         transparentView.centerOfView(to: self)
+        addSubview(removeWrapper)
+        removeWrapper.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 30, height: 30))
+        
+        removeWrapper.layer.cornerRadius = 15
+        removeWrapper.addSubview(removeButton)
+        removeButton.centerOfView(to: removeWrapper)
+        removeWrapper.isHidden = true
     }
+    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
