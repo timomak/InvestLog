@@ -390,6 +390,31 @@ extension PresentCategoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // TODO: Handle Deletion of firebase array.
+            
+            let categoryId = categoriesId[indexPath.row]
+            let ref = Database.database().reference().child("users/\(self.uid)/categories/\(categoryId)/subCategoriesId")
+            ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                guard let subCategoriesId = snapshot.value as? [String] else {
+                    print("snapshot:",snapshot.value!)
+                    return
+                }
+                
+                for subCategoryId in subCategoriesId {
+                    // Do the same thing with sub categories within categories and delete them one by one.
+                    let subCategoryToDelete = Database.database().reference().child("users/\(self.uid)/subCategories/\(subCategoryId)")
+                    subCategoryToDelete.removeValue { error, _ in
+                        print(error ?? "Error didn't occur")
+                    } // Removing all sub categoires within category
+                }
+                // Need to delete categories here (end of its loop)
+                Database.database().reference().child("users/\(self.uid)/categories/\(categoryId)").removeValue { error, _ in
+                    print(error ?? "Error didn't occur")
+                }
+            })
+            
+
+            
+            
             categories.remove(at: indexPath.row)
             tableView.reloadData()
         }

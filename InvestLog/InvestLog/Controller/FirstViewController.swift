@@ -274,18 +274,17 @@ class FirstViewController: UIViewController {
                             print(error ?? "Error")
                         } // Removing all sub categoires within category
                     }
+                    // Need to delete categories here (end of its loop)
+                    Database.database().reference().child("users/\(self.uid)/categories/\(categoryId)").removeValue { error, _ in
+                        print(error ?? "Error")
+                    }
                 })
-                // Need to delete categories here (end of its loop)
-                Database.database().reference().child("users/\(self.uid)/categories/\(categoryId)").removeValue { error, _ in
-                    print(error ?? "Error")
-                }
-                
+            }
+            // Need to delete the View here (after having deleted everything inside it.
+            Database.database().reference().child("users/\(self.uid)/views/\(viewId)").removeValue { error, _ in
+                print(error ?? "Error")
             }
         })
-        // Need to delete the View here (after having deleted everything inside it.
-        Database.database().reference().child("users/\(uid)/views/\(viewId)").removeValue { error, _ in
-            print(error ?? "Error")
-        }
         
         allViews.remove(at: id)
         collectionView.reloadData()
