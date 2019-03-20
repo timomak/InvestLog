@@ -8,15 +8,8 @@
 
 import UIKit
 
-// Delegate to ViewController to delete
-protocol MainCollectionViewCellDelegate {
-    func delete(category: MainCollectionViewCell)
-}
 
 class MainCollectionViewCell: UICollectionViewCell {
-    
-    // Adding delegate
-    var delegate:MainCollectionViewCellDelegate?
     
     var background: UIView = {
         var view = UIView()
@@ -71,10 +64,9 @@ class MainCollectionViewCell: UICollectionViewCell {
         let button = UIButton()
         button.setTitle("+", for: .normal)
         button.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
-        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 60)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 40)
         button.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 4)
         button.addTarget(self, action: #selector(FirstViewController.deleteCurrentCell(sender:)), for: .touchUpInside)
-//        button.addTarget(self, action: #selector(removeButtonPressed), for: .touchUpInside)
         return button
     }()
     
@@ -83,7 +75,6 @@ class MainCollectionViewCell: UICollectionViewCell {
     var currentlyEditing = false {
         didSet{
             removeWrapper.isHidden = !currentlyEditing
-//            print("Should Be hidden:", !currentlyEditing)
         }
     }
     
@@ -113,18 +104,12 @@ class MainCollectionViewCell: UICollectionViewCell {
         removeWrapper.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 30, height: 30))
         
         removeWrapper.layer.cornerRadius = 15
-        addSubview(removeButton)
+        removeWrapper.addSubview(removeButton)
         removeButton.centerOfView(to: removeWrapper)
         removeButton.isUserInteractionEnabled = true
 
         removeWrapper.isHidden = true
     }
-    
-    @objc func removeButtonPressed() {
-        print("Should be deleting")
-        delegate?.delete(category: self)
-    }
-    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

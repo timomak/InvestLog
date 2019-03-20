@@ -249,11 +249,46 @@ class FirstViewController: UIViewController {
     
     @objc func deleteCurrentCell(sender:AnyObject) {
         let id = sender.tag!
+        let viewId = allViews[id].id
+        // Need to delete from firebase
+        // 1. Find View in firebase
+        
+        ref = Database.database().reference().child("users/\(uid)/views/\(viewId)/categoriesId")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let categoriesId = snapshot.value as? [String] else {
+                print("snapshot:",snapshot.value!)
+                return
+            }
+            for categoryId in categoriesId {
+                // Do the same search thing within here for all categories within view
+                let ref2 = Database.database().reference().child("users/\(self.uid)/categories/\(categoryId)/subCategoriesId")
+                ref2.observeSingleEvent(of: .value, with: { (snapshot) in
+                    guard let subCategoriesId = snapshot.value as? [String] else {
+                        print("snapshot:",snapshot.value!)
+                        return
+                    }
+                    for subCategoryId in subCategoriesId {
+                        // Do the same thing with sub categories within categories and delete them one by one.
+                        let subCategoryToDelete = Database.database().reference().child("users/\(self.uid)/subCategories/\(subCategoryId)")
+                        subCategoryToDelete.removeValue { error, _ in
+                            print(error ?? "Error")
+                        } // Removing all sub categoires within category
+                    }
+                })
+                // Need to delete categories here (end of its loop)
+                Database.database().reference().child("users/\(self.uid)/categories/\(categoryId)").removeValue { error, _ in
+                    print(error ?? "Error")
+                }
+                
+            }
+        })
+        // Need to delete the View here (after having deleted everything inside it.
+        Database.database().reference().child("users/\(uid)/views/\(viewId)").removeValue { error, _ in
+            print(error ?? "Error")
+        }
+        
         allViews.remove(at: id)
         collectionView.reloadData()
-        
-        // Need to delete from firebase
-        
     }
 }
 
@@ -291,11 +326,6 @@ extension FirstViewController: UICollectionViewDataSource {
             cell.amount.text = "Tap to add +"
         }
         cell.removeButton.tag = indexPath.row
-//        // To delete items with delegate
-//        cell.delegate = self
-//
-//        cell.transparentView.isUserInteractionEnabled = false
-//        cell.background.isUserInteractionEnabled = false
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -339,21 +369,3 @@ extension FirstViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
-// Extention to remove cells
-extension FirstViewController: MainCollectionViewCellDelegate {
-    func delete(category: MainCollectionViewCell) {
-        // Find current indexPath
-        if let indexPath = collectionView.indexPath(for: category) {
-            // 1. remove model from memory
-            allViews.remove(at: indexPath.row)
-            
-            // 2. remove cell from view
-            collectionView.deleteItems(at: [indexPath])
-            
-            // 3. remove from firebase
-            
-        }
-    }
-    
-    
-}
