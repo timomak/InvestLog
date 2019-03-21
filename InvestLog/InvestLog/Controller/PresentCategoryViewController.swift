@@ -38,7 +38,7 @@ class PresentCategoryViewController: UIViewController {
     private let cellId = "cellId"
     
     // Delegate to switch views
-    var delegate: OpenFirstVC?
+    var delegate: VCHandler?
     
     
     // Creating table view

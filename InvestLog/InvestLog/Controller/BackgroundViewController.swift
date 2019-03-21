@@ -13,12 +13,13 @@ import Lottie
  I know this is weird, but hear me out :)! I'm making this controller to always be in the background playing, no matter what view you're on!
  */
 
-protocol OpenFirstVC: class {
+protocol VCHandler: class {
     func openFirstVC()
     func openPresentCategoriesVC(id:String)
+    func goBackToLogIn()
 }
 
-class BackgroundViewController: UIViewController, OpenFirstVC {
+class BackgroundViewController: UIViewController, VCHandler {
     // Animation view
     let background = LOTAnimationView(name: "background")
     var firstTime = true
@@ -50,6 +51,12 @@ class BackgroundViewController: UIViewController, OpenFirstVC {
             firstTime = false
             self.present(loginVC, animated: false)
     }
+    
+    func goBackToLogIn() {
+        loginVC.modalPresentationStyle = .overFullScreen
+        self.present(loginVC, animated: true)
+    }
+    
     func openFirstVC() {
         mainVC.findUserData()
         mainVC.modalPresentationStyle = .overFullScreen

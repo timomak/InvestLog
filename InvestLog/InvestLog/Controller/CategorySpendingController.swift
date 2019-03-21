@@ -258,7 +258,49 @@ extension CategorySpendingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // TODO: Handle Deletion of UserDefaults array.
+            let spendingId = allSpending[indexPath.row].id
+            let spendingAmount = allSpending[indexPath.row].amount
+            let ref = Database.database().reference().child("users/\(self.uid)/subCategories/\(spendingId)")
             
+            // Update category total.
+            let ref2 = Database.database().reference().child("users/\(self.uid)/categories/\(self.categoryId)/totalAmount")
+            ref2.observeSingleEvent(of: .value, with: { (snapshot) in
+                guard var totalCategoryAmount = snapshot.value as? Double else {
+                    print("snapshot:",snapshot.value!)
+                    return
+                }
+                totalCategoryAmount -= spendingAmount
+                let ref3 = Database.database().reference().child("users/\(self.uid)/categories/\(self.categoryId)")
+                ref3.updateChildValues(["totalAmount":totalCategoryAmount])
+                
+                let ref4 = Database.database().reference().child("users/\(self.uid)/categories/\(self.categoryId)/subCategoriesId")
+                ref4.observeSingleEvent(of: .value, with: { (snapshot) in
+                    guard var subCategoriesId = snapshot.value as? [String] else {
+                        print("snapshot:",snapshot.value!)
+                        return
+                    }
+                    var newSpendingArray: [String] = []
+                    for id in subCategoriesId {
+                        if id != spendingId {
+                            newSpendingArray.append(id)
+                        }
+                    }
+                    // Updating array without this one.
+                    ref4.updateChildValues(["subCategoriesId":newSpendingArray])
+                })
+
+                
+                // Need to delete categories here (end of its loop)
+                ref.removeValue { error, _ in
+                    print(error ?? "Error didn't occur")
+                    
+                }
+            })
+            
+
+
+            allSpending.remove(at: indexPath.row)
+            tableView.reloadData()
         }
     }
 }

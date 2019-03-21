@@ -19,7 +19,7 @@ This View Controller handles Log in / Sign up / Google log in and getting DATABA
 */
 class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextFieldDelegate {
     
-    var delegate: OpenFirstVC?
+    var delegate: VCHandler?
     // Textfield for email
     private let emailTextField: UITextField = {
         var textField = UITextField()

@@ -147,6 +147,7 @@
 		F3347E6A21F3DF26004E83EE /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F3347E7221F3EE57004E83EE /* SettingsView.swift */,
 				F3A7CC75222200AE00B7F867 /* BackgroundViewController.swift */,
 				F39E0465221E264D00141D8F /* LoginViewController.swift */,
 				F3A7CC6F2220ADAC00B7F867 /* OnboardingViewController.swift */,
@@ -210,7 +211,6 @@
 		F39E0464221E260100141D8F /* Old View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				F3347E7221F3EE57004E83EE /* SettingsView.swift */,
 				F3E8D83D21FE4BAA000A5440 /* This Month */,
 				F3347E5A21F3DDBF004E83EE /* MainViewController.swift */,
 				F3F6660621FA7A13007DC903 /* MainCollectionviewController.swift */,

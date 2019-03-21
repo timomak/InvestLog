@@ -17,7 +17,7 @@ This controller handles displaying all the categories. And also shows default op
 
 class FirstViewController: UIViewController {
     // To present next view with categories
-    var delegate: OpenFirstVC?
+    var delegate: VCHandler?
     
     // For Firebase
     var ref: DatabaseReference!
@@ -68,7 +68,7 @@ class FirstViewController: UIViewController {
     private let settingsButton: UIButton = {
         let button = UIButton()
         button.setTitle("Settings", for: .normal)
-        button.setTitleColor(#colorLiteral(red: 0.9645629525, green: 0.9588286281, blue: 0.9689704776, alpha: 1), for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 25)
         button.addTarget(self, action: #selector(settingsButtonPressed), for: .touchUpInside)
         button.addTarget(self, action: #selector(settingsButtonPressed), for: .touchDragExit)
@@ -92,7 +92,7 @@ class FirstViewController: UIViewController {
     private let editButton: UIButton = {
         let button = UIButton()
         button.setTitle("Edit", for: .normal)
-        button.setTitleColor(#colorLiteral(red: 0.9645629525, green: 0.9588286281, blue: 0.9689704776, alpha: 1), for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 25)
         button.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
         button.addTarget(self, action: #selector(editButtonPressed), for: .touchDragExit)
@@ -178,26 +178,30 @@ class FirstViewController: UIViewController {
     // There are two functions per button because I like to slitghtly animate them while they're selected.
     
     @objc func settingsButtonPressed() {
-        settingsButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        settingsButton.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
         self.present(SettingsView(), animated: true)
     }
     @objc func settingsButtonPressBegan() {
-        settingsButton.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
+        settingsButton.setTitleColor(#colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1), for: .normal)
     }
     
     @objc func editButtonPressed() {
 //        self.present(SettingsView(), animated: true)
-        editButton.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        
         if isCurrenltyEditing == false {
             isCurrenltyEditing = true
+            editButton.setTitle("Done", for: .normal)
+            editButton.setTitleColor(#colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1), for: .normal)
         } else {
             isCurrenltyEditing = false
+            editButton.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
+            editButton.setTitle("Edit", for: .normal)
         }
         
 //        print("Is editing:",isCurrenltyEditing)
     }
     @objc func editButtonPressBegan() {
-        editButton.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
+        editButton.setTitleColor(#colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1), for: .normal)
     }
     
     @objc func newCategoryButtonPressed() {
@@ -257,6 +261,9 @@ class FirstViewController: UIViewController {
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             guard let categoriesId = snapshot.value as? [String] else {
                 print("snapshot:",snapshot.value!)
+                // Probably empty
+                // Need to delete the View here (after having deleted everything inside it.
+                Database.database().reference().child("users/\(self.uid)/views/\(viewId)").removeValue()
                 return
             }
             for categoryId in categoriesId {
