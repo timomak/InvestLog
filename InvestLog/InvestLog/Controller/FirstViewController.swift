@@ -161,6 +161,10 @@ class FirstViewController: UIViewController {
         viewNavbarTitle.anchor(top: navbar.topAnchor, leading: navbar.leadingAnchor, bottom: navbar.bottomAnchor, trailing: nil, padding: .init(top: 45, left: 20, bottom: 5, right: 0))
         viewNavbarTitle.text = (Auth.auth().currentUser?.displayName) ?? "Welcome"
         
+        if viewNavbarTitle.text != "Welcome" {
+            viewNavbarTitle.font = UIFont(name: "AvenirNext-Medium", size: 40)
+        }
+        
         // Button constrains
         addNewButton.anchor(top: nil, leading: nil, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 10, right: 0))
         addNewButton.centerHorizontalOfView(to: view)
@@ -179,7 +183,9 @@ class FirstViewController: UIViewController {
     
     @objc func settingsButtonPressed() {
         settingsButton.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
-        self.present(SettingsView(), animated: true)
+        var settingsVC = SettingsView()
+        settingsVC.mainVC = self
+        self.present(settingsVC, animated: true)
     }
     @objc func settingsButtonPressBegan() {
         settingsButton.setTitleColor(#colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1), for: .normal)
@@ -295,6 +301,12 @@ class FirstViewController: UIViewController {
         
         allViews.remove(at: id)
         collectionView.reloadData()
+    }
+    
+    func dismissSelf() {
+        self.dismiss(animated: true, completion: {
+            self.delegate?.goBackToLogIn()
+        })
     }
 }
 

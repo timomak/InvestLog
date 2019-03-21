@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class SettingsView: UIViewController {
     
@@ -66,6 +67,8 @@ class SettingsView: UIViewController {
     
     // Delegate
     var delegate: VCHandler?
+    
+    var mainVC: FirstViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -149,12 +152,20 @@ extension SettingsView: UITableViewDataSource {
         if indexPath.row == 0 {
             // Handle Sign out
             // 1. Delete email and password data
-//            UserDefaults.standard.set("", forKey: "userData")
-//            UserDefaults.standard.synchronize()
-//
+            UserDefaults.standard.set("", forKey: "userData")
+            UserDefaults.standard.synchronize()
+            
+            let firebaseAuth = Auth.auth()
+            do {
+                try firebaseAuth.signOut()
+            }
+            catch let signOutError as NSError {
+                print ("Error signing out: %@", signOutError)
+            }
+            
             // 2. Go to Log in page
-//            self.dismiss(animated: true)
-            delegate?.goBackToLogIn()
+            self.dismiss(animated: true)
+            mainVC!.dismissSelf()
         }
     }
 }

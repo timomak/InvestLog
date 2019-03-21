@@ -405,6 +405,17 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
     
     @objc func googleButtonPressed() {
         googleButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        
+        logInButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        logoImage.loopAnimation = true
+        
+        // After the animation finshed last loop.
+        logoImage.play { (finished) in
+            if self.canLoadNextView == true {
+                self.moveToNextView()
+            }
+        }
+        
         // Configure Google Sign In
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().delegate = self
@@ -443,10 +454,11 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
             self.saveUserID(self.uid!)
             print("user successfully signed in through GOOGLE! uid:\(String(describing: Auth.auth().currentUser!.email))")
             
-            //            self.readPropertiesFromDatabase()
+            self.isSignedIn = true
             
-            // Logins automatically after sign in.
-            //            self.loadNextView()
+            print("User Logged in.")
+            
+            self.loadNextView()
         }
     }
     
