@@ -254,7 +254,17 @@ class FirstViewController: UIViewController {
     
     func noViewsInFirebase() {
         // TODO: Func to handle not having views in the database.
-//        self.allViews = []
+        //        self.allViews = []
+        // 1. Add mock data to user's categories
+        if allViews.count == 0 {
+            let randomArray = ["Groceries", "Jobs","Borrow","Investments"]
+            let mockView = Views(name: randomArray.randomElement()!, totalAmount: 0, categories: [])
+            
+            let uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]!
+            let ref = Database.database().reference().child("users/\(uid)/views").childByAutoId()
+            ref.setValue(mockView.getDictionary())
+            findUserData()
+        }
     }
     
     @objc func deleteCurrentCell(sender:AnyObject) {

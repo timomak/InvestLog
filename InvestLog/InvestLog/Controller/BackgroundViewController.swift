@@ -8,6 +8,7 @@
 
 import UIKit
 import Lottie
+//import FirebaseDatabase
 
 /*
  I know this is weird, but hear me out :)! I'm making this controller to always be in the background playing, no matter what view you're on!
@@ -47,9 +48,19 @@ class BackgroundViewController: UIViewController, VCHandler {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        if UserDefaults.standard.integer(forKey: "numberOfUses") > 0 {
             loginVC.modalPresentationStyle = .overFullScreen
             firstTime = false
             self.present(loginVC, animated: false)
+        } else {
+            // Onboarding handle.
+
+            // Present onboarding VC
+            loginVC.modalPresentationStyle = .overFullScreen
+            firstTime = false
+            self.present(loginVC, animated: false)
+            loginVC.present(OnboardingViewController(), animated: true)
+        }
     }
     
     func goBackToLogIn() {
