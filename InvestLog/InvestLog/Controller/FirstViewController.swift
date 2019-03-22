@@ -126,10 +126,8 @@ class FirstViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        print("checking data")
+        // Check for user data.
         findUserData()
-        print("Views: ", allViews)
-        
     }
     
     
@@ -253,10 +251,10 @@ class FirstViewController: UIViewController {
     }
     
     func noViewsInFirebase() {
-        // TODO: Func to handle not having views in the database.
-        //        self.allViews = []
-        // 1. Add mock data to user's categories
-        if allViews.count == 0 {
+        // Func to handle not having views in the database.
+        
+        // Check if dummy data is needed
+        if UserDefaults.standard.bool(forKey: "NeedsDummyData") != true {
             let randomArray = ["Groceries", "Jobs","Borrow","Investments"]
             let mockView = Views(name: randomArray.randomElement()!, totalAmount: 0, categories: [])
             
@@ -265,6 +263,9 @@ class FirstViewController: UIViewController {
             ref.setValue(mockView.getDictionary())
             findUserData()
         }
+        UserDefaults.standard.set(true, forKey: "NeedsDummyData")
+        UserDefaults.standard.synchronize()
+        
     }
     
     @objc func deleteCurrentCell(sender:AnyObject) {

@@ -411,6 +411,8 @@ extension PresentCategoryViewController: UITableViewDataSource {
                     print(error ?? "Error didn't occur")
                 }
             })
+            // Need to delete categories here (end of its loop)
+            Database.database().reference().child("users/\(self.uid)/categories/\(categoryId)").removeValue()
             
 
             

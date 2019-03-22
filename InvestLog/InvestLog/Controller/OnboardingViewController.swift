@@ -100,7 +100,7 @@ class OnboardingViewController: UIViewController {
     
     let arrayOfInformation = [
         ["Welcome To InvestLog","InvestLog is an App made by Timofey Makhlay to help people track their finances manually and efficiently."],
-        ["Multiply your Freedom","You decide how to organize you spending. Never again worry if you have enough money or depend on apps to do it for you, often incorrecly."],
+        ["Multiply your Freedom","You decide how to organize your spending. Never again worry if you have enough money or depend on apps to do it for you, often incorrectly."],
         ["Create Categories","You can create categories and sub-categories within to organize your spending."],
         ["Grow your Wealth","Track, Learn and Grow. Enjoy your experience!\nIf you encounter issues please email:\ntmakhlay2@gmail.com"]
     ]
