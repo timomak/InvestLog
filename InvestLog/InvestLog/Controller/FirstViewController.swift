@@ -395,6 +395,5 @@ extension FirstViewController: UICollectionViewDelegateFlowLayout {
         return 3.0
     }
     
-    
 }
 
