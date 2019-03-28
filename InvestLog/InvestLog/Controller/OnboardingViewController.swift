@@ -42,6 +42,7 @@ class OnboardingViewController: UIViewController {
         control.currentPage = 0
         control.numberOfPages = 4
         control.pageIndicatorTintColor = #colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1)
+        control.currentPageIndicatorTintColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
         return control
     }()
     
@@ -99,6 +100,9 @@ class OnboardingViewController: UIViewController {
         return title
     }()
     
+    // Constant to set font size relative for device.
+    let relativeFontConstant:CGFloat = 0.03
+    
     let arrayOfInformation = [
         ["Welcome To InvestLog","InvestLog is an App made by Timofey Makhlay to help people track their finances manually and efficiently."],
         ["Multiply your Freedom","You decide how to organize your spending. Never again worry if you have enough money or depend on apps to do it for you, often incorrectly."],
@@ -106,22 +110,22 @@ class OnboardingViewController: UIViewController {
         ["Grow your Wealth","Track, Learn and Grow. Enjoy your experience!\nIf you encounter issues please email:\ntmakhlay2@gmail.com"]
     ]
     
-    // Constant to set font size relative for device.
-    let relativeFontConstant:CGFloat = 0.04
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Set each label's font size relative to the screen size
         let textLabels = [bodyText, headerText]
+        
         let buttons = [returnButton, nextPageButton, prevPageButton]
+        
         for label in textLabels {
-            // Set each label's font size relative to the screen size
             label.font = label.font!.withSize(self.view.frame.height * relativeFontConstant)
         }
         
         for button in buttons {
             button.titleLabel?.font = button.titleLabel?.font.withSize(self.view.frame.height * relativeFontConstant)
         }
+        // UI Setup
         setupView()
     }
     
@@ -137,59 +141,74 @@ class OnboardingViewController: UIViewController {
         view.addSubview(bodyText)
         view.addSubview(returnButton)
         
-        
-        
+        // Background Animation setup
         background.fillSuperview()
         background.contentMode = .scaleAspectFit
         background.loopAnimation = true
         background.play()
         
-//        animationView.anchor(top: view.topAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: (view.bounds.width - 100) / 1.3, height: (view.bounds.width - 90) / 1.3))
-//        animationView.centerHorizontalOfView(to: view)
-//
-        animationView.snp.makeConstraints { (make) in
-            make.left.right.equalToSuperview()
-            make.top.equalToSuperview().inset(10)
-            make.height.equalTo(view).inset(view.bounds.height / 4)
-        }
-        
-        returnButton.snp.makeConstraints { (make) in
-            make.top.left.equalTo(view.safeAreaLayoutGuide).offset(15)
-        }
-        
+        // Stack for page control
         let stackControl =  UIStackView(arrangedSubviews: [prevPageButton,pageControl,nextPageButton])
         stackControl.axis = .horizontal
         stackControl.distribution = .fillEqually
-        
         view.addSubview(stackControl)
-//        returnButton.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 40, left: 15, bottom: 0, right: 0))
-//
+        
+        returnButton.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.left.equalTo(view.safeAreaLayoutGuide).offset(10)
+        }
+        
+        animationView.snp.makeConstraints { (make) in
+            make.top.equalTo(returnButton).inset(view.bounds.height / 20)
+            make.height.equalTo((view.bounds.width) / 1.6)
+            make.width.equalTo(animationView.snp.height)
+            make.centerX.equalToSuperview()
+        }
+        
+        stackControl.snp.makeConstraints { (make) in
+            make.left.bottom.right.equalTo(view.safeAreaLayoutGuide)
+        }
 
-//        stackControl.anchor(top: nil, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 10, bottom: 10, right: 10))
-//
-//        textContainer.anchor(top: animationView.bottomAnchor, leading: view.leadingAnchor, bottom: stackControl.topAnchor, trailing: view.trailingAnchor, padding: .init(top: 30, left: 30, bottom: 80, right: 40))
-//
+        textContainer.snp.makeConstraints { (make) in
+            make.top.equalTo(animationView.snp.bottom).offset(view.bounds.width / 12)
+            make.left.equalToSuperview().offset(view.bounds.width / 12)
+            make.right.equalToSuperview().inset(view.bounds.width / 12)
+            make.bottom.equalTo(stackControl.snp.top).offset((view.bounds.width / 12) * -1)
+        }
+        
+        headerText.snp.makeConstraints { (make) in
+            make.top.equalTo(textContainer.snp.top).offset(5)
+            make.centerX.equalTo(textContainer)
+        }
+        
+        bodyText.snp.makeConstraints { (make) in
+            make.top.equalTo(headerText.snp.bottom).offset(5)
+            make.centerX.equalTo(headerText)
+            make.left.right.equalTo(textContainer)
+        }
+
 //        headerText.anchor(top: textContainer.topAnchor, leading: textContainer.leadingAnchor, bottom: nil, trailing: textContainer.trailingAnchor, padding: .init(top: 20, left: 0, bottom: 0, right: 0))
 //
 //        bodyText.anchor(top: headerText.bottomAnchor, leading: textContainer.leadingAnchor, bottom: nil, trailing: textContainer.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0))
 //
         updateText()
     }
+}
+
+// Non-Ui related code.
+extension OnboardingViewController {
     
     @objc func nextPageButtonPressed() {
         if pageControl.currentPage != 3 {
+            
             pageControl.currentPage += 1
+            
             if animationTime == 0 {
                 animationTime += 0.5
             }
             else {
                 animationTime += 0.25
             }
-//            if animationTime == 1 {
-//                // TODO: Next view
-//                // TODO: Change text to done right before last "Next"
-//
-//            }
             
             headerText.text = arrayOfInformation[pageControl.currentPage][0]
             bodyText.text = arrayOfInformation[pageControl.currentPage][1]
