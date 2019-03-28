@@ -26,20 +26,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         
         // Override point for customization after application launch.
-        let initialViewController  = OnboardingViewController()
+        let initialViewController  = BackgroundViewController()
         window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.rootViewController = initialViewController
         self.window?.makeKeyAndVisible()
         
         // Check name of fonts
-        //        for family: String in UIFont.familyNames
-        //        {
-        //            print("\(family)")
-        //            for names: String in UIFont.fontNames(forFamilyName: family)
-        //            {
-        //                print("== \(names)")
-        //            }
-        //        }
+//        for family: String in UIFont.familyNames
+//        {
+//            print("\(family)")
+//            for names: String in UIFont.fontNames(forFamilyName: family)
+//            {
+//                print("== \(names)")
+//            }
+//        }
         return true
     }
     

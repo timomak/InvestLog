@@ -15,10 +15,17 @@ import SnapKit
 This is only going to be shown the first time the user opens the app. Onboarding...
 */
 class OnboardingViewController: UIViewController {
+    
+    // Remembers where the animation stopped.
     var animationTime = 0.0
+    
+    // Icons animation
     let animationView = LOTAnimationView(name: "onboarding")
+    
+    // Background animation
     let background = LOTAnimationView(name: "background")
     
+    // Next page button
     let nextPageButton: UIButton = {
         let button = UIButton()
         button.setTitle("NEXT", for: .normal)
@@ -28,6 +35,7 @@ class OnboardingViewController: UIViewController {
         return button
     }()
     
+    // Previous page button
     let prevPageButton: UIButton = {
         let button = UIButton()
         button.setTitle("PREV", for: .normal)
@@ -37,6 +45,7 @@ class OnboardingViewController: UIViewController {
         return button
     }()
     
+    // Page Control
     let pageControl: UIPageControl = {
         let control = UIPageControl()
         control.currentPage = 0
@@ -52,7 +61,6 @@ class OnboardingViewController: UIViewController {
         button.setTitle("Skip", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 20)
-//        button.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 4)
         button.addTarget(self, action: #selector(returnButtonPressed), for: .touchUpInside)
         return button
     }()
@@ -186,11 +194,8 @@ class OnboardingViewController: UIViewController {
             make.centerX.equalTo(headerText)
             make.left.right.equalTo(textContainer)
         }
-
-//        headerText.anchor(top: textContainer.topAnchor, leading: textContainer.leadingAnchor, bottom: nil, trailing: textContainer.trailingAnchor, padding: .init(top: 20, left: 0, bottom: 0, right: 0))
-//
-//        bodyText.anchor(top: headerText.bottomAnchor, leading: textContainer.leadingAnchor, bottom: nil, trailing: textContainer.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0))
-//
+        
+        // Set the text once set up.
         updateText()
     }
 }
@@ -198,6 +203,7 @@ class OnboardingViewController: UIViewController {
 // Non-Ui related code.
 extension OnboardingViewController {
     
+    // Next slide
     @objc func nextPageButtonPressed() {
         if pageControl.currentPage != 3 {
             
@@ -224,6 +230,7 @@ extension OnboardingViewController {
         }
     }
     
+    // Previous slide
     @objc func prevPageButtonPressed() {
         if pageControl.currentPage != 0 {
             pageControl.currentPage -= 1
@@ -249,6 +256,7 @@ extension OnboardingViewController {
         }
     }
     
+    // Update the text as the page changes
     func updateText() {
         if pageControl.currentPage == 0 {
             headerText.text = arrayOfInformation[0][0]
@@ -256,6 +264,7 @@ extension OnboardingViewController {
         }
     }
     
+    // Return to log in page
     @objc func returnButtonPressed() {
         self.dismiss(animated: true)
     }

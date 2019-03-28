@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import GoogleSignIn
 import Lottie
+import SnapKit
 
 // TODO: Auth at https://firebase.google.com/docs/auth/ios/password-auth
 // TODO: Add image at top.
@@ -19,7 +20,9 @@ This View Controller handles Log in / Sign up / Google log in and getting DATABA
 */
 class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextFieldDelegate {
     
+    // Handles transitions by the BackgroundViewController
     var delegate: VCHandler?
+    
     // Textfield for email
     private let emailTextField: UITextField = {
         var textField = UITextField()
@@ -128,13 +131,10 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         return view
     }()
     
-    // Logo Image
-    //    let logoImage: UIImageView = {
-    //        var newImage = UIImageView()
-    //        newImage.image = #imageLiteral(resourceName: "InvestLog-icon-withoutBackground")
-    //        return newImage
-    //    }()
+    // Logo Animation
     let logoImage = LOTAnimationView(name: "loading")
+    
+    // Checks if the next view can be presented.
     var canLoadNextView = false
     
     
@@ -153,9 +153,17 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         return title
     }()
     
+    // Error text
+    var errorText: String = "" {
+        didSet {
+            errorLabel.isHidden = false
+            errorLabel.text = errorText
+            logoImage.loopAnimation = false
+        }
+    }
     
-    // Lottie animation
-//    let backgroundAnimation =  LOTAnimationView(name: "background")
+    // Constant to set font size relative for device.
+    let relativeFontConstant:CGFloat = 0.036
     
     // Stuff for firebase
     var ref: DatabaseReference!
@@ -167,6 +175,18 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
+        // Set each label's font size relative to the screen size
+        let textLabels = [emailTextField, passwordTextField, confirmPasswordTextField]
+        
+        let buttons = [googleButton, logInButton]
+        
+        for label in textLabels {
+            label.font = label.font!.withSize(self.view.frame.height * relativeFontConstant)
+        }
+        
+        for button in buttons {
+            button.titleLabel?.font = button.titleLabel?.font.withSize(self.view.frame.height * relativeFontConstant)
+        }
         addViewComponents()
     }
     
@@ -193,7 +213,6 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         view.backgroundColor = UIColor.clear
         
         // Adding all Subviews
-//        view.addSubview(backgroundAnimation)
         view.addSubview(googleButton)
         view.addSubview(logInButton)
         view.addSubview(inputContainer)
@@ -204,43 +223,52 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         view.addSubview(logoImage)
         view.addSubview(errorLabel)
         
-//        // Animation settings
-//        backgroundAnimation.fillSuperview()
-//        backgroundAnimation.loopAnimation = true
-//        backgroundAnimation.contentMode = .scaleAspectFit
-//        backgroundAnimation.play()
-        
         logoImage.contentMode = .scaleAspectFit
         
-        // All constraints:
+        logoContainer.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(view.bounds.width / 3)
+            make.height.equalTo(logoContainer.snp.width)
+        }
+        logoContainer.layer.cornerRadius = (view.bounds.width / 3) / 2
         
-        // Google button
-        googleButton.anchor(top: nil, leading: nil, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 60, right: 0), size: .init(width: view.bounds.width - 60, height: 0))
-        googleButton.centerHorizontalOfView(to: view)
+        logoImage.snp.makeConstraints { (make) in
+            make.centerX.centerY.equalTo(logoContainer)
+            make.height.equalTo(logoContainer).offset(-4)
+            make.width.equalTo(logoImage.snp.height)
+        }
         
-        // Login Button
-        logInButton.anchor(top: nil, leading: nil, bottom: googleButton.topAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 30, right: 0), size: .init(width: view.bounds.width - 60, height: 0))
-        logInButton.centerHorizontalOfView(to: view)
+        googleButton.snp.makeConstraints { (make) in
+            make.width.equalTo(view.bounds.width / 1.12)
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset((view.bounds.width / 12) * -1)
+        }
         
-        // Input container
-        inputContainer.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: logInButton.topAnchor, trailing: view.trailingAnchor, padding: .init(top: 200, left: 30, bottom: 30, right: 30))
+        logInButton.snp.makeConstraints { (make) in
+            make.width.equalTo(googleButton.snp.width)
+            make.centerX.equalTo(googleButton.snp.centerX)
+            make.bottom.equalTo(googleButton.snp.top).offset((view.bounds.width / 20) * -1)
+        }
         
-        // Logo
-        logoContainer.anchor(top: nil, leading: nil, bottom: inputContainer.topAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 15, right: 0))
-        logoContainer.viewConstantRatio(widthToHeightRatio: 1, width: .init(width: 126, height: 0))
-        logoContainer.centerHorizontalOfView(to: view)
-        
-        logoImage.anchor(top: logoContainer.topAnchor, leading: logoContainer.leadingAnchor, bottom: logoContainer.bottomAnchor, trailing: logoContainer.trailingAnchor, padding: .init(top: 3, left: 3, bottom: 3, right: 3))
+        inputContainer.snp.makeConstraints { (make) in
+            make.top.equalTo(logoContainer.snp.bottom).offset(10)
+            make.left.equalToSuperview().offset(view.bounds.width / 12)
+            make.right.equalToSuperview().offset((view.bounds.width / 12) * -1)
+            make.bottom.equalTo(logInButton.snp.top).offset((view.bounds.width / 12) * -1)
+        }
         
         // Inputs
         let inputStack = UIStackView(arrangedSubviews: [emailTextField,passwordTextField,confirmPasswordTextField])
-        inputStack.spacing = 40
+        inputStack.spacing = view.bounds.width / 10
         inputStack.distribution = .fillEqually
         inputStack.axis = .vertical
         view.addSubview(inputStack)
-        
-        
-        inputStack.anchor(top: inputContainer.topAnchor, leading: inputContainer.leadingAnchor, bottom: inputContainer.bottomAnchor, trailing: inputContainer.trailingAnchor, padding: .init(top: 60, left: 10, bottom: 60, right: 10))
+
+        inputStack.snp.makeConstraints { (make) in
+            make.top.left.equalTo(inputContainer).offset(15)
+            make.right.bottom.equalTo(inputContainer).offset(-15)
+        }
         
         emailTextField.delegate = self
         passwordTextField.delegate = self
@@ -252,26 +280,39 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
             underline.backgroundColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
             view.addSubview(underline)
             if i == 0 {
-                underline.anchor(top: emailTextField.bottomAnchor, leading: inputStack.leadingAnchor, bottom: nil, trailing: inputStack.trailingAnchor,padding: .init(top: -10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 3))
+                underline.snp.makeConstraints { (make) in
+                    make.top.equalTo(emailTextField.snp.bottom).offset(-15)
+                    make.left.equalTo(emailTextField)
+                    make.right.equalTo(emailTextField)
+                    make.height.equalTo(3)
+                }
             }
             else if i == 1 {
-                underline.anchor(top: passwordTextField.bottomAnchor, leading: inputStack.leadingAnchor, bottom: nil, trailing: inputStack.trailingAnchor,padding: .init(top: -10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 3))
+                underline.snp.makeConstraints { (make) in
+                    make.top.equalTo(passwordTextField.snp.bottom).offset(-15)
+                    make.left.equalTo(passwordTextField)
+                    make.right.equalTo(passwordTextField)
+                    make.height.equalTo(3)
+                }
             }
             else if i == 2 {
-                underline.anchor(top: confirmPasswordTextField.bottomAnchor, leading: inputStack.leadingAnchor, bottom: nil, trailing: inputStack.trailingAnchor,padding: .init(top: -10, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 3))
+                underline.snp.makeConstraints { (make) in
+                    make.top.equalTo(confirmPasswordTextField.snp.bottom).offset(-15)
+                    make.left.equalTo(confirmPasswordTextField)
+                    make.right.equalTo(confirmPasswordTextField)
+                    make.height.equalTo(3)
+                }
             }
         }
         
-        // Error label
-        errorLabel.anchor(top: inputContainer.topAnchor, leading: inputContainer.leadingAnchor, bottom: emailTextField.topAnchor, trailing: inputContainer.trailingAnchor, padding: .init(top: 3, left: 0, bottom: 0, right: 0))
-    }
-    var errorText: String = "" {
-        didSet {
-            errorLabel.isHidden = false
-            errorLabel.text = errorText
-            logoImage.loopAnimation = false
+        errorLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(inputContainer.snp.top).offset(3)
+            make.left.right.equalToSuperview()
         }
     }
+}
+
+extension LoginViewController {
     
     func arePasswordsMatching() -> Bool {
         if passwordTextField.text == "" || emailTextField.text == "" || confirmPasswordTextField.text == "" {
@@ -375,7 +416,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
     func moveToNextView() {
         print("Animation Finished")
         // Next view. Choose between onboarding or continue
-    
+        
         // TODO: Get data from Firebase for user!
         saveUserID(uid!)
         if self.isSignedIn == true {
