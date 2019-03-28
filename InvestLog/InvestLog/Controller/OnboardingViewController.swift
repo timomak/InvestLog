@@ -8,6 +8,7 @@
 
 import UIKit
 import Lottie
+import SnapKit
 
 // TODO: Watch tutorial and use scrolling animation.
 /*
@@ -22,7 +23,7 @@ class OnboardingViewController: UIViewController {
         let button = UIButton()
         button.setTitle("NEXT", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
-         button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 23)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 23)
         button.addTarget(self, action: #selector(nextPageButtonPressed), for: .touchDown)
         return button
     }()
@@ -31,7 +32,7 @@ class OnboardingViewController: UIViewController {
         let button = UIButton()
         button.setTitle("PREV", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
-         button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 23)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 23)
         button.addTarget(self, action: #selector(prevPageButtonPressed), for: .touchDown)
         return button
     }()
@@ -48,7 +49,7 @@ class OnboardingViewController: UIViewController {
     private let returnButton: UIButton = {
         let button = UIButton()
         button.setTitle("Skip", for: .normal)
-        button.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 20)
 //        button.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 4)
         button.addTarget(self, action: #selector(returnButtonPressed), for: .touchUpInside)
@@ -58,7 +59,7 @@ class OnboardingViewController: UIViewController {
     // Text Container
     let textContainer: UIView = {
         let view = UIView()
-        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.9426227212, green: 0.9370191097, blue: 0.9469299912, alpha: 1)
         view.layer.cornerRadius = 30
         view.layer.shadowOpacity = 0.7
         view.layer.shadowRadius = 5
@@ -105,8 +106,26 @@ class OnboardingViewController: UIViewController {
         ["Grow your Wealth","Track, Learn and Grow. Enjoy your experience!\nIf you encounter issues please email:\ntmakhlay2@gmail.com"]
     ]
     
+    // Constant to set font size relative for device.
+    let relativeFontConstant:CGFloat = 0.04
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        let textLabels = [bodyText, headerText]
+        let buttons = [returnButton, nextPageButton, prevPageButton]
+        for label in textLabels {
+            // Set each label's font size relative to the screen size
+            label.font = label.font!.withSize(self.view.frame.height * relativeFontConstant)
+        }
+        
+        for button in buttons {
+            button.titleLabel?.font = button.titleLabel?.font.withSize(self.view.frame.height * relativeFontConstant)
+        }
+        setupView()
+    }
+    
+    func setupView() {
         view.backgroundColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
         view.addSubview(background)
         view.addSubview(animationView)
@@ -117,7 +136,7 @@ class OnboardingViewController: UIViewController {
         view.addSubview(headerText)
         view.addSubview(bodyText)
         view.addSubview(returnButton)
-
+        
         
         
         background.fillSuperview()
@@ -125,39 +144,35 @@ class OnboardingViewController: UIViewController {
         background.loopAnimation = true
         background.play()
         
-        animationView.anchor(top: view.topAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: (view.bounds.width - 100) / 1.3, height: (view.bounds.width - 90) / 1.3))
-        animationView.centerHorizontalOfView(to: view)
+//        animationView.anchor(top: view.topAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 100, left: 0, bottom: 0, right: 0), size: .init(width: (view.bounds.width - 100) / 1.3, height: (view.bounds.width - 90) / 1.3))
+//        animationView.centerHorizontalOfView(to: view)
+//
+        animationView.snp.makeConstraints { (make) in
+            make.left.right.equalToSuperview()
+            make.top.equalToSuperview().inset(10)
+            make.height.equalTo(view).inset(view.bounds.height / 4)
+        }
         
-        returnButton.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 40, left: 15, bottom: 0, right: 0))
+        returnButton.snp.makeConstraints { (make) in
+            make.top.left.equalTo(view.safeAreaLayoutGuide).offset(15)
+        }
         
         let stackControl =  UIStackView(arrangedSubviews: [prevPageButton,pageControl,nextPageButton])
         stackControl.axis = .horizontal
         stackControl.distribution = .fillEqually
         
         view.addSubview(stackControl)
-        stackControl.anchor(top: nil, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 10, bottom: 10, right: 10))
-        
-        textContainer.anchor(top: animationView.bottomAnchor, leading: view.leadingAnchor, bottom: stackControl.topAnchor, trailing: view.trailingAnchor, padding: .init(top: 30, left: 30, bottom: 80, right: 40))
-        
-        headerText.anchor(top: textContainer.topAnchor, leading: textContainer.leadingAnchor, bottom: nil, trailing: textContainer.trailingAnchor, padding: .init(top: 20, left: 0, bottom: 0, right: 0))
-
-        bodyText.anchor(top: headerText.bottomAnchor, leading: textContainer.leadingAnchor, bottom: nil, trailing: textContainer.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0))
-       
-        
-//        let style = NSMutableParagraphStyle()
-//        style.lineSpacing = 50
-//        let attributes = [NSAttributedString.Key.paragraphStyle : style]
-//        bodyText.attributedText = NSAttributedString(string: "", attributes: attributes)
-        
-//        bodyText.attributedText
-//        let textStack =  UIStackView(arrangedSubviews: [headerText,bodyText])
-//        textStack.axis = .vertical
-//        textStack.spacing = 0
-//        textStack.distribution = .fillProportionally
+//        returnButton.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 40, left: 15, bottom: 0, right: 0))
 //
-//        view.addSubview(textStack)
-//        textStack.anchor(top: nil, leading: textContainer.leadingAnchor, bottom: nil, trailing: textContainer.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0))
-//        textStack.centerVerticalOfView(to: textContainer)
+
+//        stackControl.anchor(top: nil, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 10, bottom: 10, right: 10))
+//
+//        textContainer.anchor(top: animationView.bottomAnchor, leading: view.leadingAnchor, bottom: stackControl.topAnchor, trailing: view.trailingAnchor, padding: .init(top: 30, left: 30, bottom: 80, right: 40))
+//
+//        headerText.anchor(top: textContainer.topAnchor, leading: textContainer.leadingAnchor, bottom: nil, trailing: textContainer.trailingAnchor, padding: .init(top: 20, left: 0, bottom: 0, right: 0))
+//
+//        bodyText.anchor(top: headerText.bottomAnchor, leading: textContainer.leadingAnchor, bottom: nil, trailing: textContainer.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0))
+//
         updateText()
     }
     

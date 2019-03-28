@@ -85,6 +85,7 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - SnapKit (4.2.0)
 
 DEPENDENCIES:
   - Firebase/Auth
@@ -92,6 +93,7 @@ DEPENDENCIES:
   - Firebase/Database
   - GoogleSignIn
   - lottie-ios
+  - SnapKit (~> 4.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -111,6 +113,7 @@ SPEC REPOS:
     - leveldb-library
     - lottie-ios
     - nanopb
+    - SnapKit
 
 SPEC CHECKSUMS:
   Firebase: 6691d47562a780c26281ce8464518faafc90c610
@@ -129,7 +132,8 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
 
-PODFILE CHECKSUM: 1139c214782657844de1477d2fbbb8f3fd7a038c
+PODFILE CHECKSUM: d02a41ea81fa5d05579f330afdfe5ea40d2f1d2e
 
 COCOAPODS: 1.5.3
