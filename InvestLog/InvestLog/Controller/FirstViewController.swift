@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseDatabase
 import GoogleSignIn
 import Lottie
 
@@ -43,26 +43,26 @@ class FirstViewController: UIViewController {
         }
     }
     
-    // Creating Navbar
-    private let navbar: UIView = {
-        let navigationBar = UIView()
-        navigationBar.alpha = 0
-        return navigationBar
-    }()
-    
-    // Addting title to Navbar
-    let viewNavbarTitle: UITextView = {
-        var title = UITextView()
-        title.text = "Welcome"
-        title.font = UIFont(name: "AvenirNext-Medium", size: 60)
-        title.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        title.backgroundColor = nil
-        title.textAlignment = .center
-        title.isEditable = false
-        title.isScrollEnabled = false
-        title.isSelectable = false
-        return title
-    }()
+//    // Creating Navbar
+//    private let navbar: UIView = {
+//        let navigationBar = UIView()
+//        navigationBar.alpha = 0
+//        return navigationBar
+//    }()
+//    
+//    // Addting title to Navbar
+//    let viewNavbarTitle: UITextView = {
+//        var title = UITextView()
+//        title.text = "Categories"
+//        title.font = UIFont(name: "AvenirNext-Medium", size: 60)
+//        title.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+//        title.backgroundColor = nil
+//        title.textAlignment = .center
+//        title.isEditable = false
+//        title.isScrollEnabled = false
+//        title.isSelectable = false
+//        return title
+//    }()
     
     // Adding Button To Navbar
     private let settingsButton: UIButton = {
@@ -102,23 +102,34 @@ class FirstViewController: UIViewController {
     
     var collectionView: UICollectionView!
     var flowLayout = UICollectionViewFlowLayout()
-    
-    let handle = FirebaseHandle()
+        
+    // Constant to set font size relative for device.
+    let relativeFontConstant:CGFloat = 0.036
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.clear
         uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
+        
+        // Set each label's font size relative to the screen size
+        let buttons = [settingsButton, editButton]
+                
+        for button in buttons {
+            button.titleLabel?.font = button.titleLabel?.font.withSize(self.view.frame.height * relativeFontConstant)
+        }
+        
+        
         addCustomNavbar()
         
         // Collection View Setup
         collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: flowLayout)
+        collectionView.register(TopCollectionViewCell.self, forCellWithReuseIdentifier: "TopCell")
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = UIColor.clear
         collectionView.contentOffset = .zero
-        view.addSubview(collectionView)
+        view.insertSubview(collectionView, belowSubview: addNewButton)
         
         addCollectionView()
 //        createAllViewsStructs()
@@ -128,6 +139,7 @@ class FirstViewController: UIViewController {
         super.viewWillAppear(true)
         // Check for user data.
         findUserData()
+//        createAllViewsStructs()
     }
     
     
@@ -135,53 +147,200 @@ class FirstViewController: UIViewController {
 //        let thisMonth = Views(name: "This Month", totalAmount: 2578.00, categories: [])
 //        allViews.append(thisMonth)
 //
-//        let borrow = Views(name: "Borrow", totalAmount: -50.00, categories: [])
+//        let borrow = Views(name: "Borrow", totalAmount: -525044.00, categories: [])
 //        allViews.append(borrow)
 //
-//        let bank = Views(name: "Banks", totalAmount: 525044.00, categories: [])
+//        let bank = Views(name: "Banks", totalAmount: 0.00, categories: [])
 //        allViews.append(bank)
+//        let bank1 = Views(name: "Banks", totalAmount: 0.00, categories: [])
+//        allViews.append(bank1)
+//        let bank2 = Views(name: "Banks", totalAmount: 0.00, categories: [])
+//        allViews.append(bank2)
+//        let bank3 = Views(name: "Banks", totalAmount: 0.00, categories: [])
+//        allViews.append(bank3)
+//        let bank4 = Views(name: "Banks", totalAmount: 0.00, categories: [])
+//        allViews.append(bank4)
+//        let bank5 = Views(name: "Banks", totalAmount: 0.00, categories: [])
+//        allViews.append(bank5)
+//        let bank6 = Views(name: "Banks", totalAmount: 0.00, categories: [])
+//        allViews.append(bank6)
 //
-//        print(allViews)
+////        print(allViews)
 //    }
     
     func addCustomNavbar() {
-        view.addSubview(navbar)
-        view.addSubview(viewNavbarTitle)
-        view.addSubview(addNewButton)
-        view.addSubview(settingsButton)
-        view.addSubview(editButton)
+//        view.addSubview(navbar)
+//        view.addSubview(viewNavbarTitle)
+//        view.addSubview(addNewButton)
+//        view.addSubview(settingsButton)
+//        view.addSubview(editButton)
         
+        print("View bounds:",view.bounds)
+        let buttonStack = UIStackView(arrangedSubviews: [editButton, addNewButton, settingsButton])
+        buttonStack.axis = .horizontal
+        buttonStack.distribution = .equalCentering
         
-        // Navbar Size
-        navbar.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, size: .init(width: view.bounds.width, height: 130))
+        view.insertSubview(buttonStack, at: 0)
         
-        // Title Size
-        viewNavbarTitle.anchor(top: navbar.topAnchor, leading: navbar.leadingAnchor, bottom: navbar.bottomAnchor, trailing: nil, padding: .init(top: 45, left: 20, bottom: 5, right: 0))
-        viewNavbarTitle.text = (Auth.auth().currentUser?.displayName) ?? "Welcome"
-        
-        if viewNavbarTitle.text != "Welcome" {
-            viewNavbarTitle.font = UIFont(name: "AvenirNext-Medium", size: 40)
+        buttonStack.snp.makeConstraints { (make) in
+            make.left.equalTo(view).offset(10)
+            make.right.equalTo(view).offset(-10)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(view.bounds.height / 14)
         }
         
-        // Button constrains
-        addNewButton.anchor(top: nil, leading: nil, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 10, right: 0))
-        addNewButton.centerHorizontalOfView(to: view)
+        let buttonBackground = UIView()
+        buttonBackground.backgroundColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
+        buttonBackground.alpha = 0.6
+//        buttonBackground.layer.borderWidth = 1
+//        buttonBackground.layer.borderColor = #colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1)
         
-        // Button Size
-        settingsButton.anchor(top: addNewButton.topAnchor, leading: nil, bottom: addNewButton.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 20))
+        view.insertSubview(buttonBackground, belowSubview: buttonStack)
+        buttonBackground.snp.makeConstraints { (make) in
+            make.left.right.bottom.equalToSuperview()
+            make.top.equalTo(buttonStack.snp.top)
+        }
         
-        // Button Size
-        editButton.anchor(top: addNewButton.topAnchor, leading: view.leadingAnchor, bottom: addNewButton.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 20, bottom: 0, right: 0))
+//        navbar.snp.makeConstraints { (make) in
+//            make.left.right.top.equalTo(view)
+//            make.height.equalTo(view.bounds.height / 7)
+//        }
+//        navbar.alpha = 1
+//        navbar.backgroundColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
+//
+//        viewNavbarTitle.snp.makeConstraints { (make) in
+//            make.left.equalTo(view.safeAreaLayoutGuide).offset(15)
+//            make.centerY.equalTo(navbar)
+//        }
+        
+        
+//        // Navbar Size
+//        navbar.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, size: .init(width: view.bounds.width, height: 130))
+//
+//        // Title Size
+//        viewNavbarTitle.anchor(top: navbar.topAnchor, leading: navbar.leadingAnchor, bottom: navbar.bottomAnchor, trailing: nil, padding: .init(top: 45, left: 20, bottom: 5, right: 0))
+//        viewNavbarTitle.text = (Auth.auth().currentUser?.displayName) ?? "Welcome"
+//
+//        if viewNavbarTitle.text != "Welcome" {
+//            viewNavbarTitle.font = UIFont(name: "AvenirNext-Medium", size: 40)
+//        }
+//
+//        // Button constrains
+//        addNewButton.anchor(top: nil, leading: nil, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 0, bottom: 10, right: 0))
+//        addNewButton.centerHorizontalOfView(to: view)
+//
+//        // Button Size
+//        settingsButton.anchor(top: addNewButton.topAnchor, leading: nil, bottom: addNewButton.bottomAnchor, trailing: view.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 20))
+//
+//        // Button Size
+//        editButton.anchor(top: addNewButton.topAnchor, leading: view.leadingAnchor, bottom: addNewButton.bottomAnchor, trailing: nil, padding: .init(top: 0, left: 20, bottom: 0, right: 0))
     }
     func addCollectionView() {
-        collectionView.anchor(top: navbar.bottomAnchor, leading: view.leadingAnchor, bottom: addNewButton.topAnchor, trailing: view.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 10, right: 0))
+//        collectionView.anchor(top: navbar.bottomAnchor, leading: view.leadingAnchor, bottom: addNewButton.topAnchor, trailing: view.trailingAnchor, padding: .init(top: 10, left: 0, bottom: 10, right: 0))
+        
+        collectionView.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(-1 * (view.bounds.height / 20))
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(addNewButton.snp.top)
+        }
+    }
+}
+
+
+extension FirstViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return allViews.count + 1
     }
     
-    // There are two functions per button because I like to slitghtly animate them while they're selected.
     
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+    {
+        if indexPath.row == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TopCell", for: indexPath) as! TopCollectionViewCell
+            return cell
+        }
+        else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! MainCollectionViewCell
+            
+            cell.label.text =  allViews[indexPath.row - 1].name
+            
+            // Should hide or show the remove button
+            cell.currentlyEditing = isCurrenltyEditing
+            
+            var amountValue = allViews[indexPath.row - 1].totalAmount
+            
+            if amountValue > 0 {
+                cell.amount.textColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
+                cell.amount.text = "$" + amountValue.formattedWithSeparator
+            }
+            else if amountValue < 0 {
+                cell.amount.textColor = #colorLiteral(red: 1, green: 0.08736196905, blue: 0.08457560092, alpha: 1)
+                amountValue *= -1
+                cell.amount.text = "$" + amountValue.formattedWithSeparator
+            }
+            else {
+                // If there's no spending.
+                cell.amount.textColor = #colorLiteral(red: 0.8445890546, green: 0.8395691514, blue: 0.8484483361, alpha: 1)
+                cell.amount.font = UIFont(name: "AvenirNext-Medium", size: 22)
+                cell.amount.text = "Tap to add +"
+            }
+            cell.removeButton.tag = indexPath.row - 1
+            return cell
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Cell Pressed")
+        if isCurrenltyEditing == false {
+             if indexPath.row > 0 {
+                let viewId = allViews[indexPath.row - 1].id
+        //        getCategoriesFromId(id: viewId)
+                
+                self.dismiss(animated: true)
+                // MARK: Delegate transition
+                delegate?.openPresentCategoriesVC(id: viewId)
+            }
+        }
+    }
+}
+
+
+
+extension FirstViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if indexPath.row > 0 {
+            return CGSize(width: (collectionView.bounds.size.width / 2) - 13, height: 150)
+        }
+        else {
+            return CGSize(width: view.bounds.size.width, height: view.bounds.size.height / 14)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets
+    {
+        return UIEdgeInsets(top: 5, left: 5, bottom: 0, right: 5)
+    }
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        // Vertical Spacing
+        return 20.0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        // Middle spacing
+        return 3.0
+    }
+    
+}
+
+extension FirstViewController {
+    // There are two functions per button because I like to slitghtly animate them while they're selected.
     @objc func settingsButtonPressed() {
         settingsButton.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
-        var settingsVC = SettingsView()
+        let settingsVC = SettingsView()
         settingsVC.mainVC = self
         self.present(settingsVC, animated: true)
     }
@@ -190,19 +349,19 @@ class FirstViewController: UIViewController {
     }
     
     @objc func editButtonPressed() {
-//        self.present(SettingsView(), animated: true)
+        //        self.present(SettingsView(), animated: true)
         
         if isCurrenltyEditing == false {
             isCurrenltyEditing = true
-            editButton.setTitle("Done", for: .normal)
-            editButton.setTitleColor(#colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1), for: .normal)
+//            editButton.setTitle("Done", for: .normal)
+            editButton.setTitleColor(#colorLiteral(red: 1, green: 0.08736196905, blue: 0.08457560092, alpha: 1), for: .normal)
         } else {
             isCurrenltyEditing = false
             editButton.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
-            editButton.setTitle("Edit", for: .normal)
+//            editButton.setTitle("Edit", for: .normal)
         }
         
-//        print("Is editing:",isCurrenltyEditing)
+        //        print("Is editing:",isCurrenltyEditing)
     }
     @objc func editButtonPressBegan() {
         editButton.setTitleColor(#colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1), for: .normal)
@@ -218,7 +377,7 @@ class FirstViewController: UIViewController {
     }
     
     func findUserData() {
-//        uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
+        //        uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
         ref = Database.database().reference().child("users/\(uid)/views")
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             guard let value = snapshot.value as? [String: [String:Any]] else {
@@ -320,80 +479,3 @@ class FirstViewController: UIViewController {
         })
     }
 }
-
-
-extension FirstViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return allViews.count
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
-    {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! MainCollectionViewCell
-
-        cell.label.text =  allViews[indexPath.row].name
-        
-        // Should hide or show the remove button
-        cell.currentlyEditing = isCurrenltyEditing
-        
-        var amountValue = allViews[indexPath.row].totalAmount
-        
-        if amountValue > 0 {
-            cell.amount.textColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
-            cell.amount.text = "$" + amountValue.formattedWithSeparator
-        }
-        else if amountValue < 0 {
-            cell.amount.textColor = #colorLiteral(red: 1, green: 0.08736196905, blue: 0.08457560092, alpha: 1)
-            amountValue *= -1
-            cell.amount.text = "$" + amountValue.formattedWithSeparator
-        }
-        else {
-            // If there's no spending.
-            cell.amount.textColor = #colorLiteral(red: 0.8445890546, green: 0.8395691514, blue: 0.8484483361, alpha: 1)
-            cell.amount.font = UIFont(name: "AvenirNext-Medium", size: 22)
-            cell.amount.text = "Tap to add +"
-        }
-        cell.removeButton.tag = indexPath.row
-        return cell
-    }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Cell Pressed")
-        if isCurrenltyEditing == false {
-            let viewId = allViews[indexPath.row].id
-    //        getCategoriesFromId(id: viewId)
-            
-            self.dismiss(animated: true)
-            // MARK: Delegate transition
-            delegate?.openPresentCategoriesVC(id: viewId)
-        }
-    }
-}
-
-extension FirstViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        //        print(CGSize(width: (view.frame.width / 2) - 5, height: (view.frame.height / 5)))
-        return CGSize(width: (collectionView.bounds.size.width / 2) - 13, height: 150)
-        //        return CGSize(width: 160, height: 150)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets
-    {
-        return UIEdgeInsets(top: 5, left: 5, bottom: 0, right: 5)
-    }
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        // Vertical Spacing
-        return 20.0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        // Middle spacing
-        return 3.0
-    } 
-    
-}
-

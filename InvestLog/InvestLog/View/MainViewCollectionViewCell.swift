@@ -81,9 +81,20 @@ class MainCollectionViewCell: UICollectionViewCell {
     // Weird discovery: When you tap on the labels, the taps aren't registered by the cell. I had to put a transparent UIView on top of the cell to make everything work.
     
     var transparentView = UIView()
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpLayout()
+        // Constant to set font size relative for device.
+        let relativeFontConstant:CGFloat = 0.036
+        
+        let textLabels = [label, amount]
+        
+        
+        for label in textLabels {
+            label.font = label.font!.withSize(UIScreen.main.bounds.height * relativeFontConstant)
+        }
     }
     
     func setUpLayout() {

@@ -7,10 +7,11 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseDatabase
 import GoogleSignIn
 import Lottie
 import SnapKit
+import FirebaseAuth
 
 // TODO: Auth at https://firebase.google.com/docs/auth/ios/password-auth
 // TODO: Add image at top.

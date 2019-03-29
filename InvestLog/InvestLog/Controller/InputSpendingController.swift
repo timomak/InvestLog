@@ -8,7 +8,7 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseDatabase
 
 class InputSpendingController: UIViewController, UITextFieldDelegate {
     // For firebase data
