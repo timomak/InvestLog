@@ -121,9 +121,11 @@ class MainCollectionViewCell: UICollectionViewCell {
         transparentView.anchorSize(to: self)
         transparentView.centerOfView(to: self)
         addSubview(removeWrapper)
-        removeWrapper.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 30, height: 30))
         
-        removeWrapper.layer.cornerRadius = 15
+        
+        removeWrapper.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: -6, left: -6, bottom: 0, right: 0), size: .init(width: UIScreen.main.bounds.width / 14, height: UIScreen.main.bounds.width / 14))
+        
+        removeWrapper.layer.cornerRadius = UIScreen.main.bounds.width / 28
         removeWrapper.addSubview(removeButton)
         removeButton.centerOfView(to: removeWrapper)
         removeButton.isUserInteractionEnabled = true
