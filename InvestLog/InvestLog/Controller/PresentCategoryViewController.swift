@@ -142,7 +142,7 @@ class PresentCategoryViewController: UIViewController {
         view.backgroundColor = .clear
         
         // Constant to set font size relative for device.
-        let relativeFontConstant:CGFloat = 0.036
+        let relativeFontConstant:CGFloat = 0.032
         
         // Set each label's font size relative to the screen size
         let textLabels = [viewNameLabel, totalAmountLabel]
