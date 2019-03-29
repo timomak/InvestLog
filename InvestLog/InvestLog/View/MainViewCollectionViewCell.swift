@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 
 class MainCollectionViewCell: UICollectionViewCell {
@@ -19,14 +20,14 @@ class MainCollectionViewCell: UICollectionViewCell {
         view.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
         view.layer.borderColor = #colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1)
         view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        view.layer.cornerRadius = 50
+        view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
         return view
     }()
     // Addting title to Navbar
     let label: UITextView = {
         var title = UITextView()
         title.text = "This month"
-        title.font = UIFont(name: "AvenirNext-Medium", size: 28)
+        title.font = UIFont(name: "AvenirNext-Medium", size: UIScreen.main.bounds.height * 0.03)
         title.textColor = #colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1)
         title.backgroundColor = nil
         title.textAlignment = .center
@@ -40,7 +41,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     var amount: UITextView = {
         var title = UITextView()
         title.text = "$"
-        title.font = UIFont(name: "AvenirNext-Medium", size: 25)
+        title.font = UIFont(name: "AvenirNext-Medium", size: UIScreen.main.bounds.height * 0.03)
         title.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         title.backgroundColor = nil
         title.textAlignment = .center
@@ -87,11 +88,11 @@ class MainCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         setUpLayout()
         // Constant to set font size relative for device.
-        let relativeFontConstant:CGFloat = 0.036
-        
+        let relativeFontConstant:CGFloat = 0.03
+
         let textLabels = [label, amount]
-        
-        
+
+
         for label in textLabels {
             label.font = label.font!.withSize(UIScreen.main.bounds.height * relativeFontConstant)
         }
@@ -100,14 +101,22 @@ class MainCollectionViewCell: UICollectionViewCell {
     func setUpLayout() {
         addSubview(background)
         background.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        background.anchor(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0))
+        
+        background.snp.makeConstraints { (make) in
+            make.top.left.right.bottom.equalTo(self)
+        }
+//        background.anchor(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 0))
         
         stack = UIStackView(arrangedSubviews: [label,amount])
         stack.axis = .vertical
-        stack.spacing = -10
+        stack.distribution = .equalCentering
         
         addSubview(stack)
-        stack.centerOfView(to: background)
+//        stack.centerOfView(to: background)
+        stack.snp.makeConstraints { (make) in
+            make.left.right.equalTo(background)
+            make.centerY.equalTo(background)
+        }
         addSubview(transparentView)
         transparentView.anchorSize(to: self)
         transparentView.centerOfView(to: self)

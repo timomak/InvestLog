@@ -26,9 +26,12 @@ class FirstViewController: UIViewController {
     // State
     private var isCurrenltyEditing = false {
         didSet {
-                // TODO: Add remove label on collection view cell.
-                print("Button pressed. Reloading layout.")
-                collectionView.reloadData()
+            // TODO: Add remove label on collection view cell.
+            print("Button pressed. Reloading layout.")
+            hasDoneEdges = false
+            hasDoneMiddle = false
+            hasDoneVerical = false
+            collectionView.reloadData()
         }
     }
     
@@ -38,6 +41,9 @@ class FirstViewController: UIViewController {
             // Sorts all the views in alphabetical order.
             allViews = allViews.sorted { $0.name < $1.name }
             // TODO: This has been giving sometimes errors after having added uid into func.
+            hasDoneEdges = false
+            hasDoneMiddle = false
+            hasDoneVerical = false
             collectionView.reloadData()
 
         }
@@ -102,6 +108,11 @@ class FirstViewController: UIViewController {
     
     var collectionView: UICollectionView!
     var flowLayout = UICollectionViewFlowLayout()
+    
+    // Needed to set up collecion view flowlayout
+    var hasDoneEdges = false
+    var hasDoneVerical = false
+    var hasDoneMiddle = false
         
     // Constant to set font size relative for device.
     let relativeFontConstant:CGFloat = 0.036
@@ -249,7 +260,7 @@ class FirstViewController: UIViewController {
 
 extension FirstViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return allViews.count + 1
+        return allViews.count + 2
     }
     
     
@@ -258,11 +269,19 @@ extension FirstViewController: UICollectionViewDataSource {
     {
         if indexPath.row == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TopCell", for: indexPath) as! TopCollectionViewCell
+            cell.viewNavbarTitle.text = "Categories"
+//            cell.backgroundColor = #colorLiteral(red: 1, green: 0.08736196905, blue: 0.08457560092, alpha: 1)
+            return cell
+        }
+        else if indexPath.row == (allViews.count + 1) {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TopCell", for: indexPath) as! TopCollectionViewCell
+            cell.viewNavbarTitle.text = ""
+//            cell.backgroundColor = #colorLiteral(red: 1, green: 0.08736196905, blue: 0.08457560092, alpha: 1)
             return cell
         }
         else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! MainCollectionViewCell
-            
+//            cell.backgroundColor = #colorLiteral(red: 1, green: 0.08736196905, blue: 0.08457560092, alpha: 1)
             cell.label.text =  allViews[indexPath.row - 1].name
             
             // Should hide or show the remove button
@@ -308,30 +327,35 @@ extension FirstViewController: UICollectionViewDataSource {
 
 extension FirstViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if indexPath.row > 0 {
-            return CGSize(width: (collectionView.bounds.size.width / 2) - 13, height: 150)
+        if indexPath.row == (allViews.count + 1) {
+            return CGSize(width: view.bounds.size.width, height: view.bounds.size.height / 14)
+        }
+        else if indexPath.row > 0 {
+            return CGSize(width: (collectionView.bounds.size.width / 2) - 17, height: view.bounds.height / 6)
         }
         else {
             return CGSize(width: view.bounds.size.width, height: view.bounds.size.height / 14)
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets
-    {
-        return UIEdgeInsets(top: 5, left: 5, bottom: 0, right: 5)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+
+        return UIEdgeInsets(top: 5, left: 7, bottom: 0, right: 7)
+        
     }
+    
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         // Vertical Spacing
-        return 20.0
+        return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         // Middle spacing
-        return 3.0
+        return 0.0
     }
     
 }
@@ -470,6 +494,9 @@ extension FirstViewController {
         })
         
         allViews.remove(at: id)
+        hasDoneEdges = false
+        hasDoneMiddle = false
+        hasDoneVerical = false
         collectionView.reloadData()
     }
     
