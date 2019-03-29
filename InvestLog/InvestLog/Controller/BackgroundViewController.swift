@@ -17,6 +17,7 @@ import Lottie
 protocol VCHandler: class {
     func openFirstVC()
     func openPresentCategoriesVC(id:String)
+    func openPresentSubCategoryVC(viewId:String, categoryId: String)
     func goBackToLogIn()
 }
 
@@ -29,6 +30,7 @@ class BackgroundViewController: UIViewController, VCHandler {
     let loginVC = LoginViewController()
     let mainVC = FirstViewController()
     let presentCategoriesVC = PresentCategoryViewController()
+    let presentSubCategoryVC = CategorySpendingViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +39,7 @@ class BackgroundViewController: UIViewController, VCHandler {
         loginVC.delegate = self
         mainVC.delegate = self
         presentCategoriesVC.delegate = self
+        presentSubCategoryVC.delegate = self
         
         // Putting the animation in and setting it up.
         view.addSubview(background)
@@ -74,12 +77,20 @@ class BackgroundViewController: UIViewController, VCHandler {
         self.present(mainVC, animated: true)
     }
     
+    func openPresentSubCategoryVC(viewId:String, categoryId: String) {
+        presentSubCategoryVC.categoryId = categoryId
+        presentSubCategoryVC.viewId = viewId
+        presentSubCategoryVC.getCategoryDataFrom(id: categoryId)
+//        presentSubCategoryVC.getViewDataFrom(id: presentCategoriesVC.viewId)
+        presentSubCategoryVC.modalPresentationStyle = .overFullScreen
+        self.present(presentSubCategoryVC, animated: true)
+    }
+    
     func openPresentCategoriesVC(id:String) {
         print("Adding presnet VC")
         presentCategoriesVC.viewId = id
         presentCategoriesVC.getViewDataFrom(id: presentCategoriesVC.viewId)
         presentCategoriesVC.modalPresentationStyle = .overFullScreen
-//        presentCategoriesVC.modalTransitionStyle = .coverVertical
         self.present(presentCategoriesVC, animated: true)
     }
 }

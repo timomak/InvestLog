@@ -330,10 +330,13 @@ extension PresentCategoryViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let categorySpendingController = CategorySpendingViewController()
-        categorySpendingController.categoryId = categories[indexPath.row].id
+//        let categorySpendingController = CategorySpendingViewController()
+//        categorySpendingController.categoryId = categories[indexPath.row].id
 //        categorySpendingController.currentCategory = categories[indexPath.row]
-        self.present(categorySpendingController, animated: true)
+//        self.present(categorySpendingController, animated: true)
+        
+        self.dismiss(animated: true, completion: nil)
+        delegate?.openPresentSubCategoryVC(viewId: viewId, categoryId: categories[indexPath.row].id)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

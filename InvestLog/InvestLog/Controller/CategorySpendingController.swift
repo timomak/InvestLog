@@ -14,7 +14,11 @@ class CategorySpendingViewController: UIViewController {
     var ref: DatabaseReference!
     var uid: String = ""
     var categoryId: String = ""
+    var viewId: String = ""
     var spendingId: [String] = []
+    
+    // Delegate to switch views
+    var delegate: VCHandler?
     
     var allSpending:[CategorySpending] = [] {
         didSet {
@@ -89,7 +93,7 @@ class CategorySpendingViewController: UIViewController {
     }
     
     func setupView() {
-        view.backgroundColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
+        view.backgroundColor = UIColor.clear //#colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
         view.addSubview(goBackButton)
         view.addSubview(newCategorySpendingButton)
         view.addSubview(viewNavbarTitle)
@@ -253,6 +257,7 @@ extension CategorySpendingViewController: UITableViewDelegate {
 extension CategorySpendingViewController {
     @objc func goBackButtonPressed() {
         self.dismiss(animated: true)
+        delegate?.openPresentCategoriesVC(id: viewId)
     }
     
     @objc func addNewCategorySpending() {
