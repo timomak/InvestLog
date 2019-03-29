@@ -186,13 +186,13 @@ class PresentCategoryViewController: UIViewController {
         view.addSubview(totalAmountLabel)
         
         returnButton.snp.makeConstraints { (make) in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(-10)
-            make.left.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(-15)
+            make.left.equalTo(view.safeAreaLayoutGuide).offset((view.bounds.width / 18))
         }
         
         addButton.snp.makeConstraints { (make) in
             make.centerY.equalTo(returnButton)
-            make.right.equalTo(view.safeAreaLayoutGuide).offset(-10)
+            make.right.equalTo(view.safeAreaLayoutGuide).offset((view.bounds.width / 18) * -1)
         }
         
         labelsBackground.snp.makeConstraints { (make) in

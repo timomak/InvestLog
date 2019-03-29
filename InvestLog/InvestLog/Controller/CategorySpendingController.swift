@@ -36,7 +36,7 @@ class CategorySpendingViewController: UIViewController {
     let viewNavbarTitle: UITextView = {
         var title = UITextView()
         title.text = "New Category"
-        title.font = UIFont(name: "AvenirNext-Bold", size: 35)
+        title.font = UIFont(name: "AvenirNext-Bold", size: UIScreen.main.bounds.height * 0.036)
         title.textColor = #colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1)
         title.backgroundColor = nil
         title.textAlignment = .center
@@ -51,7 +51,7 @@ class CategorySpendingViewController: UIViewController {
         let button = UIButton()
         button.setTitle("+", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
-        button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 40)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: UIScreen.main.bounds.height * 0.07)
         button.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 4)
         button.addTarget(self, action: #selector(goBackButtonPressed), for: .touchUpInside)
         return button
@@ -62,7 +62,7 @@ class CategorySpendingViewController: UIViewController {
         let button = UIButton()
         button.setTitle("+", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
-        button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 40)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: UIScreen.main.bounds.height * 0.07)
 //        button.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 4)
         button.addTarget(self, action: #selector(addNewCategorySpending), for: .touchUpInside)
         return button
@@ -79,7 +79,6 @@ class CategorySpendingViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupTableView()
-//        currentCategory.allSpending = [CategorySpending(creationDate: Date(), amount: 3000)]
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -91,16 +90,36 @@ class CategorySpendingViewController: UIViewController {
     
     func setupView() {
         view.backgroundColor = #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
-        view.addSubview(navbar)
-        // Navbar Size
-        navbar.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, size: .init(width: view.bounds.width, height: 100))
         view.addSubview(goBackButton)
-        goBackButton.anchor(top: navbar.topAnchor, leading: navbar.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 25, left: 35, bottom: 0, right: 0))
-        view.addSubview(viewNavbarTitle)
-        viewNavbarTitle.anchor(top: goBackButton.bottomAnchor, leading: navbar.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: -15, left: 15, bottom: 0, right: 0))
-//        viewNavbarTitle.text = currentCategory.name
         view.addSubview(newCategorySpendingButton)
-        newCategorySpendingButton.anchor(top: navbar.topAnchor, leading: nil, bottom: nil, trailing: navbar.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 35))
+        view.addSubview(viewNavbarTitle)
+        
+        goBackButton.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(-15)
+            make.left.equalTo(view.safeAreaLayoutGuide).offset((view.bounds.width / 18))
+        }
+        
+        newCategorySpendingButton.snp.makeConstraints { (make) in
+            make.centerY.equalTo(goBackButton)
+            make.right.equalTo(view.safeAreaLayoutGuide).offset((view.bounds.width / 18) * -1)
+        }
+        
+        viewNavbarTitle.snp.makeConstraints { (make) in
+            make.top.equalTo(goBackButton.snp.bottom).offset((view.bounds.width / 21) * -1)
+            make.left.equalTo(view.safeAreaLayoutGuide).offset(15)
+        }
+        
+        
+//        view.addSubview(navbar)
+//        // Navbar Size
+//        navbar.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor, size: .init(width: view.bounds.width, height: 100))
+//        view.addSubview(goBackButton)
+//        goBackButton.anchor(top: navbar.topAnchor, leading: navbar.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 25, left: 35, bottom: 0, right: 0))
+//        view.addSubview(viewNavbarTitle)
+//        viewNavbarTitle.anchor(top: goBackButton.bottomAnchor, leading: navbar.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: -15, left: 15, bottom: 0, right: 0))
+////        viewNavbarTitle.text = currentCategory.name
+//        view.addSubview(newCategorySpendingButton)
+//        newCategorySpendingButton.anchor(top: navbar.topAnchor, leading: nil, bottom: nil, trailing: navbar.trailingAnchor, padding: .init(top: 25, left: 0, bottom: 0, right: 35))
     }
     
     func setupTableView() {
@@ -108,7 +127,11 @@ class CategorySpendingViewController: UIViewController {
         view.addSubview(tableView)
         
         // Table View Size
-        tableView.anchor(top: viewNavbarTitle.bottomAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
+        tableView.snp.makeConstraints { (make) in
+            make.top.equalTo(viewNavbarTitle.snp.bottom).offset(0)
+            make.left.right.bottom.equalToSuperview()
+        }
+//        tableView.anchor(top: viewNavbarTitle.bottomAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
         
         // Register Table View Cells
         tableView.register(TableViewCell.self, forCellReuseIdentifier: cellId)
@@ -118,91 +141,6 @@ class CategorySpendingViewController: UIViewController {
         // Table View
         tableView.backgroundColor = view.backgroundColor
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-    }
-    
-//    func getCategoryId
-    
-    @objc func goBackButtonPressed() {
-        self.dismiss(animated: true)
-    }
-    
-    @objc func addNewCategorySpending() {
-        print("Creating new category")
-//        currentCategory.allSpending.append(CategorySpending(amount: 4000, creationDate: Date()))
-//        tableView.reloadData()
-//        print(currentCategory.allSpending)
-        let inputSpendingController = InputSpendingController()
-//        inputSpendingController.currentCategory = currentCategory
-        inputSpendingController.categoryId = categoryId
-        self.present(inputSpendingController, animated: true)
-    }
-    
-    func getCategoryDataFrom(id: String) {
-        // Using the view id, get all the categories under that Id and load those categories.
-        uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
-        ref = Database.database().reference().child("users/\(uid)/categories/\(id)")
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let viewData = snapshot.value as? [String:Any] else {
-                // TODO: Handle error
-                print("snapshot: ",snapshot.value ?? "Null")
-                
-                // Will happen if there's no categories in the view but there is a path
-                //                self.categories = []
-                
-                return
-            }
-            
-            self.viewNavbarTitle.text = viewData["name"] as? String ?? "Error"
-//            self.totalAmount = viewData["totalAmount"] as? Double ?? 0
-            //            self.categoriesId = viewData["categoriesId"] as? [String] ?? []
-            
-            let subCategoriesInfo = viewData["subCategoriesId"] as? [String] ?? []
-            if subCategoriesInfo != [] {
-                self.spendingId = subCategoriesInfo
-                // Call function to fill categories
-                self.findSubCategoriesData()
-            }
-            else {
-                self.allSpending = []
-            }
-            
-            
-        }) { (error) in
-            print("Error: ", error.localizedDescription)
-            // Will happen if there's no categories in the view because the path doesn't exist
-            // Will almost never happen.
-        }
-    }
-    
-    func findSubCategoriesData() {
-        ref = Database.database().reference().child("users/\(uid)/subCategories")
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let subCategoriesData = snapshot.value as? [String:[String:Any]] else {
-                print("snapshot: ",snapshot.value ?? "Null")
-                // If not categories
-                // TODO: HAndle not having categories
-                self.allSpending = []
-                return
-            }
-            var tempAllSpending: [CategorySpending] = []
-            for (subCategoryId, subCategory) in subCategoriesData {
-                print("This should be the sub category Id:", subCategoryId)
-                for item in self.spendingId {
-                    if subCategoryId == item {
-                        var newSubCategory = CategorySpending(creationDate: Date(), amount: 0, categoryId: "", id: "")
-                        newSubCategory.creationDate = Date(timeIntervalSince1970: subCategory["creationDate"] as! Double)
-                        newSubCategory.amount = subCategory["amount"] as? Double ?? 0
-                        newSubCategory.id = subCategoryId
-                        tempAllSpending.append(newSubCategory)
-                    }
-                }
-            }
-            self.allSpending = tempAllSpending
-        }) { (error) in
-            print("Error: ", error.localizedDescription)
-            // Will happen if there's no categories in the view because the path doesn't exist
-            // Will almost never happen.
-        }
     }
 }
 
@@ -296,9 +234,6 @@ extension CategorySpendingViewController: UITableViewDataSource {
                     
                 }
             })
-            
-
-
             allSpending.remove(at: indexPath.row)
             tableView.reloadData()
         }
@@ -312,5 +247,90 @@ extension CategorySpendingViewController: UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         print("Deselected")
+    }
+}
+
+extension CategorySpendingViewController {
+    @objc func goBackButtonPressed() {
+        self.dismiss(animated: true)
+    }
+    
+    @objc func addNewCategorySpending() {
+        print("Creating new category")
+        //        currentCategory.allSpending.append(CategorySpending(amount: 4000, creationDate: Date()))
+        //        tableView.reloadData()
+        //        print(currentCategory.allSpending)
+        let inputSpendingController = InputSpendingController()
+        //        inputSpendingController.currentCategory = currentCategory
+        inputSpendingController.categoryId = categoryId
+        self.present(inputSpendingController, animated: true)
+    }
+    
+    func getCategoryDataFrom(id: String) {
+        // Using the view id, get all the categories under that Id and load those categories.
+        uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
+        ref = Database.database().reference().child("users/\(uid)/categories/\(id)")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let viewData = snapshot.value as? [String:Any] else {
+                // TODO: Handle error
+                print("snapshot: ",snapshot.value ?? "Null")
+                
+                // Will happen if there's no categories in the view but there is a path
+                //                self.categories = []
+                
+                return
+            }
+            
+            self.viewNavbarTitle.text = viewData["name"] as? String ?? "Error"
+            //            self.totalAmount = viewData["totalAmount"] as? Double ?? 0
+            //            self.categoriesId = viewData["categoriesId"] as? [String] ?? []
+            
+            let subCategoriesInfo = viewData["subCategoriesId"] as? [String] ?? []
+            if subCategoriesInfo != [] {
+                self.spendingId = subCategoriesInfo
+                // Call function to fill categories
+                self.findSubCategoriesData()
+            }
+            else {
+                self.allSpending = []
+            }
+            
+            
+        }) { (error) in
+            print("Error: ", error.localizedDescription)
+            // Will happen if there's no categories in the view because the path doesn't exist
+            // Will almost never happen.
+        }
+    }
+    
+    func findSubCategoriesData() {
+        ref = Database.database().reference().child("users/\(uid)/subCategories")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let subCategoriesData = snapshot.value as? [String:[String:Any]] else {
+                print("snapshot: ",snapshot.value ?? "Null")
+                // If not categories
+                // TODO: HAndle not having categories
+                self.allSpending = []
+                return
+            }
+            var tempAllSpending: [CategorySpending] = []
+            for (subCategoryId, subCategory) in subCategoriesData {
+                print("This should be the sub category Id:", subCategoryId)
+                for item in self.spendingId {
+                    if subCategoryId == item {
+                        var newSubCategory = CategorySpending(creationDate: Date(), amount: 0, categoryId: "", id: "")
+                        newSubCategory.creationDate = Date(timeIntervalSince1970: subCategory["creationDate"] as! Double)
+                        newSubCategory.amount = subCategory["amount"] as? Double ?? 0
+                        newSubCategory.id = subCategoryId
+                        tempAllSpending.append(newSubCategory)
+                    }
+                }
+            }
+            self.allSpending = tempAllSpending
+        }) { (error) in
+            print("Error: ", error.localizedDescription)
+            // Will happen if there's no categories in the view because the path doesn't exist
+            // Will almost never happen.
+        }
     }
 }
