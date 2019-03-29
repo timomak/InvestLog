@@ -311,7 +311,7 @@ extension FirstViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Cell Pressed")
         if isCurrenltyEditing == false {
-             if indexPath.row > 0 {
+             if indexPath.row != 0 && indexPath.row != allViews.count + 1 {
                 let viewId = allViews[indexPath.row - 1].id
         //        getCategoriesFromId(id: viewId)
                 

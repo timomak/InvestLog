@@ -28,7 +28,7 @@ class SettingsView: UIViewController {
     let viewNavbarTitle: UITextView = {
         var title = UITextView()
         title.text = "Settings"
-        title.font = UIFont(name: "AvenirNext-Medium", size: 40)
+        title.font = UIFont(name: "AvenirNext-Medium", size: UIScreen.main.bounds.height * 0.036)
         title.textColor = #colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1)
         title.backgroundColor = nil
         title.textAlignment = .center
@@ -52,7 +52,7 @@ class SettingsView: UIViewController {
         let button = UIButton()
         button.setTitle("+", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
-        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 60)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: UIScreen.main.bounds.height * 0.07)
         button.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 4)
         button.addTarget(self, action: #selector(returnButtonPressed), for: .touchUpInside)
         return button
@@ -79,24 +79,38 @@ class SettingsView: UIViewController {
     }
     
     func addCustomNavbar() {
-        // Adding Navbar View
-        background.addSubview(navbar)
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.addSubview(returnButton)
+        view.addSubview(viewNavbarTitle)
         
-        // Navbar Size
-        navbar.anchor(top: background.topAnchor, leading: background.leadingAnchor, bottom: nil, trailing: background.trailingAnchor, size: .init(width: background.bounds.width, height: 100))
+        returnButton.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(-15)
+            make.left.equalTo(view.safeAreaLayoutGuide).offset((view.bounds.width / 18))
+        }
         
-        // Return button
-        background.addSubview(returnButton)
+        viewNavbarTitle.snp.makeConstraints { (make) in
+            make.top.equalTo(returnButton.snp.bottom).offset((view.bounds.width / 21) * -1)
+            make.left.equalTo(view.safeAreaLayoutGuide).offset(15)
+        }
         
-        returnButton.anchor(top: navbar.topAnchor, leading: navbar.leadingAnchor, bottom: navbar.bottomAnchor, trailing: nil, padding: .init(top: 45, left: 20, bottom: 5, right: 0))
-        
-        // Adding Title to Navbar
-        background.addSubview(viewNavbarTitle)
-        
-        // Title Size
-        viewNavbarTitle.anchor(top: returnButton.bottomAnchor, leading: navbar.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 20, bottom: 5, right: 0))
-        
-        background.addSubview(signOut)
+//        // Adding Navbar View
+//        background.addSubview(navbar)
+//
+//        // Navbar Size
+//        navbar.anchor(top: background.topAnchor, leading: background.leadingAnchor, bottom: nil, trailing: background.trailingAnchor, size: .init(width: background.bounds.width, height: 100))
+//
+//        // Return button
+//        background.addSubview(returnButton)
+//
+//        returnButton.anchor(top: navbar.topAnchor, leading: navbar.leadingAnchor, bottom: navbar.bottomAnchor, trailing: nil, padding: .init(top: 45, left: 20, bottom: 5, right: 0))
+//
+//        // Adding Title to Navbar
+//        background.addSubview(viewNavbarTitle)
+//
+//        // Title Size
+//        viewNavbarTitle.anchor(top: returnButton.bottomAnchor, leading: navbar.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 20, bottom: 5, right: 0))
+//
+//        background.addSubview(signOut)
         
 //        // Button Size
 //        signOut.anchor(top: nil, leading: nil, bottom: nil, trailing: navbar.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 20), size: .init(width: 0, height: 48))
@@ -108,7 +122,11 @@ class SettingsView: UIViewController {
         view.addSubview(tableView)
         
         // Table View Size
-        tableView.anchor(top: viewNavbarTitle.bottomAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
+        tableView.snp.makeConstraints { (make) in
+            make.top.equalTo(viewNavbarTitle.snp.bottom)
+            make.left.right.bottom.equalToSuperview()
+        }
+//        tableView.anchor(top: viewNavbarTitle.bottomAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
         
         // Register Table View Cells
         tableView.register(TableViewCell.self, forCellReuseIdentifier: cellId)

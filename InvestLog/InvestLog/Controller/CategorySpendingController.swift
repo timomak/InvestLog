@@ -94,6 +94,11 @@ class CategorySpendingViewController: UIViewController {
     
     func setupView() {
         view.backgroundColor = UIColor.clear //#colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.9568627451, alpha: 1)
+        let background = UIView()
+        background.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        background.alpha = 0.8
+        view.addSubview(background)
+        background.fillSuperview()
         view.addSubview(goBackButton)
         view.addSubview(newCategorySpendingButton)
         view.addSubview(viewNavbarTitle)
