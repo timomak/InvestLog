@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import SnapKit
 
 class PresentCategoryViewController: UIViewController {
     // For Firebase
@@ -21,14 +22,19 @@ class PresentCategoryViewController: UIViewController {
     // Array to supply table view
     var categories: [Category] = [] {
         didSet {
+            // Calculate total amount by adding all the sub-categories' spending together.
             totalAmount = 0
             for category in categories {
                 print("Category total amount", category.totalAmount)
                 totalAmount += category.totalAmount
             }
+            // Update amount on Firebase.
             addAmountToViewTotal(totalAmount, viewId)
+            
+            // Sort Sub Categories
             categories = categories.sorted { $0.name < $1.name }
-            print("Number of items in categories: ", categories.count)
+            
+            // Increase the size of tableview's background
             updateTableViewConstrains()
             tableView.reloadData()
         }
@@ -58,7 +64,7 @@ class PresentCategoryViewController: UIViewController {
     private let returnButton: UIButton = {
         let button = UIButton()
         button.setTitle("+", for: .normal)
-        button.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 60)
         button.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 4)
         button.addTarget(self, action: #selector(returnButtonPressed), for: .touchUpInside)
@@ -69,7 +75,7 @@ class PresentCategoryViewController: UIViewController {
     private let addButton: UIButton = {
         let button = UIButton()
         button.setTitle("+", for: .normal)
-        button.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 60)
 //        button.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 4)
         button.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
@@ -157,54 +163,80 @@ class PresentCategoryViewController: UIViewController {
             button.titleLabel?.font = button.titleLabel?.font.withSize(self.view.frame.height * 0.08)
         }
         
-        setTop()
-//        createTempData()
+        setupLayout()
+        
         addTableView()
+        
         tableViewBackgroundConstrainsts()
-        print("test")
     }
     
     override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(true)
-        print("View ID:", viewId)
+        super.viewDidAppear(true)
         getViewDataFrom(id: viewId)
         tableView.reloadData()
         updateTableViewConstrains()
     }
     
-    func createTempData() {
-        for _ in 0...3 {
-            var newCategory = Category(name: "Groceries", creationDate: Date(), modificationDate: Date(), allSpending: [], totalAmount: 3000)
-            
-            categories.append(newCategory)
-        }
-    }
+//    func createTempData() {
+//        for _ in 0...3 {
+//            var newCategory = Category(name: "Groceries", creationDate: Date(), modificationDate: Date(), allSpending: [], totalAmount: 3000)
+//
+//            categories.append(newCategory)
+//        }
+//    }
     
-    func setTop() {
+    func setupLayout() {
         view.addSubview(returnButton)
         view.addSubview(addButton)
         view.addSubview(labelsBackground)
         view.addSubview(viewNameLabel)
         view.addSubview(totalAmountLabel)
         
-        returnButton.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 30, left: 30, bottom: 0, right: 0), size: .init(width: view.bounds.size.width / 8, height: view.bounds.size.width / 8))
+        returnButton.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(-10)
+            make.left.equalTo(view.safeAreaLayoutGuide).offset(10)
+        }
         
-        addButton.anchor(top: view.topAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 30), size: .init(width: view.bounds.size.width / 8, height: view.bounds.size.width / 8))
+        addButton.snp.makeConstraints { (make) in
+            make.centerY.equalTo(returnButton)
+            make.right.equalTo(view.safeAreaLayoutGuide).offset(-10)
+        }
         
-        labelsBackground.anchor(top: returnButton.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: view.bounds.width - 40, height: 100))
-        labelsBackground.centerHorizontalOfView(to: view)
+        labelsBackground.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(10)
+            make.right.equalToSuperview().offset(-10)
+            make.top.equalTo(returnButton.snp.bottom)
+            make.height.equalTo(view.bounds.height / 9)
+        }
+        
+        labelsBackground.layer.cornerRadius = view.bounds.height / 18
         
         let labelStack = UIStackView(arrangedSubviews: [viewNameLabel, totalAmountLabel])
         labelStack.axis = .vertical
-        labelStack.spacing = -5
+//        labelStack.spacing = -5
+        labelStack.distribution = .fillEqually
         view.addSubview(labelStack)
-        labelStack.centerOfView(to: labelsBackground)
+        
+        labelStack.snp.makeConstraints { (make) in
+            make.top.left.right.bottom.equalTo(labelsBackground)
+        }
+        
+        
+//        returnButton.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 30, left: 30, bottom: 0, right: 0), size: .init(width: view.bounds.size.width / 8, height: view.bounds.size.width / 8))
+//
+//        addButton.anchor(top: view.topAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 30), size: .init(width: view.bounds.size.width / 8, height: view.bounds.size.width / 8))
+//
+//        labelsBackground.anchor(top: returnButton.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: view.bounds.width - 40, height: 100))
+//        labelsBackground.centerHorizontalOfView(to: view)
+        
+
+//        labelStack.centerOfView(to: labelsBackground)
     }
     
     func tableViewBackgroundConstrainsts() {
         print("Should be updating constrainsts. Height: ", CGFloat(70 * categories.count))
         // Set the background of the table view
-        tableViewBackground.anchor(top: tableView.topAnchor, leading: tableView.leadingAnchor, bottom: nil, trailing: tableView.trailingAnchor, padding: .init(top: -10, left: -5, bottom: 0, right: -5))
+//        tableViewBackground.anchor(top: tableView.topAnchor, leading: tableView.leadingAnchor, bottom: nil, trailing: tableView.trailingAnchor, padding: .init(top: -10, left: -5, bottom: 0, right: -5))
         heightAnchor = tableViewBackground.heightAnchor.constraint(equalToConstant: CGFloat(70 * categories.count) + 30)
         heightAnchor.isActive = true
         tableViewBackground.layer.cornerRadius = 30
@@ -222,8 +254,8 @@ class PresentCategoryViewController: UIViewController {
         view.addSubview(tableViewBackground)
         view.addSubview(tableView)
 
-        tableView.anchor(top: labelsBackground.bottomAnchor, leading: nil, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 30, left: 0, bottom: 60, right: 0), size: .init(width: view.bounds.width - 30, height: 0))
-            tableView.centerHorizontalOfView(to: view)
+//        tableView.anchor(top: labelsBackground.bottomAnchor, leading: nil, bottom: view.bottomAnchor, trailing: nil, padding: .init(top: 30, left: 0, bottom: 60, right: 0), size: .init(width: view.bounds.width - 30, height: 0))
+//        tableView.centerHorizontalOfView(to: view)
 
             
             // Register Table View Cells
@@ -234,94 +266,6 @@ class PresentCategoryViewController: UIViewController {
             // Table View
             tableView.backgroundColor = .clear
             tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-    }
-    
-    func addAmountToViewTotal(_ amount: Double,_ id: String) {
-        print("add ", amount, "to view total amount.")
-        uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
-        ref = Database.database().reference().child("users/\(uid)/views/\(id)")
-        var oldAmount = 0.0
-        // first get the current amount, second add to it.
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let viewData = snapshot.value as? [String:Any] else {
-                // TODO: Handle error
-                print("snapshot: ",snapshot.value ?? "Null")
-                return
-            }
-            oldAmount = viewData["totalAMount"] as? Double ?? 0
-        })
-        ref.updateChildValues(["totalAmount":amount + oldAmount])
-    }
-    
-    func getViewDataFrom(id: String) {
-        // Using the view id, get all the categories under that Id and load those categories.
-        uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
-        ref = Database.database().reference().child("users/\(uid)/views/\(id)")
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let viewData = snapshot.value as? [String:Any] else {
-                // TODO: Handle error
-                print("snapshot: ",snapshot.value ?? "Null")
-
-                // Will happen if there's no categories in the view but there is a path
-//                self.categories = []
-
-                return
-            }
-            
-            self.viewNameLabel.text = viewData["name"] as? String ?? "Error"
-            self.totalAmount = viewData["totalAmount"] as? Double ?? 0
-//            self.categoriesId = viewData["categoriesId"] as? [String] ?? []
-            
-            let categoriesInfo = viewData["categoriesId"] as? [String] ?? []
-            if categoriesInfo != [] {
-                self.categoriesId = categoriesInfo
-                // Call function to fill categories
-                self.findCategoriesData()
-            }
-            else {
-                self.categories = []
-            }
-            
-
-        }) { (error) in
-            print("Error: ", error.localizedDescription)
-            // Will happen if there's no categories in the view because the path doesn't exist
-            // Will almost never happen.
-        }
-    }
-    
-    func findCategoriesData() {
-        ref = Database.database().reference().child("users/\(uid)/categories")
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let categoriesData = snapshot.value as? [String:[String:Any]] else {
-                print("snapshot: ",snapshot.value ?? "Null")
-                // If not categories
-                // TODO: HAndle not having categories
-                self.categories = []
-                return
-            }
-            var tempCategories: [Category] = []
-            for (categoryId, category) in categoriesData {
-                print("This should be the category Id:", categoryId)
-                for item in self.categoriesId {
-                    if categoryId == item {
-                        var newCategory = Category(name: "", creationDate: Date(), modificationDate: Date(), allSpending: [], totalAmount: 0, viewId: "")
-                        newCategory.name = category["name"] as? String ?? "Error"
-                        newCategory.creationDate = Date(timeIntervalSince1970: category["creationDate"] as! Double)
-                        newCategory.modificationDate = Date(timeIntervalSince1970: category["modificationDate"] as! Double)
-                        newCategory.viewId = category["viewId"] as? String ?? "Error"
-                        newCategory.id = item
-                        newCategory.totalAmount = category["totalAmount"] as? Double ?? 0
-                        tempCategories.append(newCategory)
-                    }
-                }
-            }
-            self.categories = tempCategories
-        }) { (error) in
-            print("Error: ", error.localizedDescription)
-            // Will happen if there's no categories in the view because the path doesn't exist
-            // Will almost never happen.
-        }
     }
     
     func updateTableViewConstrains() {
@@ -340,21 +284,6 @@ class PresentCategoryViewController: UIViewController {
 //        heightAnchor = tableViewBackground.heightAnchor.constraint(equalToConstant: CGFloat(70 * categories.count))
 //        heightAnchor.isActive = true
         tableViewBackground.layoutIfNeeded()
-    }
-    
-    
-    @objc func addButtonPressed() {
-        let newSubCategoryVC = NewSubCategoryViewController()
-        newSubCategoryVC.viewId = viewId
-        self.present(newSubCategoryVC,animated: true)
-//        print("Adding 70 to background of table view")
-//        tableViewBackground.heightAnchor
-    }
-    @objc func returnButtonPressed() {
-        self.dismiss(animated: true)
-        
-        // TODO: Add delegate to present FirstVC
-        delegate?.openFirstVC()
     }
 }
 
@@ -448,5 +377,109 @@ extension PresentCategoryViewController: UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         print("Deselected")
+    }
+}
+
+extension PresentCategoryViewController {
+    func addAmountToViewTotal(_ amount: Double,_ id: String) {
+        print("add ", amount, "to view total amount.")
+        uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
+        ref = Database.database().reference().child("users/\(uid)/views/\(id)")
+        var oldAmount = 0.0
+        // first get the current amount, second add to it.
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let viewData = snapshot.value as? [String:Any] else {
+                // TODO: Handle error
+                print("snapshot: ",snapshot.value ?? "Null")
+                return
+            }
+            oldAmount = viewData["totalAMount"] as? Double ?? 0
+        })
+        ref.updateChildValues(["totalAmount":amount + oldAmount])
+    }
+    
+    func getViewDataFrom(id: String) {
+        // Using the view id, get all the categories under that Id and load those categories.
+        uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
+        ref = Database.database().reference().child("users/\(uid)/views/\(id)")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let viewData = snapshot.value as? [String:Any] else {
+                // TODO: Handle error
+                print("snapshot: ",snapshot.value ?? "Null")
+                
+                // Will happen if there's no categories in the view but there is a path
+                //                self.categories = []
+                
+                return
+            }
+            
+            self.viewNameLabel.text = viewData["name"] as? String ?? "Error"
+            self.totalAmount = viewData["totalAmount"] as? Double ?? 0
+            //            self.categoriesId = viewData["categoriesId"] as? [String] ?? []
+            
+            let categoriesInfo = viewData["categoriesId"] as? [String] ?? []
+            if categoriesInfo != [] {
+                self.categoriesId = categoriesInfo
+                // Call function to fill categories
+                self.findCategoriesData()
+            }
+            else {
+                self.categories = []
+            }
+            
+            
+        }) { (error) in
+            print("Error: ", error.localizedDescription)
+            // Will happen if there's no categories in the view because the path doesn't exist
+            // Will almost never happen.
+        }
+    }
+    
+    func findCategoriesData() {
+        ref = Database.database().reference().child("users/\(uid)/categories")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let categoriesData = snapshot.value as? [String:[String:Any]] else {
+                print("snapshot: ",snapshot.value ?? "Null")
+                // If not categories
+                // TODO: HAndle not having categories
+                self.categories = []
+                return
+            }
+            var tempCategories: [Category] = []
+            for (categoryId, category) in categoriesData {
+                print("This should be the category Id:", categoryId)
+                for item in self.categoriesId {
+                    if categoryId == item {
+                        var newCategory = Category(name: "", creationDate: Date(), modificationDate: Date(), allSpending: [], totalAmount: 0, viewId: "")
+                        newCategory.name = category["name"] as? String ?? "Error"
+                        newCategory.creationDate = Date(timeIntervalSince1970: category["creationDate"] as! Double)
+                        newCategory.modificationDate = Date(timeIntervalSince1970: category["modificationDate"] as! Double)
+                        newCategory.viewId = category["viewId"] as? String ?? "Error"
+                        newCategory.id = item
+                        newCategory.totalAmount = category["totalAmount"] as? Double ?? 0
+                        tempCategories.append(newCategory)
+                    }
+                }
+            }
+            self.categories = tempCategories
+        }) { (error) in
+            print("Error: ", error.localizedDescription)
+            // Will happen if there's no categories in the view because the path doesn't exist
+            // Will almost never happen.
+        }
+    }
+    
+    @objc func addButtonPressed() {
+        let newSubCategoryVC = NewSubCategoryViewController()
+        newSubCategoryVC.viewId = viewId
+        self.present(newSubCategoryVC,animated: true)
+        //        print("Adding 70 to background of table view")
+        //        tableViewBackground.heightAnchor
+    }
+    @objc func returnButtonPressed() {
+        self.dismiss(animated: true)
+        
+        // TODO: Add delegate to present FirstVC
+        delegate?.openFirstVC()
     }
 }
