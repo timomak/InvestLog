@@ -54,6 +54,17 @@ class TableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = UIColor.clear
+        
+        // Constant to set font size relative for device.
+        let relativeFontConstant:CGFloat = 0.03
+        
+        let textLabels = [name, amount]
+        
+        
+        for label in textLabels {
+            label.font = label.font!.withSize(UIScreen.main.bounds.height * relativeFontConstant)
+        }
+        
         addSubview(name)
         name.anchor(top: nil, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 20, bottom: 0, right: 0))
         name.centerVerticalOfView(to: self)

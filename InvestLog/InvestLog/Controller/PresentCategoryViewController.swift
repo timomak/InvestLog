@@ -136,9 +136,27 @@ class PresentCategoryViewController: UIViewController {
     
     var heightAnchor:NSLayoutConstraint!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
+        
+        // Constant to set font size relative for device.
+        let relativeFontConstant:CGFloat = 0.036
+        
+        // Set each label's font size relative to the screen size
+        let textLabels = [viewNameLabel, totalAmountLabel]
+        
+        let buttons = [returnButton, addButton]
+        
+        for label in textLabels {
+            label.font = label.font!.withSize(self.view.frame.height * relativeFontConstant)
+        }
+        
+        for button in buttons {
+            button.titleLabel?.font = button.titleLabel?.font.withSize(self.view.frame.height * 0.08)
+        }
+        
         setTop()
 //        createTempData()
         addTableView()
