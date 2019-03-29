@@ -65,7 +65,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         let button = UIButton()
         button.setTitle("+", for: .normal)
         button.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: .normal)
-        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 40)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: UIScreen.main.bounds.height * 0.04)
         button.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 4)
         button.addTarget(self, action: #selector(FirstViewController.deleteCurrentCell(sender:)), for: .touchUpInside)
         return button

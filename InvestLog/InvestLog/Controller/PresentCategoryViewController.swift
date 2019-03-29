@@ -160,30 +160,23 @@ class PresentCategoryViewController: UIViewController {
         }
         
         for button in buttons {
-            button.titleLabel?.font = button.titleLabel?.font.withSize(self.view.frame.height * 0.08)
+            button.titleLabel?.font = button.titleLabel?.font.withSize(self.view.frame.height * 0.07)
         }
         
         setupLayout()
         
-        addTableView()
+        addTableViewLogic()
         
-        tableViewBackgroundConstrainsts()
+//        updateTableViewConstrains()
+//        tableViewBackgroundConstrainsts()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         getViewDataFrom(id: viewId)
         tableView.reloadData()
-        updateTableViewConstrains()
+//        updateTableViewConstrains()
     }
-    
-//    func createTempData() {
-//        for _ in 0...3 {
-//            var newCategory = Category(name: "Groceries", creationDate: Date(), modificationDate: Date(), allSpending: [], totalAmount: 3000)
-//
-//            categories.append(newCategory)
-//        }
-//    }
     
     func setupLayout() {
         view.addSubview(returnButton)
@@ -213,43 +206,31 @@ class PresentCategoryViewController: UIViewController {
         
         let labelStack = UIStackView(arrangedSubviews: [viewNameLabel, totalAmountLabel])
         labelStack.axis = .vertical
-//        labelStack.spacing = -5
         labelStack.distribution = .fillEqually
         view.addSubview(labelStack)
         
         labelStack.snp.makeConstraints { (make) in
             make.top.left.right.bottom.equalTo(labelsBackground)
         }
-        
-        
-//        returnButton.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 30, left: 30, bottom: 0, right: 0), size: .init(width: view.bounds.size.width / 8, height: view.bounds.size.width / 8))
-//
-//        addButton.anchor(top: view.topAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 30, left: 0, bottom: 0, right: 30), size: .init(width: view.bounds.size.width / 8, height: view.bounds.size.width / 8))
-//
-//        labelsBackground.anchor(top: returnButton.bottomAnchor, leading: nil, bottom: nil, trailing: nil, padding: .init(top: 20, left: 0, bottom: 0, right: 0), size: .init(width: view.bounds.width - 40, height: 100))
-//        labelsBackground.centerHorizontalOfView(to: view)
-        
-
-//        labelStack.centerOfView(to: labelsBackground)
     }
     
-    func tableViewBackgroundConstrainsts() {
-        print("Should be updating constrainsts. Height: ", CGFloat(70 * categories.count))
-        // Set the background of the table view
-//        tableViewBackground.anchor(top: tableView.topAnchor, leading: tableView.leadingAnchor, bottom: nil, trailing: tableView.trailingAnchor, padding: .init(top: -10, left: -5, bottom: 0, right: -5))
-        heightAnchor = tableViewBackground.heightAnchor.constraint(equalToConstant: CGFloat(70 * categories.count) + 30)
-        heightAnchor.isActive = true
-        tableViewBackground.layer.cornerRadius = 30
-        tableViewBackground.layoutIfNeeded()
-        if categories.count == 0 {
-            tableViewBackground.isHidden = true
-        } else {
-            tableViewBackground.isHidden = false
-        }
-    }
+//    func tableViewBackgroundConstrainsts() {
+//        print("Should be updating constrainsts. Height: ", CGFloat(70 * categories.count))
+//        // Set the background of the table view
+////        tableViewBackground.anchor(top: tableView.topAnchor, leading: tableView.leadingAnchor, bottom: nil, trailing: tableView.trailingAnchor, padding: .init(top: -10, left: -5, bottom: 0, right: -5))
+//        heightAnchor = tableViewBackground.heightAnchor.constraint(equalToConstant: CGFloat(70 * categories.count) + 30)
+//        heightAnchor.isActive = true
+//        tableViewBackground.layer.cornerRadius = 30
+//        tableViewBackground.layoutIfNeeded()
+//        if categories.count == 0 {
+//            tableViewBackground.isHidden = true
+//        } else {
+//            tableViewBackground.isHidden = false
+//        }
+//    }
     
     
-    func addTableView() {
+    func addTableViewLogic() {
         // Add to Table View to View
         view.addSubview(tableViewBackground)
         view.addSubview(tableView)
@@ -268,22 +249,43 @@ class PresentCategoryViewController: UIViewController {
             tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
     
+    
+    
     func updateTableViewConstrains() {
-////        let cellXCount = CGFloat(70 * categories.count)
-////        if cellXCount >= 70 {
-////        tableView.removeFromSuperview()
-        tableViewBackground.removeFromSuperview()
-////            addTableView()
-////        }
-        view.insertSubview(tableViewBackground, belowSubview: tableView)
-//
-//        view.removeConstraints(tableViewBackground.constraints)
-//        tableViewBackground.constraints.removeAll()
-        heightAnchor.isActive = false
-        tableViewBackgroundConstrainsts()
-//        heightAnchor = tableViewBackground.heightAnchor.constraint(equalToConstant: CGFloat(70 * categories.count))
-//        heightAnchor.isActive = true
-        tableViewBackground.layoutIfNeeded()
+        if categories.count > 0 {
+            tableViewBackground.isHidden = false
+            let height = Double((Int(UIScreen.main.bounds.width) / 6) * categories.count) + Double(UIScreen.main.bounds.width / 14)
+            tableViewBackground.snp.remakeConstraints { (make) in
+                make.top.equalTo(labelsBackground.snp.bottom).offset(15)
+                make.left.equalTo(view.safeAreaLayoutGuide).offset(5)
+                make.right.equalTo(view.safeAreaLayoutGuide).offset(-5)
+                make.height.equalTo(height)
+            }
+        } else {
+            tableViewBackground.isHidden = true
+        }
+        tableView.snp.makeConstraints { (make) in
+            make.top.equalTo(tableViewBackground).offset(view.bounds.width / 28)
+            make.left.equalTo(tableViewBackground)
+            make.right.equalTo(tableViewBackground)
+            make.bottom.equalTo(tableViewBackground)
+        }
+        
+//////        let cellXCount = CGFloat(70 * categories.count)
+//////        if cellXCount >= 70 {
+//////        tableView.removeFromSuperview()
+//        tableViewBackground.removeFromSuperview()
+//////            addTableView()
+//////        }
+//        view.insertSubview(tableViewBackground, belowSubview: tableView)
+////
+////        view.removeConstraints(tableViewBackground.constraints)
+////        tableViewBackground.constraints.removeAll()
+//        heightAnchor.isActive = false
+//        tableViewBackgroundConstrainsts()
+////        heightAnchor = tableViewBackground.heightAnchor.constraint(equalToConstant: CGFloat(70 * categories.count))
+////        heightAnchor.isActive = true
+//        tableViewBackground.layoutIfNeeded()
     }
 }
 
@@ -373,7 +375,7 @@ extension PresentCategoryViewController: UITableViewDataSource {
 extension PresentCategoryViewController: UITableViewDelegate {
 //     Table View Cell Styling
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return (UIScreen.main.bounds.width) / 6
     }
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         print("Deselected")

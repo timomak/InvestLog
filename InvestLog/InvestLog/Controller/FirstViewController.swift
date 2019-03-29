@@ -87,7 +87,7 @@ class FirstViewController: UIViewController {
         let button = UIButton()
         button.setTitle("+", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1), for: .normal)
-        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 60)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: UIScreen.main.bounds.height * 0.08)
         button.addTarget(self, action: #selector(newCategoryButtonPressed), for: .touchUpInside)
         button.addTarget(self, action: #selector(newCategoryButtonPressed), for: .touchDragExit)
         button.addTarget(self, action: #selector(newCategoryButtonPressBegan), for: .touchDown)

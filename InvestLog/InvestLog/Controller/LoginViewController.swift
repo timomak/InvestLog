@@ -513,7 +513,7 @@ extension LoginViewController {
     // Action when begins to edit any textfield
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.textColor = #colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1)
-        textField.font = UIFont(name: "AvenirNext-Bold", size: 25)
+//        textField.font = UIFont(name: "AvenirNext-Bold", size: 25)
         errorLabel.isHidden = true
     }
     
