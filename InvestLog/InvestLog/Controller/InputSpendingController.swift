@@ -8,8 +8,18 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class InputSpendingController: UIViewController, UITextFieldDelegate {
+    // For firebase data
+    var ref: DatabaseReference!
+    var uid: String = ""
+    var categoryId: String = ""
+    var spendingId: [String] = []
+    
+    var allSpending:[CategorySpending] = []
+    
+    
     var currentCategory: Category = Category(name: "Error", creationDate: Date(), modificationDate: Date(), allSpending: [])
     
     // Creating Navbar
@@ -38,7 +48,7 @@ class InputSpendingController: UIViewController, UITextFieldDelegate {
         button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 40)
         button.backgroundColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)
         button.layer.cornerRadius = 15
-//        button.addTarget(self, action: #selector(saveSpendingButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(saveCategoryButtonPressed), for: .touchUpInside)
         return button
     }()
     
@@ -177,33 +187,58 @@ class InputSpendingController: UIViewController, UITextFieldDelegate {
         self.dismiss(animated: true)
     }
     
-//    @objc func saveSpendingButtonPressed() {
+    @objc func saveCategoryButtonPressed() {
 //        // TODO: Handle Saving of spending
-//        var amount = Double(nameInput.text!) ?? 0.00
-//        if moneyFlow == "out" {
-//            amount *= -1
-//        }
-//        let spending = CategorySpending(creationDate: Date(), amount: amount)
-//        currentCategory.allSpending.append(spending)
-//
-//        var allCategories = HandleData().pullCategoriesFromUserDefaults()
-//        var counter = 0
-//        for category in allCategories {
-//            if category.creationDate == currentCategory.creationDate {
-//                allCategories.remove(at: counter)
-//                allCategories.insert(currentCategory, at: counter)
-//            }
-//            counter += 1
-//        }
-//        var tempArray: [[String:[String:Any]]] = []
-//        for i in allCategories {
-//            tempArray.append(i.getDictionary())
-//        }
-//        UserDefaults.standard.set(tempArray, forKey: "CategorySpendingArray")
-//        UserDefaults.standard.synchronize()
-////        HandleData().saveTheEntireCategoryArrayToUserDefaults(allCategories)
-//        self.dismiss(animated: true)
-//    }
+        if nameInput.text == "" {
+            saveCategoryButton.shake()
+            return
+        }
+        else {
+            guard var amount = Double(nameInput.text!) else {
+                saveCategoryButton.shake()
+                return
+            }
+            
+            if moneyFlow == "out" {
+                amount *= -1
+            }
+            
+            // TODO: Set Value when you get here.
+            print("Setting new name to be: ", nameInput.text!)
+            //            self.ref.setValue(newView.getDictionary())
+            let uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]!
+            ref = Database.database().reference().child("users/\(uid)/subCategories").childByAutoId()
+            let newSubCategoryId = ref.key!
+            let newSubCategory = CategorySpending(creationDate: Date(), amount: amount, categoryId: categoryId)
+            ref.setValue(newSubCategory.getDictionary())
+            
+            let ref2 = Database.database().reference().child("users/\(uid)/categories/\(categoryId)")
+            ref2.observeSingleEvent(of: .value, with: { (snapshot) in
+                guard var view = snapshot.value as? [String:Any] else {
+                    print("snapshot:",snapshot.value!)
+                    return
+                }
+                guard var subCategoriesIdArray = view["subCategoriesId"] as? [String] else {
+                    // Will add only one item in a new array because array didn't exist before.
+                    print("View has no categories Id")
+                    ref2.updateChildValues(["subCategoriesId":[newSubCategoryId]])
+                    let categoryOldTotalAmount = view["totalAmount"] as? Double ?? 0
+                    ref2.updateChildValues(["totalAmount":categoryOldTotalAmount + amount])
+                    return
+                }
+                let categoryOldTotalAmount = view["totalAmount"] as? Double ?? 0
+                ref2.updateChildValues(["totalAmount":categoryOldTotalAmount + amount])
+                // Array wasn't empty
+                subCategoriesIdArray.append(newSubCategoryId)
+                ref2.updateChildValues(["subCategoriesId":subCategoriesIdArray])
+            })
+            
+            
+            
+            // Just dimiss for now. Gonna save it to the database next change.
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
     
     @objc func inButtonPressed() {
         inButton.backgroundColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)

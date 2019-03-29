@@ -12,7 +12,7 @@ class TableViewCell: UITableViewCell {
     var name: UITextView = {
         var title = UITextView()
         title.text = "name"
-        title.font = UIFont(name: "AvenirNext-Bold", size: 25)
+        title.font = UIFont(name: "AvenirNext-Medium", size: 25)
         title.textColor = #colorLiteral(red: 0.1075617597, green: 0.09771008044, blue: 0.1697227657, alpha: 1)
         title.backgroundColor = nil
         title.textAlignment = .center
@@ -22,18 +22,18 @@ class TableViewCell: UITableViewCell {
         return title
     }()
     
-    var colorIndicator: UIView = {
-        var view = UIView()
-        view.backgroundColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)
-        view.layer.cornerRadius = 15
-        return view
-    }()
+//    var colorIndicator: UIView = {
+//        var view = UIView()
+//        view.backgroundColor = #colorLiteral(red: 0, green: 0.7128543258, blue: 0.5906786323, alpha: 1)
+//        view.layer.cornerRadius = 15
+//        return view
+//    }()
     
     var amount: UITextView = {
         var title = UITextView()
         title.text = "$"
-        title.font = UIFont(name: "AvenirNext-Regular", size: 25)
-        title.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        title.font = UIFont(name: "AvenirNext-Medium", size: 25)
+        title.textColor = #colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1)
         title.backgroundColor = nil
         title.textAlignment = .center
         title.isEditable = false
@@ -53,20 +53,32 @@ class TableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = UIColor.clear
+        
+        // Constant to set font size relative for device.
+        let relativeFontConstant:CGFloat = 0.03
+        
+        let textLabels = [name, amount]
+        
+        
+        for label in textLabels {
+            label.font = label.font!.withSize(UIScreen.main.bounds.height * relativeFontConstant)
+        }
         
         addSubview(name)
-        name.anchor(top: nil, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 10, bottom: 0, right: 0))
+        name.anchor(top: nil, leading: leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: 0, left: 20, bottom: 0, right: 0))
         name.centerVerticalOfView(to: self)
         
-        addSubview(colorIndicator)
-        colorIndicator.anchor(top: nil, leading: nil, bottom: nil, trailing: trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 10), size: .init(width: 150, height: 42))
-        colorIndicator.centerVerticalOfView(to: name)
+//        addSubview(colorIndicator)
+//        colorIndicator.anchor(top: nil, leading: nil, bottom: nil, trailing: trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 10), size: .init(width: 150, height: 42))
+//        colorIndicator.centerVerticalOfView(to: name)
         
         addSubview(amount)
-        amount.centerOfView(to: colorIndicator)
+        amount.anchor(top: nil, leading: nil, bottom: nil, trailing: trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 20))
+        amount.centerVerticalOfView(to: self)
         
         addSubview(line)
-        line.anchor(top: name.bottomAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 5, left: 10, bottom: 0, right: 10), size: .init(width: 0, height: 2))
+        line.anchor(top: nil, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 20, bottom: 10, right: 20), size: .init(width: 0, height: 2))
         
         addSubview(transparentView)
         transparentView.anchorSize(to: self)

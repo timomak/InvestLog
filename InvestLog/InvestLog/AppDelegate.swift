@@ -32,14 +32,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         self.window?.makeKeyAndVisible()
         
         // Check name of fonts
-        //        for family: String in UIFont.familyNames
-        //        {
-        //            print("\(family)")
-        //            for names: String in UIFont.fontNames(forFamilyName: family)
-        //            {
-        //                print("== \(names)")
-        //            }
-        //        }
+//        for family: String in UIFont.familyNames
+//        {
+//            print("\(family)")
+//            for names: String in UIFont.fontNames(forFamilyName: family)
+//            {
+//                print("== \(names)")
+//            }
+//        }
         return true
     }
     
