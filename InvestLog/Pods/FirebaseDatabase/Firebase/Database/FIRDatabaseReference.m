@@ -31,6 +31,10 @@
 
 @implementation FIRDatabaseReference
 
++ (FIRDatabaseConfig *)defaultConfig {
+    return [FIRDatabaseConfig defaultConfig];
+}
+
 #pragma mark -
 #pragma mark Constructors
 
@@ -89,6 +93,10 @@
 
 #pragma mark -
 #pragma mark Child methods
+
+- (FIRDatabaseReference *)childByAppendingPath:(NSString *)pathString {
+    return [self child:pathString];
+}
 
 - (FIRDatabaseReference *)child:(NSString *)pathString {
     if ([self.path getFront] == nil) {
