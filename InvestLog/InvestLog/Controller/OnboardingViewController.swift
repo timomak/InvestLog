@@ -20,10 +20,10 @@ class OnboardingViewController: UIViewController {
     var animationTime = 0.0
     
     // Icons animation
-    let animationView = AnimationView(name: "onboarding")
+    let animationView = LOTAnimationView(name: "onboarding")
     
     // Background animation
-    let background = AnimationView(name: "background")
+    let background = LOTAnimationView(name: "background")
     
     // Next page button
     let nextPageButton: UIButton = {
@@ -246,7 +246,7 @@ extension OnboardingViewController {
             
             prevPageButton.isEnabled = false
             nextPageButton.isEnabled = false
-            animationView.play(fromProgress: CGFloat(currentAnimationTime), toProgress: CGFloat(animationTime), completion: { (bool) in
+            animationView.play(fromProgress: CGFloat(currentAnimationTime), toProgress: CGFloat(animationTime), withCompletion: { (bool) in
                 self.prevPageButton.isEnabled = true
                 self.nextPageButton.isEnabled = true
             })
