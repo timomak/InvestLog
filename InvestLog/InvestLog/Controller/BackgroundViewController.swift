@@ -23,7 +23,7 @@ protocol VCHandler: class {
 
 class BackgroundViewController: UIViewController, VCHandler {
     // Animation view
-    let background = LOTAnimationView(name: "background")
+    let background = AnimationView(name: "background")
     var firstTime = true
     
     

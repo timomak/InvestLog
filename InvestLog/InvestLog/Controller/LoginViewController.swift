@@ -133,7 +133,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
     }()
     
     // Logo Animation
-    let logoImage = LOTAnimationView(name: "loading")
+    let logoImage = AnimationView(name: "loading")
     
     // Checks if the next view can be presented.
     var canLoadNextView = false
@@ -159,7 +159,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         didSet {
             errorLabel.isHidden = false
             errorLabel.text = errorText
-            logoImage.loopAnimation = false
+            logoImage.loopMode = false
         }
     }
     
@@ -195,7 +195,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         print("Trying to log in")
         guard let userData = UserDefaults.standard.dictionary(forKey: "userData") as? [String:String]
             else { return }
-        logoImage.loopAnimation = true
+        logoImage.loopMode = true
         
         // After the animation finshed last loop.
         logoImage.play { (finished) in
