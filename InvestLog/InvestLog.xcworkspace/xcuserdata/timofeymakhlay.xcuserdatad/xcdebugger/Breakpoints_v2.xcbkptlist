@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "InvestLog/Controller/LoginViewController.swift"
-            timestampString = "580264679.950135"
+            filePath = "InvestLog/Controller/PresentCategoryViewController.swift"
+            timestampString = "580330871.475346"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "365"
-            endingLineNumber = "365"
-            landmarkName = "firebaseSignUp()"
+            startingLineNumber = "372"
+            endingLineNumber = "372"
+            landmarkName = "tableView(_:commit:forRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "InvestLog/Controller/PresentCategoryViewController.swift"
-            timestampString = "580264679.95026"
+            filePath = "InvestLog/Controller/LoginViewController.swift"
+            timestampString = "580330871.475402"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "372"
-            endingLineNumber = "372"
-            landmarkName = "tableView(_:commit:forRowAt:)"
+            startingLineNumber = "404"
+            endingLineNumber = "404"
+            landmarkName = "firebaseLogIn(userEmail:userPassword:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
