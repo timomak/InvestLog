@@ -350,13 +350,15 @@ extension PresentCategoryViewController: UITableViewDataSource {
             let ref = Database.database().reference().child("users/\(self.uid)/categories/\(categoryId)/subCategoriesId")
             ref.observeSingleEvent(of: .value, with: { (snapshot) in
                 guard let subCategoriesId = snapshot.value as? [String] else {
-                    print("snapshot:",snapshot.value!)
+                    print("SnapShot is Null:",snapshot.value!)
+                    Database.database().reference().child("users/\(self.uid)/categories/\(categoryId)").removeValue()
                     return
                 }
                 
                 for subCategoryId in subCategoriesId {
                     // Do the same thing with sub categories within categories and delete them one by one.
                     let subCategoryToDelete = Database.database().reference().child("users/\(self.uid)/subCategories/\(subCategoryId)")
+                    
                     subCategoryToDelete.removeValue { error, _ in
                         print(error ?? "Error didn't occur")
                     } // Removing all sub categoires within category
@@ -366,8 +368,6 @@ extension PresentCategoryViewController: UITableViewDataSource {
                     print(error ?? "Error didn't occur")
                 }
             })
-            // Need to delete categories here (end of its loop)
-            Database.database().reference().child("users/\(self.uid)/categories/\(categoryId)").removeValue()
             
 
             
