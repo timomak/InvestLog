@@ -8,7 +8,7 @@
 
 import XCTest
 import UIKit
-import Fire
+import FirebaseDatabase
 
 
 /// Testing Creating complex data and deleting it from Firebase.
@@ -22,44 +22,47 @@ class InvestLogTestDataFirebase: XCTestCase {
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        
+        createViewInFirebase()
     }
 
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func findUserData() {
-        //        uid = UserDefaults.standard.dictionary(forKey: "uid")!["uid"]! as! String
-        ref = Database.database().reference().child("users/\(uid)/views")
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let value = snapshot.value as? [String: [String:Any]] else {
-                // TODO: Handle error
-                print("snapshot: ",snapshot.value)
-                
-                // Will happen if there's no views on database
-                self.noViewsInFirebase()
-                
-                
-                return
-            }
-            var newViews:[Views] = []
-            
-            // Will only get the name and total Amount for all the Views on Firebase
-            for (key,item) in value {
-                print("key: ", key)
-                var newView = Views(name: "", totalAmount: 0.0, categories: [], id: key)
-                newView.name = item["name"] as! String
-                newView.totalAmount = item["totalAmount"] as! Double
-                // TODO: viewCategory into category struct
-                newViews.append(newView)
-            }
-            print("new views: ", newViews)
-            
-            self.allViews = newViews
-        }) { (error) in
-            print(error.localizedDescription)
-        }
+    func createViewInFirebase() {
+        // Firebase path
+        ref = Database.database().reference().child("users/\(uid)/views").childByAutoId()
+        
+        // Creating a View Object
+        let newView = Views(name: "Running a test", totalAmount: 0, categories: [], id: "")
+        print(newView.getDictionary())
+        
+        // Saving data to firebase.
+        self.ref.setValue(newView.getDictionary())
     }
 
+}
+
+struct Views {
+    var name: String
+    var totalAmount: Double
+    var categories: [Category]
+    var id: String
+    var categoriesId:[String]
+    
+    init(name:String, totalAmount: Double = 0, categories:[Category] = [], id: String = "", categoriesId:[String] = []) {
+        self.name = name
+        self.totalAmount = totalAmount
+        self.categories = categories
+        self.id = id
+        self.categoriesId = categoriesId
+    }
+    
+    func getDictionary() -> [String:Any] {
+        return [
+            "name": name,
+            "totalAmount": 0,
+            "categoriesId": categoriesId
+        ]
+    }
 }
