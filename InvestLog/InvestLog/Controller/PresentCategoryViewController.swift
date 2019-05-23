@@ -343,7 +343,10 @@ extension PresentCategoryViewController: UITableViewDataSource {
         if editingStyle == .delete {
             // TODO: Handle Deletion of firebase array.
             
-            let categoryId = categoriesId[indexPath.row]
+            // Find the current Category from the list.
+            let categoryId = categories[indexPath.row].id
+            
+            // Find Values relating to that categoryId
             let ref = Database.database().reference().child("users/\(self.uid)/categories/\(categoryId)/subCategoriesId")
             ref.observeSingleEvent(of: .value, with: { (snapshot) in
                 guard let subCategoriesId = snapshot.value as? [String] else {
@@ -368,9 +371,12 @@ extension PresentCategoryViewController: UITableViewDataSource {
             
 
             
-            
+            // Visually remove and remove persistance
             categories.remove(at: indexPath.row)
-            tableView.reloadData()
+//            categoriesId.remove(at: indexPath.row)
+            
+            // No need to reload. Reload is called when categories array is updated.
+//            tableView.reloadData()
         }
     }
 }
