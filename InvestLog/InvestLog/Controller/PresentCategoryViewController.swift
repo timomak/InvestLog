@@ -343,17 +343,22 @@ extension PresentCategoryViewController: UITableViewDataSource {
         if editingStyle == .delete {
             // TODO: Handle Deletion of firebase array.
             
-            let categoryId = categoriesId[indexPath.row]
+            // Find the current Category from the list.
+            let categoryId = categories[indexPath.row].id
+            
+            // Find Values relating to that categoryId
             let ref = Database.database().reference().child("users/\(self.uid)/categories/\(categoryId)/subCategoriesId")
             ref.observeSingleEvent(of: .value, with: { (snapshot) in
                 guard let subCategoriesId = snapshot.value as? [String] else {
-                    print("snapshot:",snapshot.value!)
+                    print("SnapShot is Null:",snapshot.value!)
+                    Database.database().reference().child("users/\(self.uid)/categories/\(categoryId)").removeValue()
                     return
                 }
                 
                 for subCategoryId in subCategoriesId {
                     // Do the same thing with sub categories within categories and delete them one by one.
                     let subCategoryToDelete = Database.database().reference().child("users/\(self.uid)/subCategories/\(subCategoryId)")
+                    
                     subCategoryToDelete.removeValue { error, _ in
                         print(error ?? "Error didn't occur")
                     } // Removing all sub categoires within category
@@ -363,14 +368,15 @@ extension PresentCategoryViewController: UITableViewDataSource {
                     print(error ?? "Error didn't occur")
                 }
             })
-            // Need to delete categories here (end of its loop)
-            Database.database().reference().child("users/\(self.uid)/categories/\(categoryId)").removeValue()
             
 
             
-            
+            // Visually remove and remove persistance
             categories.remove(at: indexPath.row)
-            tableView.reloadData()
+//            categoriesId.remove(at: indexPath.row)
+            
+            // No need to reload. Reload is called when categories array is updated.
+//            tableView.reloadData()
         }
     }
 }

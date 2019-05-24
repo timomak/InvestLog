@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import KeychainSwift
 
 class SettingsView: UIViewController {
     
@@ -170,8 +171,13 @@ extension SettingsView: UITableViewDataSource {
         if indexPath.row == 0 {
             // Handle Sign out
             // 1. Delete email and password data
-            UserDefaults.standard.set("", forKey: "userData")
-            UserDefaults.standard.synchronize()
+//            UserDefaults.standard.set("", forKey: "userData")
+//            UserDefaults.standard.synchronize()
+            
+            let keychain = KeychainSwift()
+            
+            keychain.delete("email")
+            keychain.delete("password")
             
             let firebaseAuth = Auth.auth()
             do {

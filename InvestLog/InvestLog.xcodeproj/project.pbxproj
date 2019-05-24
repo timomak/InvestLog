@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1683E65E2158B4A1E82E72C9 /* Pods_InvestLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7413AF8196EFC5F901CA677E /* Pods_InvestLog.framework */; };
+		2EC0A0A3B32764BC7951BAD1 /* Pods_InvestLog_InvestLogTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9874C3C68CBC02017756C73 /* Pods_InvestLog_InvestLogTests.framework */; };
 		F305E15E221F8F8900FA45F0 /* oldLoading.json in Resources */ = {isa = PBXBuildFile; fileRef = F305E15D221F8F8900FA45F0 /* oldLoading.json */; };
 		F305E160221F908500FA45F0 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F305E15F221F908500FA45F0 /* FirstViewController.swift */; };
 		F3347E5921F3DDBF004E83EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3347E5821F3DDBF004E83EE /* AppDelegate.swift */; };
@@ -29,6 +30,7 @@
 		F3A7CC742221F04C00B7F867 /* NewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7CC732221F04C00B7F867 /* NewCategoryViewController.swift */; };
 		F3A7CC76222200AE00B7F867 /* BackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A7CC75222200AE00B7F867 /* BackgroundViewController.swift */; };
 		F3C1AC732225F08B0073F60F /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = F3C1AC722225F08B0073F60F /* loading.json */; };
+		F3DB572E229724CD003FE1B3 /* TestDataFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DB572D229724CD003FE1B3 /* TestDataFirebase.swift */; };
 		F3E8D83821FBF98B000A5440 /* MainViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83721FBF98B000A5440 /* MainViewCollectionViewCell.swift */; };
 		F3E8D83A21FC0AD7000A5440 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83921FC0AD7000A5440 /* Views.swift */; };
 		F3E8D83C21FC4E2A000A5440 /* oldCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E8D83B21FC4E2A000A5440 /* oldCategoryViewController.swift */; };
@@ -40,10 +42,23 @@
 		F3F6660721FA7A13007DC903 /* MainCollectionviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F6660621FA7A13007DC903 /* MainCollectionviewController.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		F3DB5730229724CD003FE1B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F3347E4D21F3DDBF004E83EE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F3347E5421F3DDBF004E83EE;
+			remoteInfo = InvestLog;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		17D4313D09B1F3DB42EBD1FC /* Pods-InvestLog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InvestLog.release.xcconfig"; path = "Pods/Target Support Files/Pods-InvestLog/Pods-InvestLog.release.xcconfig"; sourceTree = "<group>"; };
 		3D52EC9907B2B5163DB25626 /* Pods-InvestLog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InvestLog.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InvestLog/Pods-InvestLog.debug.xcconfig"; sourceTree = "<group>"; };
+		652E673FFBEE87B0689D7E43 /* Pods-InvestLog-InvestLogTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InvestLog-InvestLogTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InvestLog-InvestLogTests/Pods-InvestLog-InvestLogTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7413AF8196EFC5F901CA677E /* Pods_InvestLog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InvestLog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4F1546CA5C59FFF94A42B0F /* Pods-InvestLog-InvestLogTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InvestLog-InvestLogTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-InvestLog-InvestLogTests/Pods-InvestLog-InvestLogTests.release.xcconfig"; sourceTree = "<group>"; };
+		E9874C3C68CBC02017756C73 /* Pods_InvestLog_InvestLogTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InvestLog_InvestLogTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F305E15D221F8F8900FA45F0 /* oldLoading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oldLoading.json; sourceTree = "<group>"; };
 		F305E15F221F908500FA45F0 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		F3347E5521F3DDBF004E83EE /* InvestLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InvestLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,6 +82,9 @@
 		F3A7CC732221F04C00B7F867 /* NewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewController.swift; sourceTree = "<group>"; };
 		F3A7CC75222200AE00B7F867 /* BackgroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundViewController.swift; sourceTree = "<group>"; };
 		F3C1AC722225F08B0073F60F /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
+		F3DB572B229724CD003FE1B3 /* InvestLogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InvestLogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3DB572D229724CD003FE1B3 /* TestDataFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDataFirebase.swift; sourceTree = "<group>"; };
+		F3DB572F229724CD003FE1B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F3E8D83721FBF98B000A5440 /* MainViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3E8D83921FC0AD7000A5440 /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		F3E8D83B21FC4E2A000A5440 /* oldCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = oldCategoryViewController.swift; sourceTree = "<group>"; };
@@ -87,6 +105,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F3DB5728229724CC003FE1B3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EC0A0A3B32764BC7951BAD1 /* Pods_InvestLog_InvestLogTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -95,6 +121,8 @@
 			children = (
 				3D52EC9907B2B5163DB25626 /* Pods-InvestLog.debug.xcconfig */,
 				17D4313D09B1F3DB42EBD1FC /* Pods-InvestLog.release.xcconfig */,
+				652E673FFBEE87B0689D7E43 /* Pods-InvestLog-InvestLogTests.debug.xcconfig */,
+				B4F1546CA5C59FFF94A42B0F /* Pods-InvestLog-InvestLogTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -103,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				7413AF8196EFC5F901CA677E /* Pods_InvestLog.framework */,
+				E9874C3C68CBC02017756C73 /* Pods_InvestLog_InvestLogTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -111,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				F3347E5721F3DDBF004E83EE /* InvestLog */,
+				F3DB572C229724CD003FE1B3 /* InvestLogTests */,
 				F3347E5621F3DDBF004E83EE /* Products */,
 				0A5BEB14B6A3FD4C2480D2DE /* Pods */,
 				6C0E02F189980F14C3AF14A1 /* Frameworks */,
@@ -121,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				F3347E5521F3DDBF004E83EE /* InvestLog.app */,
+				F3DB572B229724CD003FE1B3 /* InvestLogTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -219,6 +250,15 @@
 			path = "Old View Controllers";
 			sourceTree = "<group>";
 		};
+		F3DB572C229724CD003FE1B3 /* InvestLogTests */ = {
+			isa = PBXGroup;
+			children = (
+				F3DB572D229724CD003FE1B3 /* TestDataFirebase.swift */,
+				F3DB572F229724CD003FE1B3 /* Info.plist */,
+			);
+			path = InvestLogTests;
+			sourceTree = "<group>";
+		};
 		F3E8D83D21FE4BAA000A5440 /* This Month */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,18 +290,43 @@
 			productReference = F3347E5521F3DDBF004E83EE /* InvestLog.app */;
 			productType = "com.apple.product-type.application";
 		};
+		F3DB572A229724CC003FE1B3 /* InvestLogTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F3DB5734229724CD003FE1B3 /* Build configuration list for PBXNativeTarget "InvestLogTests" */;
+			buildPhases = (
+				38EDC206B30F3AAEBF7DD155 /* [CP] Check Pods Manifest.lock */,
+				F3DB5727229724CC003FE1B3 /* Sources */,
+				F3DB5728229724CC003FE1B3 /* Frameworks */,
+				F3DB5729229724CC003FE1B3 /* Resources */,
+				BD18F543DE8C340336C8CB88 /* [CP] Embed Pods Frameworks */,
+				5C5BBD98ABE0A037854ECBD0 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F3DB5731229724CD003FE1B3 /* PBXTargetDependency */,
+			);
+			name = InvestLogTests;
+			productName = InvestLogTests;
+			productReference = F3DB572B229724CD003FE1B3 /* InvestLogTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		F3347E4D21F3DDBF004E83EE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1010;
+				LastSwiftUpdateCheck = 1020;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Timofey Makhlay";
 				TargetAttributes = {
 					F3347E5421F3DDBF004E83EE = {
 						CreatedOnToolsVersion = 10.1;
+					};
+					F3DB572A229724CC003FE1B3 = {
+						CreatedOnToolsVersion = 10.2.1;
+						TestTargetID = F3347E5421F3DDBF004E83EE;
 					};
 				};
 			};
@@ -279,6 +344,7 @@
 			projectRoot = "";
 			targets = (
 				F3347E5421F3DDBF004E83EE /* InvestLog */,
+				F3DB572A229724CC003FE1B3 /* InvestLogTests */,
 			);
 		};
 /* End PBXProject section */
@@ -299,9 +365,60 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F3DB5729229724CC003FE1B3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		38EDC206B30F3AAEBF7DD155 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-InvestLog-InvestLogTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5C5BBD98ABE0A037854ECBD0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-InvestLog-InvestLogTests/Pods-InvestLog-InvestLogTests-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-InvestLog-InvestLogTests/Pods-InvestLog-InvestLogTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		9E37EF1892EFADA19F3B4472 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -310,11 +427,12 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-InvestLog/Pods-InvestLog-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-InvestLog/Pods-InvestLog-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
@@ -328,6 +446,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
@@ -335,7 +454,45 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-InvestLog/Pods-InvestLog-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-InvestLog/Pods-InvestLog-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BD18F543DE8C340336C8CB88 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-InvestLog-InvestLogTests/Pods-InvestLog-InvestLogTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-InvestLog-InvestLogTests/Pods-InvestLog-InvestLogTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C1CF57B21C3684732ECE9D9D /* [CP] Check Pods Manifest.lock */ = {
@@ -368,7 +525,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-InvestLog/Pods-InvestLog-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-InvestLog/Pods-InvestLog-resources.sh",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -379,7 +536,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-InvestLog/Pods-InvestLog-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-InvestLog/Pods-InvestLog-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -414,7 +571,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F3DB5727229724CC003FE1B3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3DB572E229724CD003FE1B3 /* TestDataFirebase.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F3DB5731229724CD003FE1B3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F3347E5421F3DDBF004E83EE /* InvestLog */;
+			targetProxy = F3DB5730229724CD003FE1B3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		F3347E6121F3DDC1004E83EE /* LaunchScreen.storyboard */ = {
@@ -561,7 +734,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Timo.InvestLog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -583,8 +756,52 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Timo.InvestLog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		F3DB5732229724CD003FE1B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 652E673FFBEE87B0689D7E43 /* Pods-InvestLog-InvestLogTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SAZ2DLKCVY;
+				INFOPLIST_FILE = InvestLogTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Timofey-Makhlay.InvestLogTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/InvestLog.app/InvestLog";
+			};
+			name = Debug;
+		};
+		F3DB5733229724CD003FE1B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4F1546CA5C59FFF94A42B0F /* Pods-InvestLog-InvestLogTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SAZ2DLKCVY;
+				INFOPLIST_FILE = InvestLogTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Timofey-Makhlay.InvestLogTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/InvestLog.app/InvestLog";
 			};
 			name = Release;
 		};
@@ -605,6 +822,15 @@
 			buildConfigurations = (
 				F3347E6821F3DDC1004E83EE /* Debug */,
 				F3347E6921F3DDC1004E83EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F3DB5734229724CD003FE1B3 /* Build configuration list for PBXNativeTarget "InvestLogTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3DB5732229724CD003FE1B3 /* Debug */,
+				F3DB5733229724CD003FE1B3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

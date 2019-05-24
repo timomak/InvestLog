@@ -12,19 +12,19 @@ import GoogleSignIn
 import Lottie
 import SnapKit
 import FirebaseAuth
+import KeychainSwift
 
-// TODO: Auth at https://firebase.google.com/docs/auth/ios/password-auth
-// TODO: Add image at top.
 
-/*
-This View Controller handles Log in / Sign up / Google log in and getting DATABASE data.
-*/
+/// This View Controller handles Log in / Sign up / Google log in and getting DATABASE data.
 class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate, UITextFieldDelegate {
     
-    // Handles transitions by the BackgroundViewController
+    /// Handles transitions by the BackgroundViewController
     var delegate: VCHandler?
     
-    // Textfield for email
+    /// To Save data with Keychain
+    let keychain = KeychainSwift()
+    
+    /// Textfield for email
     private let emailTextField: UITextField = {
         var textField = UITextField()
         textField.placeholder = "email"
@@ -40,7 +40,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         return textField
     }()
     
-    // Textfield for password
+    /// Textfield for password
     private let passwordTextField: UITextField = {
         var textField = UITextField()
         textField.placeholder = "password"
@@ -57,7 +57,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         return textField
     }()
     
-    // Textfield for confirm password
+    /// Textfield for confirm password
     private let confirmPasswordTextField: UITextField = {
         var textField = UITextField()
         textField.placeholder = "confirm password"
@@ -74,7 +74,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         return textField
     }()
     
-    // Log in or sign up button
+    /// Log in or sign up button
     let logInButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(#colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1), for: .normal)
@@ -93,7 +93,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         return button
     }()
     
-    // Log in or sign up button with google
+    /// Log in or sign up button with google
     let googleButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(#colorLiteral(red: 0.4823529412, green: 0.9333333333, blue: 0.8117647059, alpha: 1), for: .normal)
@@ -110,7 +110,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         return button
     }()
     
-    // Input fields container
+    /// Input fields container
     let inputContainer: UIView = {
         let view = UIView()
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -121,7 +121,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         return view
     }()
     
-    // logo Container
+    /// logo Container
     let logoContainer: UIView = {
         let view = UIView()
         view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -132,14 +132,14 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         return view
     }()
     
-    // Logo Animation
+    /// Logo Animation
     let logoImage = LOTAnimationView(name: "loading")
     
-    // Checks if the next view can be presented.
+    /// Checks if the next view can be presented.
     var canLoadNextView = false
     
     
-    // Error label
+    /// Error label
     let errorLabel: UITextView = {
         var title = UITextView()
         title.text = "Error"
@@ -154,7 +154,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         return title
     }()
     
-    // Error text
+    /// Error text
     var errorText: String = "" {
         didSet {
             errorLabel.isHidden = false
@@ -163,7 +163,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
         }
     }
     
-    // Constant to set font size relative for device.
+    /// Constant to set font size relative for device.
     let relativeFontConstant:CGFloat = 0.036
     
     // Stuff for firebase
@@ -192,9 +192,14 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("Trying to log in")
-        guard let userData = UserDefaults.standard.dictionary(forKey: "userData") as? [String:String]
-            else { return }
+//        print("Trying to log in")
+//        guard let userData = UserDefaults.standard.dictionary(forKey: "userData") as? [String:String]
+//            else { return }
+        
+        let tempEmail = keychain.get("email") ?? ""
+
+        let tempPassword = keychain.get("password") ?? ""
+        
         logoImage.loopAnimation = true
         
         // After the animation finshed last loop.
@@ -203,10 +208,14 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate, GIDSignInDeleg
                 self.moveToNextView()
             }
         }
-        let currentEmail = userData["email"]
-        let currentPassword = userData["password"]
+
+//        let currentEmail = userData["email"]
+//        let currentPassword = userData["password"]
+//
+        if tempEmail != "" {
+            firebaseLogIn(userEmail: tempEmail, userPassword: tempPassword)
+        }
         
-        firebaseLogIn(userEmail: currentEmail!, userPassword: currentPassword!)
         
     }
     
@@ -362,10 +371,13 @@ extension LoginViewController {
         }
     }
     func safeUserInfoForNextLogIn(userEmail:String, userPassword:String) {
-        print("SAving user data!")
+//        print("SAving user data!")
         // Safe user info for next log in
-        UserDefaults.standard.set(["email": userEmail, "password": userPassword], forKey: "userData")
-        UserDefaults.standard.synchronize()
+//        UserDefaults.standard.set(["email": userEmail, "password": userPassword], forKey: "userData")
+//        UserDefaults.standard.synchronize()
+        keychain.set(userEmail, forKey: "email")
+        keychain.set(userPassword, forKey: "password")
+        
     }
     func firebaseLogIn(userEmail:String, userPassword:String) {
         Auth.auth().signIn(withEmail: userEmail, password: userPassword) { [weak self] user, error in

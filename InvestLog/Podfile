@@ -12,5 +12,12 @@ target 'InvestLog' do
   pod 'Firebase/Database'
   pod 'lottie-ios'
   pod 'SnapKit', '~> 4.0'
-
+  pod 'KeychainSwift', '~> 15.0'
+  
+  target 'InvestLogTests' do
+    inherit! :complete
+  end
+  
 end
+
+
