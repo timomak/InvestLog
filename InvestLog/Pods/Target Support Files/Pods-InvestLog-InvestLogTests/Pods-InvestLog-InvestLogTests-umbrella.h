@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double KeychainSwiftVersionNumber;
-FOUNDATION_EXPORT const unsigned char KeychainSwiftVersionString[];
+FOUNDATION_EXPORT double Pods_InvestLog_InvestLogTestsVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_InvestLog_InvestLogTestsVersionString[];
 

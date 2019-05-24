@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1683E65E2158B4A1E82E72C9 /* Pods_InvestLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7413AF8196EFC5F901CA677E /* Pods_InvestLog.framework */; };
+		2EC0A0A3B32764BC7951BAD1 /* Pods_InvestLog_InvestLogTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9874C3C68CBC02017756C73 /* Pods_InvestLog_InvestLogTests.framework */; };
 		F305E15E221F8F8900FA45F0 /* oldLoading.json in Resources */ = {isa = PBXBuildFile; fileRef = F305E15D221F8F8900FA45F0 /* oldLoading.json */; };
 		F305E160221F908500FA45F0 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F305E15F221F908500FA45F0 /* FirstViewController.swift */; };
 		F3347E5921F3DDBF004E83EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3347E5821F3DDBF004E83EE /* AppDelegate.swift */; };
@@ -54,7 +55,10 @@
 /* Begin PBXFileReference section */
 		17D4313D09B1F3DB42EBD1FC /* Pods-InvestLog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InvestLog.release.xcconfig"; path = "Pods/Target Support Files/Pods-InvestLog/Pods-InvestLog.release.xcconfig"; sourceTree = "<group>"; };
 		3D52EC9907B2B5163DB25626 /* Pods-InvestLog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InvestLog.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InvestLog/Pods-InvestLog.debug.xcconfig"; sourceTree = "<group>"; };
+		652E673FFBEE87B0689D7E43 /* Pods-InvestLog-InvestLogTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InvestLog-InvestLogTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-InvestLog-InvestLogTests/Pods-InvestLog-InvestLogTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7413AF8196EFC5F901CA677E /* Pods_InvestLog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InvestLog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4F1546CA5C59FFF94A42B0F /* Pods-InvestLog-InvestLogTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InvestLog-InvestLogTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-InvestLog-InvestLogTests/Pods-InvestLog-InvestLogTests.release.xcconfig"; sourceTree = "<group>"; };
+		E9874C3C68CBC02017756C73 /* Pods_InvestLog_InvestLogTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InvestLog_InvestLogTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F305E15D221F8F8900FA45F0 /* oldLoading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = oldLoading.json; sourceTree = "<group>"; };
 		F305E15F221F908500FA45F0 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		F3347E5521F3DDBF004E83EE /* InvestLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InvestLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EC0A0A3B32764BC7951BAD1 /* Pods_InvestLog_InvestLogTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,6 +121,8 @@
 			children = (
 				3D52EC9907B2B5163DB25626 /* Pods-InvestLog.debug.xcconfig */,
 				17D4313D09B1F3DB42EBD1FC /* Pods-InvestLog.release.xcconfig */,
+				652E673FFBEE87B0689D7E43 /* Pods-InvestLog-InvestLogTests.debug.xcconfig */,
+				B4F1546CA5C59FFF94A42B0F /* Pods-InvestLog-InvestLogTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -124,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				7413AF8196EFC5F901CA677E /* Pods_InvestLog.framework */,
+				E9874C3C68CBC02017756C73 /* Pods_InvestLog_InvestLogTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -286,9 +294,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F3DB5734229724CD003FE1B3 /* Build configuration list for PBXNativeTarget "InvestLogTests" */;
 			buildPhases = (
+				38EDC206B30F3AAEBF7DD155 /* [CP] Check Pods Manifest.lock */,
 				F3DB5727229724CC003FE1B3 /* Sources */,
 				F3DB5728229724CC003FE1B3 /* Frameworks */,
 				F3DB5729229724CC003FE1B3 /* Resources */,
+				BD18F543DE8C340336C8CB88 /* [CP] Embed Pods Frameworks */,
+				5C5BBD98ABE0A037854ECBD0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -364,6 +375,50 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		38EDC206B30F3AAEBF7DD155 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-InvestLog-InvestLogTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5C5BBD98ABE0A037854ECBD0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-InvestLog-InvestLogTests/Pods-InvestLog-InvestLogTests-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-InvestLog-InvestLogTests/Pods-InvestLog-InvestLogTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		9E37EF1892EFADA19F3B4472 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -400,6 +455,44 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-InvestLog/Pods-InvestLog-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BD18F543DE8C340336C8CB88 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-InvestLog-InvestLogTests/Pods-InvestLog-InvestLogTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-InvestLog-InvestLogTests/Pods-InvestLog-InvestLogTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C1CF57B21C3684732ECE9D9D /* [CP] Check Pods Manifest.lock */ = {
@@ -641,7 +734,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Timo.InvestLog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -663,13 +756,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Timo.InvestLog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 		F3DB5732229724CD003FE1B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 652E673FFBEE87B0689D7E43 /* Pods-InvestLog-InvestLogTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -691,6 +785,7 @@
 		};
 		F3DB5733229724CD003FE1B3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4F1546CA5C59FFF94A42B0F /* Pods-InvestLog-InvestLogTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;

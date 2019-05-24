@@ -12,7 +12,7 @@ import FirebaseDatabase
 
 
 /// Testing Creating complex data and deleting it from Firebase.
-class InvestLogTestDataFirebase: XCTestCase {
+class InvestLogTests: XCTestCase {
     
     /// The user ID (I'm using my own in this case.
     let uid = "gpEFfnoS4fT36bQVqk9g7t5OUhG2"
@@ -22,7 +22,13 @@ class InvestLogTestDataFirebase: XCTestCase {
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
+
+    }
+    
+    func testThatAdditionToDatabase() {
         createViewInFirebase()
+        XCTAssertGreaterThan(allViews().count, 0)
+        XCTAssertEqual(0, 1)
     }
 
     override func tearDown() {
@@ -39,6 +45,34 @@ class InvestLogTestDataFirebase: XCTestCase {
         
         // Saving data to firebase.
         self.ref.setValue(newView.getDictionary())
+    }
+    
+    func allViews() -> [Views] {
+        var allViews:[Views] = []
+        ref = Database.database().reference().child("users/\(uid)/views")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let value = snapshot.value as? [String: [String:Any]] else {
+                // TODO: Handle error
+                print("snapshot: ",snapshot.value)
+                return
+            }
+            var newViews:[Views] = []
+            
+            // Will only get the name and total Amount for all the Views on Firebase
+            for (key,item) in value {
+                print("key: ", key)
+                var newView = Views(name: "", totalAmount: 0.0, categories: [], id: key)
+                newView.name = item["name"] as! String
+                newView.totalAmount = item["totalAmount"] as! Double
+                // TODO: viewCategory into category struct
+                newViews.append(newView)
+            }
+            print("new views: ", newViews)
+            allViews = newViews
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+        return allViews
     }
 
 }

@@ -15,7 +15,9 @@ target 'InvestLog' do
   pod 'KeychainSwift', '~> 15.0'
   
   target 'InvestLogTests' do
-    inherit! :search_paths
-    pod 'Firebase'
+    inherit! :complete
   end
+  
 end
+
+
